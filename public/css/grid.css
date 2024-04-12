@@ -1,0 +1,56 @@
+body {
+  display: grid;
+  grid-template-areas:
+    "header header ads"
+    "nav article article"
+    "nav footer footer";
+  grid-template-rows: 80px 1fr 200px;
+  grid-template-columns: 5% 1fr 25%;
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+  height: 100vh;
+  margin: 0;
+}
+header,
+footer,
+article,
+nav,
+div {
+  padding: 1.2em;
+  background: #1d202f;
+  color: #fff;
+}
+#Header {
+  grid-area: header;
+}
+#pageFooter {
+  grid-area: footer;
+}
+/*#pageFooter {
+  grid-area: footer;
+  position: sticky;
+  bottom: 0;
+}*/
+
+#mainArticle {
+  grid-area: article;
+}
+#mainNav {
+  grid-area: nav;
+}
+#siteAds {
+  grid-area: ads;
+}
+/* Stack the layout on small devices/viewports. */
+@media all and (max-width: 575px) {
+  body {
+    grid-template-areas:
+      "header"
+      "article"
+      "ads"
+      "nav"
+      "footer";
+    grid-template-rows: 80px 1fr 70px 1fr 70px;
+    grid-template-columns: 1fr;
+  }
+}
