@@ -16,7 +16,10 @@
                         <div class="card-body">
                             <p class="card-title">
                                 <!-- title and timeMovie -->
-                                <span class="left-span"><?= $movie["title"] ?></span>
+                                <span class="left-span">
+                                    <!-- link show details movie -->
+                                    <a href="./index.php?action=showDetailsMovie&id=<?= $movie["id_movie"] ?>"><?= $movie["title"] ?></a>
+                                </span>
                                 <span class="right-span"><?= $movie["timeMovie"] ?></span>
                             </p>
                             <p class="card-text"><?= $movie["synopsis"] ?></p>

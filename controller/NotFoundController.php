@@ -8,7 +8,6 @@ class NotFoundController
 {
     public function index()
     {
-        //require "view/notFound.php";
+        require "view/notFound.php";
     }
-
 }

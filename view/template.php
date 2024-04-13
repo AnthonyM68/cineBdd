@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="./public/css/grid.css">
     <!-- My css -->
     <link rel="stylesheet" href="./public/css/style.css">
-    <title><?= $title ?>test</title>
+    <title><?= $title ?></title>
 </head>
 
 <body>
@@ -35,9 +35,9 @@
         <?= $content ?>
     </article>
     <!-- sidenav lateral hidden -->
-    <nav id="mainNav">Nav</nav>
+    <nav id="mainNav">Sidenav</nav>
     <!-- subnavbar -->
-    <div id="siteAds">Ads</div>
+    <div id="siteAds">Administration </div>
     <footer id="pageFooter"><?= $footer ?></footer>
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>

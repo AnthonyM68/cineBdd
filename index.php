@@ -4,11 +4,10 @@ use Controller\CinemaController;
 use Controller\HomeController;
 use Controller\CastingController;
 use Controller\PersonController;
-use Cotnroller\NotFoundController;
+use Controller\NotFoundController;
 
 
 spl_autoload_register(function ($class_name) {
-    var_dump($class_name);
     include $class_name . '.php';
 });
 
@@ -16,36 +15,42 @@ $ctrlCinema = new CinemaController();
 $ctrlHome = new HomeController();
 $ctrlCasting = new CastingController();
 $ctrlPerson = new PersonController();
-
-/* WARNING plus possible d'instancier d'autres class après git */
-//$ctrlNotfound = new NotFoundController();
+$ctrlNotfound = new NotFoundController();
 
 
 if (isset($_GET["action"])) {
 
-    // On filtre l'url pour vérifier si l'entrée est un entier valide
+    // On filtre les input 
     $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+    $action = htmlspecialchars($_GET['action']);
+
     if ($id === false) {
         // 'id' n'est pas présent ou n'est pas un entier valide.
-        echo "Prévoir erreur 404";
-        //$ctrlNotfound->index();
+        $ctrlNotfound->index();
     }
-    switch ($_GET["action"]) {
+    switch ($action) {
+        
+        case "showDetailsMovie":
+            $ctrlCinema->showDetailsMovie($id);
+            break;
         case "listMovies":
             $ctrlCinema->listMovies();
             break;
-
         case "listActors":
             $ctrlPerson->listActors();
             break;
 
         case "listDirectors":
-            $ctrlPerson->listDirector();
+            $ctrlPerson->listDirectors();
             break;
 
         case "listGenres":
             $ctrlCinema->listGenres();
             break;
+
+        default :
+       
+        $ctrlNotfound->index();
     }
 } else {
     $ctrlHome->index();
