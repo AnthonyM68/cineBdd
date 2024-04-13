@@ -1,28 +1,36 @@
 <?php ob_start(); ?>
 
-<p class="uk-label uk-label-warning">Il y a <?= $requete->rowCount() ?> films</p>
-<table>
-    <thead>
-        <tr>
-            <th>Titre</th>
-            <th>ANNEE SORTIE</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        foreach ($requete->fetchAll() as $movie) {
+<div class="container">
+    <div class="row">
+        <?php foreach ($movies->fetchAll() as $movie) {
         ?>
-            <tr>
-                <td><?= $movie["title"] ?></td>
-                <td><?= $movie["releaseDate"] ?></td>
-            </tr>
-        <?php } ?>
-    </tbody>
-</table>
-
+            <div class="col-md-6 ">
+                <div class="card-wrapper">
+                    <div class="card">
+                        <!-- card image -->
+                        <div class="card-image">
+                           <!-- img movie --> 
+                            <img src='<?= $movie["image_url"] ?>' class="img_card" alt="">
+                        </div>
+                        <!-- card content -->
+                        <div class="card-body">
+                            <p class="card-title">
+                                <!-- title and timeMovie -->
+                                <span class="left-span"><?= $movie["title"] ?></span>
+                                <span class="right-span"><?= $movie["timeMovie"] ?></span>
+                            </p>
+                            <p class="card-text"><?= $movie["synopsis"] ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php }
+        ?>
+    </div>
+</div>
 <?php
 
 $title = "Liste des films";
 $second_title = "Liste des films";
 $content = ob_get_clean();
-require "view/template.php";
+require "view/templates/header/header.php";

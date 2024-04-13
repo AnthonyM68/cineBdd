@@ -1,8 +1,8 @@
 <?php ob_start(); ?>
-<div class="container-fluid footer-content">
-    <div class="row">
+<!--<div class="container-fluid footer-content">
+    <div class="row">-->
         <!-- Galery social -->
-        <div class="col-md-6">
+        <!--<div class="col-md-6">
             <h4>Rejoignez-nous</h4>
             <div id="galery-social">
                 <figure>
@@ -19,9 +19,9 @@
                 </figure>
 
             </div>
-        </div>
+        </div>-->
         <!-- Newsletter -->
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
             <h4>Newsletter</h4>
             <div id="newsletter">
                 <form class="content-form">
@@ -36,9 +36,9 @@
                     <button type="submit" class="btn btn-default btn-block btn-secondary">Submit</button>
                 </form>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 <?php
 $footer = ob_get_clean();
-require "view/template.php";
+require "./view/template.php";

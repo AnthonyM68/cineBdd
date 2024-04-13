@@ -8,4 +8,4 @@
     </nav>
 <?php
 $subNavbar = ob_get_clean();
-require "view/home.php";
+require "./view/templates/footer/footer.php";

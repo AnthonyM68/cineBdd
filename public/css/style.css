@@ -132,3 +132,8 @@
 .btn {
   width: 20%;
 }
+
+tbody, td, tfoot, th, thead, tr {
+  color:#fff;
+  border:1px solid #fff;
+}
