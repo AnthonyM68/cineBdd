@@ -2,6 +2,7 @@
 
 namespace Model;
 
+// identification to database */
 abstract class Connect {
     const HOST = "localhost";
     const DB = "cineBdd";

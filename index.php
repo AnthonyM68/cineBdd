@@ -27,7 +27,6 @@ if (isset($_GET["action"])) {
     $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
     if ($id === false) {
         // 'id' n'est pas présent ou n'est pas un entier valide.
-
         echo "Prévoir erreur 404";
         //$ctrlNotfound->index();
     }
