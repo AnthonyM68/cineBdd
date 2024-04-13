@@ -1,4 +1,5 @@
 # Projet !
+<h1>CineBdd</h1>
 Réalisation d'un site internet qui répertorie des films regroupés dans une base de données, fournie dans le dépot.
 Nous utilisons ici un Patron d'Architecture type Template, ainsi que des requêtes HTTP redirigés par arguments dans l'url
 
@@ -29,9 +30,9 @@ Le site comportera une partie administration (par la suite) qui permettra de gé
 # Schémas :
 
 > Réalisation des schémas conceptuels de données :
-> ![MCD](https://github.com/AnthonyM68/cineBdd/MCD.jpg)
-> ![UML](https://github.com/AnthonyM68/cineBdd/UML.jpg)
-> ![MLD](https://github.com/AnthonyM68/cineBdd/MLD.jpg)
+> ![MCD](https://github.com/AnthonyM68/cineBdd/blob/main/MCD.jpg)
+> ![UML](https://github.com/AnthonyM68/cineBdd/blob/main/UML.jpg)
+> ![MLD](https://github.com/AnthonyM68/cineBdd/blob/main/MLD.jpg)
 
 # Collaborateurs
 
