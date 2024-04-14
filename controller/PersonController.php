@@ -24,7 +24,7 @@ class PersonController
         $title = null;
         switch ($_GET['action']) {
             case "listActors":
-                $title = "Liste Acteurs";
+                $title = "Acteurs";
                 break;
             case "listDirectors":
                 $title = "Réalisateurs";
@@ -80,8 +80,6 @@ class PersonController
         WHERE p.id_person = :person_id");
         $person->execute(["person_id" => $id_person]);
 
-        $this->siwtchTitlePage();
-
         require "view/person.php";
     }
     public function listActors()
@@ -94,8 +92,6 @@ class PersonController
         FROM actor a
         INNER JOIN person p ON a.id_person = p.id_person ");
 
-        $this->siwtchTitlePage();
-
         require "view/person.php";
     }
     public function listDirectors()
@@ -107,8 +103,6 @@ class PersonController
         p.image_url
         FROM director d
         INNER JOIN person p ON d.id_person = p.id_person ");
-
-        $this->siwtchTitlePage();
 
         require "view/person.php";
     }
