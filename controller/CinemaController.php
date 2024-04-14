@@ -3,12 +3,17 @@
 namespace Controller;
 
 use Model\Connect;
-
 use Controller\PersonController;
+use PDOStatement;
 
 class CinemaController
 {
-    public function switchTitlePage()
+    /**
+     *  On utilise l'action pour formater un titre de page
+     *
+     * @return string
+     */
+    public function switchTitlePage(): string
     {
         $title = null;
         switch ($_GET['action']) {
@@ -24,9 +29,34 @@ class CinemaController
         return $title;
     }
     /**
+     * On crée un tableau de tous les genres à partir de PDOStatement
+     * S'il y a plus d'un éléments,on convertir le tableau en chaine de caractère
+     * de tous les genres avec un séparateur "," sauf le dernier
+     *
+     * @param [PDOStatement] $pdoStat genres
+     * @return string HTML
+     */
+    private function makeStringFromFetch(PDOStatement $casting): string
+    {
+
+        $result = $casting->fetchAll();
+        $nameGenre = array_column($result, 'nameGenre');
+
+        if (count($nameGenre) > 1) {
+            $lastGenre = array_pop($nameGenre);
+            $genresString = implode(', ', $nameGenre) . ' et ' . $lastGenre;
+        } else {
+            $genresString = implode(', ', $nameGenre);
+        }
+
+        $html = '<small>' . $genresString . '</small>';
+
+        return $html;
+    }
+    /**
      * Lister les films
      */
-    public function listMovies()
+    public function listMovies(): void
     {
         $pdo = Connect::getPDO();
         $movies = $pdo->query("SELECT m.id_movie, m.title, 
@@ -50,7 +80,7 @@ class CinemaController
      *
      * @return void
      */
-    public function listGenres()
+    public function listGenres(): void
     {
         $pdo = Connect::getPDO();
         $genres = $pdo->query("SELECT g.id_genre, g.nameGenre
@@ -59,34 +89,9 @@ class CinemaController
         require "view/listGenres.php";
     }
     /**
-     * On crée un tableau de tous les genres à partir de PDOStatement
-     * S'il y a plus d'un éléments,on convertir le tableau en chaine de caractère
-     * de tous les genres avec un séparateur "," sauf le dernier
-     *
-     * @param [PDOStatement] $pdoStat genres
-     * @return string HTML
-     */
-    private function makeStringFromFetch($pdoStat): string
-    {
-
-        $result = $pdoStat->fetchAll();
-        $nameGenre = array_column($result, 'nameGenre');
-
-        if (count($nameGenre) > 1) {
-            $lastGenre = array_pop($nameGenre);
-            $genresString = implode(', ', $nameGenre) . ' et ' . $lastGenre;
-        } else {
-            $genresString = implode(', ', $nameGenre);
-        }
-
-        $html = '<small>' . $genresString . '</small>';
-
-        return $html;
-    }
-    /**
      * détails d'un film
      */
-    public function showDetailsMovie($movie_id)
+    public function showDetailsMovie(int $movie_id)
     {
         $pdo = Connect::getPDO();
         $details = $pdo->prepare("SELECT m.title, 
@@ -123,7 +128,7 @@ class CinemaController
         $casting->execute(["movie_id" => $movie_id]);
 
         $ctrlPerson = new PersonController();
-
+        // Convert array person to string with separator
         $casting = $ctrlPerson->makeStringFromFetch($casting);
 
         $genres = $pdo->prepare("SELECT gm.id_genre,

@@ -1,9 +1,9 @@
 <?php ob_start();
 
 $fullName = null;
-
 use Controller\PersonController;
- $ctrlPerson = new PersonController();
+$ctrlPerson = new PersonController();
+
 ?>
 <div class="container">
     <div class="row">
@@ -57,8 +57,6 @@ use Controller\PersonController;
 <?php
 
 $switch = $ctrlPerson->switchTitlePage();
-//var_dump($switch);
-
 // Si nous présentons une personne nous affichons lastName et firstName comme un titre de page
 $switch === "" ? $title = $fullName : $title = $switch;
 $second_title = $title;

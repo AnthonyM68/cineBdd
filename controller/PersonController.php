@@ -2,7 +2,6 @@
 
 namespace Controller;
 
-use COM;
 use Model\Connect;
 use PDOStatement;
 
@@ -13,14 +12,11 @@ class PersonController
         require "view/person.php";
     }
     /**
-     * On crée un titre personnalisé de la page visitée
-     * - Si c'est un acteur
-     * - Si c'est un réalisateur
-     * - Si c'est une liste de personnes
+     *  On utilise l'action pour formater un titre de page
      *
      * @return string
      */
-    public function switchTitlePage()
+    public function switchTitlePage() : string
     {
         switch ($_GET['action']) {
             case "actorsOver50Years":
@@ -38,37 +34,7 @@ class PersonController
                 return "";
         };
     }
-    /**
-     * Recherche dans les tables actor et director si l'id_person 
-     * est présent, si c'est le cas
-     *
-     * @param integer $id_person
-     * @return PDOStatement
-     */
-    public function getJobById_person(int $id_person): PDOStatement
-    {
-        $pdo = Connect::getPDO();
-        $job = $pdo->prepare("SELECT 
-        COALESCE(d.id_director, a.id_actor) AS id_job,
-        CASE 
-            WHEN d.id_director IS NOT NULL AND a.id_actor IS NOT NULL THEN 'Réalisateur, Acteur'
-            WHEN d.id_director IS NOT NULL THEN 'Réalisateur' 
-            WHEN a.id_actor IS NOT NULL THEN 'Acteur' 
-            ELSE 'undefined' 
-        END AS description
-        FROM 
-            person p
-        LEFT JOIN 
-            director d ON d.id_person = p.id_person
-        LEFT JOIN 
-            actor a ON a.id_person = p.id_person
-        WHERE 
-        p.id_person = :person_id");
 
-        $job->execute(["person_id" => $id_person]);
-
-        return $job;
-    }
     /**
      * On crée un tableau de tous les nom, prénom des personnes à partir de PDOStatement
      * S'il y a plus d'un éléments,on convertir le tableau en chaine de caractère
@@ -101,7 +67,38 @@ class PersonController
         // On retourne la chaine formater 
         return $nameString;
     }
-    public function showDetailsPerson($id_person): void
+        /**
+     * Recherche dans les tables actor et director si l'id_person 
+     * est présent, si c'est le cas
+     *
+     * @param integer $id_person
+     * @return PDOStatement
+     */
+    public function getJobById_person(int $id_person): PDOStatement
+    {
+        $pdo = Connect::getPDO();
+        $job = $pdo->prepare("SELECT 
+        COALESCE(d.id_director, a.id_actor) AS id_job,
+        CASE 
+            WHEN d.id_director IS NOT NULL AND a.id_actor IS NOT NULL THEN 'Réalisateur, Acteur'
+            WHEN d.id_director IS NOT NULL THEN 'Réalisateur' 
+            WHEN a.id_actor IS NOT NULL THEN 'Acteur' 
+            ELSE 'undefined' 
+        END AS description
+        FROM 
+            person p
+        LEFT JOIN 
+            director d ON d.id_person = p.id_person
+        LEFT JOIN 
+            actor a ON a.id_person = p.id_person
+        WHERE 
+        p.id_person = :person_id");
+
+        $job->execute(["person_id" => $id_person]);
+
+        return $job;
+    }
+    public function showDetailsPerson(int $id_person): void
     {
         $pdo = Connect::getPDO();
         $person = $pdo->prepare("SELECT 
@@ -151,7 +148,7 @@ class PersonController
 
         require "view/person.php";
     }
-    public function actorsOver50Years()
+    public function actorsOver50Years() : void
     {
         $pdo = Connect::getPDO();
         $person = $pdo->query("SELECT 
@@ -169,7 +166,7 @@ class PersonController
 
         require "view/person.php";
     }
-    public function actorAndDirector()
+    public function actorAndDirector() : void 
     {
         $pdo = Connect::getPDO();
         $person = $pdo->query("SELECT 
