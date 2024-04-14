@@ -29,7 +29,9 @@ if (isset($_GET["action"])) {
         $ctrlNotfound->index();
     }
     switch ($action) {
-        
+        case "showDetailsPerson":
+            $ctrlPerson->showDetailsPerson($id);
+            break;
         case "showDetailsMovie":
             $ctrlCinema->showDetailsMovie($id);
             break;
@@ -39,11 +41,9 @@ if (isset($_GET["action"])) {
         case "listActors":
             $ctrlPerson->listActors();
             break;
-
         case "listDirectors":
             $ctrlPerson->listDirectors();
             break;
-
         case "listGenres":
             $ctrlCinema->listGenres();
             break;

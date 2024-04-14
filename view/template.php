@@ -38,7 +38,7 @@
     <nav id="mainNav">Sidenav</nav>
     <!-- subnavbar -->
     <div id="siteAds">Administration </div>
-    <footer id="pageFooter"><?= $footer ?></footer>
+    <footer id="pageFooter">Footer<?= $footer ?></footer>
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <!-- bootstrap -->

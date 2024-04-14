@@ -56,7 +56,7 @@ class CinemaController
 
         $result = $pdoStat->fetchAll();
         $nameGenre = array_column($result, 'nameGenre');
-        
+
         if (count($nameGenre) > 1 ) {
             $lastGenre = array_pop($nameGenre);
             $genresString = implode(', ', $nameGenre) . ' et ' . $lastGenre;
@@ -90,7 +90,8 @@ class CinemaController
         WHERE id_movie = :movie_id");
         $details->execute(["movie_id" => $movie_id]);
 
-        $casting = $pdo->prepare("SELECT m.title, 
+        $casting = $pdo->prepare("SELECT
+        p.id_person,
         p.lastName, 
         p.firstName, 
         p.sex, 
@@ -103,11 +104,9 @@ class CinemaController
         LEFT JOIN actor a  ON a.id_actor = c.id_actor
         LEFT JOIN person p ON a.id_person = p.id_person
         WHERE m.id_movie = :movie_id");
-
         $casting->execute(["movie_id" => $movie_id]);
 
         $ctrlPerson = new PersonController();
-
 
         $casting = $ctrlPerson->makeStringFromFetch($casting);
 
