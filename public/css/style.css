@@ -18,7 +18,7 @@ a {
 }
 
 /************* Header */
-#Header {
+#header {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -46,6 +46,17 @@ a {
 #subNavbar {
   display: flex;
   justify-content: end;
+}
+/*************** navAdmin***********************/
+#navAdmin ul {
+  padding:0;
+  margin:0;
+  list-style-type: none;
+}
+#navAdmin ul li {
+  padding:10px;
+  display:inline;
+  font-size:15px;
 }
 /*************** Card movie ***************************************/
 .card-wrapper {

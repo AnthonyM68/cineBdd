@@ -9,5 +9,6 @@
     </nav>
 <?php
 $header = ob_get_clean();
-require "./view/templates/subNavbar/subNavbar.php";
+require "./view/templates/navAdmin/navAdmin.php";
+
 

@@ -20,7 +20,7 @@ div {
   background: #1d202f;
   color: #fff;
 }
-#Header {
+#header {
   grid-area: header;
 }
 #pageFooter {
@@ -39,6 +39,10 @@ div {
   grid-area: nav;
 }
 #siteAds {
+  text-align: right;
+  padding:10px;
+  margin:0;
+
   grid-area: ads;
 }
 /* Stack the layout on small devices/viewports. */
