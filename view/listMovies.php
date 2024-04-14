@@ -35,11 +35,9 @@ $ctrlCinema = new CinemaController();
 </div>
 <?php
 
-$title = $ctrlCinema->switchTitlePage();
 // On format un titre de page selon ce qu'il y a, à afficher
-$title === "" ? $title = $fullName : $title = "Liste des " . $title;
+$title = $ctrlCinema->switchTitlePage();
 $title = $title;
 $second_title = $title;
-
 $content = ob_get_clean();
 require "view/templates/header/header.php";

@@ -39,7 +39,10 @@ if (isset($_GET["action"])) {
             $ctrlCinema->listMovies();
             break;
         case "moviesUnder5Years":
-            $ctrlCinema->moviesUnder5Years($id);
+            $ctrlCinema->moviesUnder5Years();
+            break;
+        case "moviesMoreThan2H15":
+            $ctrlCinema->moviesMoreThan2H15();
             break;
         case "listActors":
             $ctrlPerson->listActors();

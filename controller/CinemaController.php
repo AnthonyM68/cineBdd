@@ -13,9 +13,11 @@ class CinemaController
         $title = null;
         switch ($_GET['action']) {
             case "moviesUnder5Years":
-                $title = "plus de 5 ans";
+                $title = "Liste des plus de 5 ans";
                 break;
             default:
+            case "moviesMoreThan2H15" :
+                $title = "Liste des plus de 2H15";
             $title = "";
         };
         return $title;
@@ -28,7 +30,7 @@ class CinemaController
         $pdo = Connect::getPDO();
         $movies = $pdo->query("SELECT m.id_movie, m.title, 
         DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie, 
-        DATE_FORMAT(m.releaseDate, '%d %m %Y') AS releaseDate, 
+        DATE_FORMAT(m.releaseDate, '%d/%m/%Y') AS releaseDate, 
         m.synopsis, 
         m.image_url,
         d.id_director,
@@ -158,6 +160,25 @@ class CinemaController
         INNER JOIN person p ON d.id_person = p.id_person
         WHERE DATEDIFF(CURDATE(), m.releaseDate) < 365 * 5
         ORDER BY m.releaseDate ASC;");
+
+        require "view/listMovies.php";
+    }
+    public function moviesMoreThan2H15()
+    {
+        $pdo = Connect::getPDO();
+        $movies = $pdo->query("SELECT
+        DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie,
+        DATE_FORMAT(m.releaseDate, '%d/%m/%Y') AS releaseDate,        
+        m.id_movie,
+        m.title, 
+        m.synopsis,
+        m.id_director,
+        m.image_url
+        FROM director d
+        INNER JOIN movie m ON d.id_director = m.id_director
+        INNER JOIN person p ON d.id_person = p.id_person
+        WHERE timeMovie > 135
+        ORDER BY title ASC");
 
         require "view/listMovies.php";
     }
