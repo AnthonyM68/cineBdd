@@ -33,4 +33,4 @@
 $title = "CineBdd";
 $second_title = "À la une";
 $content = ob_get_clean();
-require "view/templates/header/header.php";
+require "view/templates/header/navbar.php";

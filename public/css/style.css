@@ -16,13 +16,9 @@ a {
 .title-article {
   padding: 1.3rem 15rem;
 }
-
 /************* Header */
 #header {
-  display: flex;
   width: 100%;
-  justify-content: center;
-  align-items: center;
 }
 .navbar {
   text-align: center;
@@ -30,8 +26,6 @@ a {
 .navbar ul {
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: space-around;
   list-style-type: none;
 }
 .navbar ul li {
@@ -58,7 +52,32 @@ a {
   display:inline;
   font-size:15px;
 }
-/*************** Card movie ***************************************/
+/**************** sideNav ***********************/
+#sideNav ul {
+  list-style-type: none;
+  padding: 0;
+  position: sticky;
+  top: 90px;
+  overflow-y: auto;
+  height: calc(100vh - 90px);
+}
+#sideNav ul li {
+  height: auto;
+  padding: 10px;
+}
+#sideNav ul li a {
+  color: #fff;
+}
+.hidden-sideNav {
+  left: -80%;
+  transition: all 0.5s;
+}
+.show-sideNav {
+  position: fixed;
+  left: 0;
+  transition: all 0.5s;
+}
+/*************** Card movie **********************/
 .card-wrapper {
   height: 100%;
   display: flex;
@@ -95,42 +114,49 @@ a {
 .card-text {
   text-align: justify;
 }
-/*************** Footer  ****************************************/
-.footer-content {
-  padding: 10px;
+/*************** Footer  ***********************/
+#pageFooter {
+  height: auto;
 }
-.footer-content div {
-  position: relative;
-  left: 0;
-  right: 0;
-}
-.footer-content div div {
+/**************** Navigation */
+#navigation {
   border: 1px solid #fff;
+  height: 100%;
 }
-
+.navigation {
+  list-style-type: none;
+  padding:0;
+  margin:0;
+}
+.navigation li a{
+  text-decoration: none;
+  font-size:1.3rem;
+}
 /**************** Galery social */
-#galery-social {
-  position: relative;
-  display: flex;
-  width: 100%;
-  justify-content: space-around;
+.social {
   padding-left: 30px;
   padding-right: 30px;
   border: 1px solid #fff;
+  height: 100%;
+  width: 100%;
 }
+.galery-social { 
+  width: 100%;
 
-#galery-social > figure {
-  width: 20%;
 }
-
-#galery-social > figure img {
+.galery-social > figure {
+  width: 50%;
+  text-align: center;
+}
+.galery-social > figure img {
   width: 50%;
 }
+
 /**************form newslertter*/
 #newsletter {
   position: relative;
-  /*display: flex;*/
   width: 100%;
+  height: 100%;
   padding-left: 30px;
   padding-right: 30px;
   border: 1px solid #fff;
@@ -145,7 +171,6 @@ a {
 .btn {
   width: 20%;
 }
-
 tbody, td, tfoot, th, thead, tr {
   color:#fff;
 }

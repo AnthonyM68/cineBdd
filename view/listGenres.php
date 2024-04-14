@@ -26,4 +26,4 @@
 $title = "Liste des genres";
 $second_title = "Liste des genres";
 $content = ob_get_clean();
-require "view/templates/header/header.php";
+require "view/templates/header/navbar.php";

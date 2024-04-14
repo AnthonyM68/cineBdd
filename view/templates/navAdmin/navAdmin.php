@@ -8,5 +8,5 @@
 </nav>
 <?php
 $navAdmin = ob_get_clean();
-require "./view/templates/subNavbar/subNavbar.php";
+require "./view/templates/sideNav/sideNav.php";
 

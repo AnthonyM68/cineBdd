@@ -40,4 +40,4 @@ $title = $ctrlCinema->switchTitlePage();
 $title = $title;
 $second_title = $title;
 $content = ob_get_clean();
-require "view/templates/header/header.php";
+require "view/templates/header/navbar.php";

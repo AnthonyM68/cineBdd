@@ -4,7 +4,7 @@ body {
     "header header ads"
     "nav article article"
     "nav footer footer";
-  grid-template-rows: 80px 1fr 200px;
+  grid-template-rows: 80px 1fr auto;
   grid-template-columns: 5% 1fr 25%;
   grid-row-gap: 10px;
   grid-column-gap: 10px;
@@ -25,24 +25,19 @@ div {
 }
 #pageFooter {
   grid-area: footer;
+  height: auto;
 }
-/*#pageFooter {
-  grid-area: footer;
-  position: sticky;
-  bottom: 0;
-}*/
 
 #mainArticle {
   grid-area: article;
 }
-#mainNav {
+#sideNav {
   grid-area: nav;
 }
 #siteAds {
   text-align: right;
   padding:10px;
   margin:0;
-
   grid-area: ads;
 }
 /* Stack the layout on small devices/viewports. */

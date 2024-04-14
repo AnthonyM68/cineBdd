@@ -34,4 +34,4 @@ $director = $director->fetch();
     $title = "Détails du film";
     $second_title = "Détails du film";
     $content = ob_get_clean();
-    require "view/templates/header/header.php";
+    require "view/templates/header/navbar.php";

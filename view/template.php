@@ -20,9 +20,9 @@
     <title><?= $title ?></title>
 </head>
 
-<body>
+<body id="body">
     <!-- header -->
-    <header id="header"><?= $header ?></header>
+    <header id="header" class="d-flex justify-content-center"><?= $navbar ?></header>
     <!-- article -->
     <article id="mainArticle">
         <!-- subnavbar -->
@@ -34,15 +34,17 @@
         <!-- content request -->
         <?= $content ?>
     </article>
-    <!-- sidenav lateral hidden -->
-    <nav id="mainNav">Sidenav</nav>
-    <!-- subnavbar -->
+    <!-- sidenav lateral -->
+    <nav id="sideNav" class="hidden-sideNav"><?= $sideNav ?></nav>
+    <!-- navAdmin -->
     <div id="siteAds"> <?= $navAdmin ?></div>
-    <footer id="pageFooter">Footer<?= $footer ?></footer>
+    <footer id="pageFooter"><?= $footer ?></footer>
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <!-- My script -->
+    <script src="./public/js/script.js"></script>
 </body>
 
 </html>
