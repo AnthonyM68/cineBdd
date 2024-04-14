@@ -22,18 +22,21 @@ class PersonController
      */
     public function switchTitlePage()
     {
-        $title = null;
         switch ($_GET['action']) {
+            case "actorsOver50Years":
+                return "Les Acteurs de plus de 50 ans";
             case "listActors":
-                $title = "Acteurs";
+                return "Tous les Acteurs";
                 break;
             case "listDirectors":
-                $title = "Réalisateurs";
+                return "Tous les Réalisateurs";
+                break;
+            case "actorAndDirector":
+                return "Les acteurs à la fois réalisateur";
                 break;
             default:
-            $title = "";
+                return "";
         };
-        return $title;
     }
     /**
      * Recherche dans les tables actor et director si l'id_person 
@@ -42,7 +45,7 @@ class PersonController
      * @param integer $id_person
      * @return PDOStatement
      */
-    public function getJobById_person(int $id_person) : PDOStatement
+    public function getJobById_person(int $id_person): PDOStatement
     {
         $pdo = Connect::getPDO();
         $job = $pdo->prepare("SELECT 
@@ -98,7 +101,7 @@ class PersonController
         // On retourne la chaine formater 
         return $nameString;
     }
-    public function showDetailsPerson($id_person) : void
+    public function showDetailsPerson($id_person): void
     {
         $pdo = Connect::getPDO();
         $person = $pdo->prepare("SELECT 
@@ -116,7 +119,7 @@ class PersonController
 
         require "view/person.php";
     }
-    public function listActors() : void 
+    public function listActors(): void
     {
         $pdo = Connect::getPDO();
         $person = $pdo->query("SELECT 
@@ -132,7 +135,7 @@ class PersonController
 
         require "view/person.php";
     }
-    public function listDirectors() : void 
+    public function listDirectors(): void
     {
         $pdo = Connect::getPDO();
         $person = $pdo->query("SELECT 
@@ -145,6 +148,40 @@ class PersonController
         FROM director d
         INNER JOIN person p ON d.id_person = p.id_person
         ORDER BY p.lastName ASC");
+
+        require "view/person.php";
+    }
+    public function actorsOver50Years()
+    {
+        $pdo = Connect::getPDO();
+        $person = $pdo->query("SELECT 
+        DATE_FORMAT(p.birthday, '%d/%m/%Y') AS birthday, 
+        p.id_person,
+        p.lastName, 
+        p.firstName, 
+        YEAR(CURDATE()) - YEAR(birthday) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(birthday, '%m%d')) AS age_revolu,
+        YEAR(CURDATE()) - YEAR(birthday) + IF(DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(birthday, '%m%d'), -1, 0) AS age_non_revolu,
+        p.sex,
+        p.image_url
+        FROM actor a
+        INNER JOIN person p ON a.id_person = p.id_person
+        WHERE YEAR(CURDATE()) - YEAR(birthday) > 50");
+
+        require "view/person.php";
+    }
+    public function actorAndDirector()
+    {
+        $pdo = Connect::getPDO();
+        $person = $pdo->query("SELECT 
+        DATE_FORMAT(p.birthday, '%Y/%m/%d') AS birthday,
+        p.id_person,
+        p.lastName, 
+        p.firstName, 
+        p.sex,
+        p.image_url
+        FROM person p
+        INNER JOIN director d ON d.id_person = p.id_person
+        INNER JOIN actor a ON a.id_person = p.id_person");
 
         require "view/person.php";
     }

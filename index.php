@@ -29,14 +29,11 @@ if (isset($_GET["action"])) {
         $ctrlNotfound->index();
     }
     switch ($action) {
-        case "showDetailsPerson":
-            $ctrlPerson->showDetailsPerson($id);
+        case "listMovies":
+            $ctrlCinema->listMovies();
             break;
         case "showDetailsMovie":
             $ctrlCinema->showDetailsMovie($id);
-            break;
-        case "listMovies":
-            $ctrlCinema->listMovies();
             break;
         case "moviesUnder5Years":
             $ctrlCinema->moviesUnder5Years();
@@ -49,6 +46,15 @@ if (isset($_GET["action"])) {
             break;
         case "listDirectors":
             $ctrlPerson->listDirectors();
+            break;
+        case "showDetailsPerson":
+            $ctrlPerson->showDetailsPerson($id);
+            break;
+        case "actorsOver50Years":
+            $ctrlPerson->actorsOver50Years();
+            break;
+        case "actorAndDirector":
+            $ctrlPerson->actorAndDirector();
             break;
         case "listGenres":
             $ctrlCinema->listGenres();

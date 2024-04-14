@@ -13,12 +13,13 @@ class CinemaController
         $title = null;
         switch ($_GET['action']) {
             case "moviesUnder5Years":
-                $title = "Liste des plus de 5 ans";
+                $title = "Films de plus de 5 ans";
+                break;
+            case "moviesMoreThan2H15":
+                $title = "Films de plus de 2H15";
                 break;
             default:
-            case "moviesMoreThan2H15" :
-                $title = "Liste des plus de 2H15";
-            $title = "";
+                $title = "";
         };
         return $title;
     }

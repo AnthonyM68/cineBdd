@@ -3,7 +3,7 @@
 $fullName = null;
 
 use Controller\PersonController;
-$ctrlPerson = new PersonController();
+ $ctrlPerson = new PersonController();
 ?>
 <div class="container">
     <div class="row">
@@ -56,10 +56,11 @@ $ctrlPerson = new PersonController();
 
 <?php
 
-$title = $ctrlPerson->switchTitlePage();
+$switch = $ctrlPerson->switchTitlePage();
+//var_dump($switch);
+
 // Si nous présentons une personne nous affichons lastName et firstName comme un titre de page
-$title === "" ? $title = $fullName : $title = "Liste des " . $title;
-$title = $title;
+$switch === "" ? $title = $fullName : $title = $switch;
 $second_title = $title;
 
 $content = ob_get_clean();
