@@ -1,12 +1,9 @@
 <?php ob_start();
 
-use Controller\PersonController;
-
-$ctrlPerson = new PersonController();
-// listDirectors
-// listActors
 $fullName = null;
 
+use Controller\PersonController;
+$ctrlPerson = new PersonController();
 ?>
 <div class="container">
     <div class="row">
@@ -31,7 +28,6 @@ $fullName = null;
                                 <a href="./index.php?action=showDetailsPerson&id=<?= $per['id_person'] ?>"><?= $fullName = $per["firstName"] . " " . $per["lastName"]; ?></a>
                                 <p>
                                 <?php 
-                                $ctrlPerson = new PersonController();
                                 $job = $ctrlPerson->getJobById_person($per['id_person']);
                                 $job = $job->fetch();
                                 $description = $job['description'];

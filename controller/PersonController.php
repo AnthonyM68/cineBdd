@@ -127,7 +127,8 @@ class PersonController
         p.sex,
         p.image_url
         FROM actor a
-        INNER JOIN person p ON a.id_person = p.id_person ");
+        INNER JOIN person p ON a.id_person = p.id_person 
+        ORDER BY p.lastName ASC");
 
         require "view/person.php";
     }
@@ -142,7 +143,8 @@ class PersonController
         p.sex,
         p.image_url
         FROM director d
-        INNER JOIN person p ON d.id_person = p.id_person ");
+        INNER JOIN person p ON d.id_person = p.id_person
+        ORDER BY p.lastName ASC");
 
         require "view/person.php";
     }

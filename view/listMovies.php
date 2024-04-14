@@ -1,5 +1,7 @@
-<?php ob_start(); ?>
-
+<?php ob_start(); 
+use Controller\CinemaController;
+$ctrlCinema = new CinemaController();
+?>
 <div class="container">
     <div class="row">
         <?php foreach ($movies->fetchAll() as $movie) {
@@ -33,7 +35,11 @@
 </div>
 <?php
 
-$title = "Liste des films";
-$second_title = "Liste des films";
+$title = $ctrlCinema->switchTitlePage();
+// On format un titre de page selon ce qu'il y a, à afficher
+$title === "" ? $title = $fullName : $title = "Liste des " . $title;
+$title = $title;
+$second_title = $title;
+
 $content = ob_get_clean();
 require "view/templates/header/header.php";

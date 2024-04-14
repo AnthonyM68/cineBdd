@@ -38,6 +38,9 @@ if (isset($_GET["action"])) {
         case "listMovies":
             $ctrlCinema->listMovies();
             break;
+        case "moviesUnder5Years":
+            $ctrlCinema->moviesUnder5Years($id);
+            break;
         case "listActors":
             $ctrlPerson->listActors();
             break;
@@ -48,9 +51,9 @@ if (isset($_GET["action"])) {
             $ctrlCinema->listGenres();
             break;
 
-        default :
-       
-        $ctrlNotfound->index();
+        default:
+
+            $ctrlNotfound->index();
     }
 } else {
     $ctrlHome->index();

@@ -8,6 +8,18 @@ use Controller\PersonController;
 
 class CinemaController
 {
+    public function switchTitlePage()
+    {
+        $title = null;
+        switch ($_GET['action']) {
+            case "moviesUnder5Years":
+                $title = "plus de 5 ans";
+                break;
+            default:
+            $title = "";
+        };
+        return $title;
+    }
     /**
      * Lister les films
      */
@@ -57,7 +69,7 @@ class CinemaController
         $result = $pdoStat->fetchAll();
         $nameGenre = array_column($result, 'nameGenre');
 
-        if (count($nameGenre) > 1 ) {
+        if (count($nameGenre) > 1) {
             $lastGenre = array_pop($nameGenre);
             $genresString = implode(', ', $nameGenre) . ' et ' . $lastGenre;
         } else {
@@ -129,5 +141,24 @@ class CinemaController
         $director->execute(["movie_id" => $movie_id]);
 
         require "view/detailsMovie.php";
+    }
+    public function moviesUnder5Years()
+    {
+        $pdo = Connect::getPDO();
+        $movies = $pdo->query("SELECT 
+        DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie, 
+        DATE_FORMAT(m.releaseDate, '%d/%m/%Y') AS releaseDate,        
+        m.id_movie,
+        m.title, 
+        m.synopsis,
+        m.id_director,
+        m.image_url
+        FROM director d
+        INNER JOIN movie m ON d.id_director = m.id_director
+        INNER JOIN person p ON d.id_person = p.id_person
+        WHERE DATEDIFF(CURDATE(), m.releaseDate) < 365 * 5
+        ORDER BY m.releaseDate ASC;");
+
+        require "view/listMovies.php";
     }
 }
