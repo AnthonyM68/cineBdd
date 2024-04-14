@@ -124,7 +124,6 @@ a {
   padding-right: 30px;
   border: 1px solid #fff;
 }
-
 .content-form {
   text-align: center;
 }
@@ -138,7 +137,6 @@ a {
 
 tbody, td, tfoot, th, thead, tr {
   color:#fff;
-  border:1px solid #fff;
 }
 .card-body .text-muted{
   color:#fff !important;

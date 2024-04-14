@@ -4,6 +4,7 @@ namespace Controller;
 
 use COM;
 use Model\Connect;
+use PDOStatement;
 
 class PersonController
 {
@@ -19,7 +20,7 @@ class PersonController
      *
      * @return string
      */
-    public function siwtchTitlePage()
+    public function switchTitlePage()
     {
         $title = null;
         switch ($_GET['action']) {
@@ -35,6 +36,37 @@ class PersonController
         return $title;
     }
     /**
+     * Recherche dans les tables actor et director si l'id_person 
+     * est présent, si c'est le cas
+     *
+     * @param integer $id_person
+     * @return PDOStatement
+     */
+    public function getJobById_person(int $id_person) : PDOStatement
+    {
+        $pdo = Connect::getPDO();
+        $job = $pdo->prepare("SELECT 
+        COALESCE(d.id_director, a.id_actor) AS id_job,
+        CASE 
+            WHEN d.id_director IS NOT NULL AND a.id_actor IS NOT NULL THEN 'Réalisateur, Acteur'
+            WHEN d.id_director IS NOT NULL THEN 'Réalisateur' 
+            WHEN a.id_actor IS NOT NULL THEN 'Acteur' 
+            ELSE 'undefined' 
+        END AS description
+        FROM 
+            person p
+        LEFT JOIN 
+            director d ON d.id_person = p.id_person
+        LEFT JOIN 
+            actor a ON a.id_person = p.id_person
+        WHERE 
+        p.id_person = :person_id");
+
+        $job->execute(["person_id" => $id_person]);
+
+        return $job;
+    }
+    /**
      * On crée un tableau de tous les nom, prénom des personnes à partir de PDOStatement
      * S'il y a plus d'un éléments,on convertir le tableau en chaine de caractère
      * de tous les genres avec un séparateur "," sauf le dernier
@@ -42,7 +74,7 @@ class PersonController
      * @param [PDOStatement] $pdoStat person
      * @return string HTML
      */
-    public function makeStringFromFetch($pdoStat): string
+    public function makeStringFromFetch(PDOStatement $pdoStat): string
     {
         $fullName = [];
         $nameString = null;
@@ -66,27 +98,32 @@ class PersonController
         // On retourne la chaine formater 
         return $nameString;
     }
-    public function showDetailsPerson($id_person)
+    public function showDetailsPerson($id_person) : void
     {
         $pdo = Connect::getPDO();
         $person = $pdo->prepare("SELECT 
+        DATE_FORMAT(p.birthday, '%Y/%m/%d') AS birthday,
         p.id_person,
         p.lastName,
         p.firstName,
-        p.birthday,
         p.sex,
         p.image_url
         FROM person p
         WHERE p.id_person = :person_id");
         $person->execute(["person_id" => $id_person]);
 
+        $this->getJobById_person($id_person);
+
         require "view/person.php";
     }
-    public function listActors()
+    public function listActors() : void 
     {
         $pdo = Connect::getPDO();
-        $person = $pdo->query("SELECT p.lastName, p.firstName, 
-        DATE_FORMAT(p.birthday, '%Y-%m-%d') AS birthday,
+        $person = $pdo->query("SELECT 
+        DATE_FORMAT(p.birthday, '%Y/%m/%d') AS birthday,
+        p.id_person,
+        p.lastName, 
+        p.firstName, 
         p.sex,
         p.image_url
         FROM actor a
@@ -94,11 +131,14 @@ class PersonController
 
         require "view/person.php";
     }
-    public function listDirectors()
+    public function listDirectors() : void 
     {
         $pdo = Connect::getPDO();
-        $person = $pdo->query("SELECT p.lastName, p.firstName, 
-        DATE_FORMAT(p.birthday, '%Y-%m-%d') AS birthday,
+        $person = $pdo->query("SELECT 
+        DATE_FORMAT(p.birthday, '%Y/%m/%d') AS birthday,
+        p.id_person,
+        p.lastName, 
+        p.firstName, 
         p.sex,
         p.image_url
         FROM director d

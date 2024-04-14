@@ -81,6 +81,7 @@ class CinemaController
         m.image_url, 
         d.id_director, 
         p.firstName, 
+        p.id_person,
         p.lastName, 
         p.birthday, 
         p.sex

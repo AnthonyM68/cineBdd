@@ -20,7 +20,7 @@ $director = $director->fetch();
                         <p class="card-text"><small><?= $details['synopsis'] ?></small></p>
 
                         <div class="row">
-                            <p class="card-text">Réalisateur: <small><?= $director['firstName'] . " " . $director['lastName'] ?></small></p>
+                            <p class="card-text">Réalisateur: <small><a href="./index.php?action=showDetailsPerson&id=<?= $details['id_person'] ?>"><span><?= $director['firstName'] ?></span><span><?= $director['lastName'] ?></span></a></small></p>
                             <p class="card-text">Genre: <small><?= $genres ?></small></p>
                             <p class="card-text">Acteurs: <small><?= $casting ?></small></p>
                         </div>
