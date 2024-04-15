@@ -10,6 +10,7 @@ body {
   grid-column-gap: 10px;
   height: 100vh;
   margin: 0;
+  background: #1d202f;
 }
 header,
 footer,

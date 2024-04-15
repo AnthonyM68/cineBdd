@@ -48,9 +48,9 @@ a {
   list-style-type: none;
 }
 #navAdmin ul li {
-  padding:10px;
+  padding-left:15px;
   display:inline;
-  font-size:15px;
+  font-size:10px;
 }
 /**************** sideNav ***********************/
 #sideNav ul {
@@ -69,8 +69,10 @@ a {
   color: #fff;
 }
 .hidden-sideNav {
+  position:absolute;
   left: -80%;
   transition: all 0.5s;
+  background-color:transparent;
 }
 .show-sideNav {
   position: fixed;
