@@ -59,6 +59,31 @@ class CinemaController
 
         return $html;
     }
+    private function makeStringFromFetchWithLink(PDOStatement $movies): string
+    {
+
+        $html = "";
+        $result = $movies->fetchAll();
+       
+        $listLinks = [];
+        foreach($result as $movie) {
+            $id_movie = $movie["id_movie"];
+            $listLinks[] = "<a href='./index.php?action=showDetailsMovie&id= $id_movie'>" . $movie["title"] . "</a>";
+            
+        }
+        /*$nameTitle = array_column($listLinks, 'title');*/
+    
+
+        if (count($listLinks) > 1) {
+            $lastLink = array_pop($listLinks);
+            $titleString = implode(', ', $listLinks) . ' et ' . $lastLink;
+        } else {
+            $titleString = implode(', ', $listLinks);
+        }
+        $html = '<small>' . $titleString . '</small>';
+
+        return $html;
+    }
     public function getListMovies()
     {
         $pdo = Connect::getPDO();
@@ -94,6 +119,38 @@ class CinemaController
     {
         $movies = $this->getListMovies();
         require "view/listMoviesAdmin.php";
+    }
+    public function getMoviesAndRoleByActor($id_actor)
+    {
+        $movies = null;
+        $pdo = Connect::getPDO();
+        $movies = $pdo->prepare("SELECT
+        DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie,
+        DATE_FORMAT(m.releaseDate, '%d/%m/%Y') AS releaseDate,
+        m.id_movie,
+        m.title,
+        m.synopsis,
+        m.id_director,
+        m.image_url,
+        r.nameRole
+    FROM
+        casting c
+    INNER JOIN
+        role r ON c.id_role = r.id_role
+    INNER JOIN
+        movie m ON c.id_movie = m.id_movie
+    INNER JOIN
+        person p ON c.id_actor = p.id_person
+    WHERE
+        p.id_person = :actor_id
+    ORDER BY
+        m.releaseDate ASC");
+
+    $movies->execute(["actor_id" => $id_actor]);
+
+    $movies = $this->makeStringFromFetchWithLink($movies);
+
+        return $movies;
     }
     /**
      * list genre

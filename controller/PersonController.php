@@ -16,7 +16,7 @@ class PersonController
      *
      * @return string
      */
-    public function switchTitlePage() : string
+    public function switchTitlePage(): string
     {
         switch ($_GET['action']) {
             case "actorsOver50Years":
@@ -67,7 +67,7 @@ class PersonController
         // On retourne la chaine formater 
         return $nameString;
     }
-        /**
+    /**
      * Recherche dans les tables actor et director si l'id_person 
      * est présent, si c'est le cas
      *
@@ -102,13 +102,15 @@ class PersonController
     {
         $pdo = Connect::getPDO();
         $person = $pdo->prepare("SELECT 
-        DATE_FORMAT(p.birthday, '%Y/%m/%d') AS birthday,
+        DATE_FORMAT(p.birthday, '%d/%m/%Y') AS birthday,
         p.id_person,
         p.lastName,
         p.firstName,
         p.sex,
-        p.image_url
+        p.image_url,
+        a.id_actor
         FROM person p
+        INNER JOIN actor a ON a.id_person = p.id_person
         WHERE p.id_person = :person_id");
         $person->execute(["person_id" => $id_person]);
 
@@ -120,12 +122,13 @@ class PersonController
     {
         $pdo = Connect::getPDO();
         $person = $pdo->query("SELECT 
-        DATE_FORMAT(p.birthday, '%Y/%m/%d') AS birthday,
+        DATE_FORMAT(p.birthday, '%d/%m/%Y') AS birthday,
         p.id_person,
         p.lastName, 
         p.firstName, 
         p.sex,
-        p.image_url
+        p.image_url,
+        a.id_actor
         FROM actor a
         INNER JOIN person p ON a.id_person = p.id_person 
         ORDER BY p.lastName ASC");
@@ -136,7 +139,7 @@ class PersonController
     {
         $pdo = Connect::getPDO();
         $person = $pdo->query("SELECT 
-        DATE_FORMAT(p.birthday, '%Y/%m/%d') AS birthday,
+        DATE_FORMAT(p.birthday, '%d/%m/%Y') AS birthday,
         p.id_person,
         p.lastName, 
         p.firstName, 
@@ -148,7 +151,7 @@ class PersonController
 
         require "view/person.php";
     }
-    public function actorsOver50Years() : void
+    public function actorsOver50Years(): void
     {
         $pdo = Connect::getPDO();
         $person = $pdo->query("SELECT 
@@ -166,11 +169,11 @@ class PersonController
 
         require "view/person.php";
     }
-    public function actorAndDirector() : void 
+    public function actorAndDirector(): void
     {
         $pdo = Connect::getPDO();
         $person = $pdo->query("SELECT 
-        DATE_FORMAT(p.birthday, '%Y/%m/%d') AS birthday,
+        DATE_FORMAT(p.birthday, '%d/%m/%Y') AS birthday,
         p.id_person,
         p.lastName, 
         p.firstName, 

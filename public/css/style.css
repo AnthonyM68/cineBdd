@@ -120,6 +120,20 @@ a {
 .card-text {
   text-align: justify;
 }
+/************ Card Profil ***********/
+.img_profil {
+  height: 250px;
+}
+
+.img_profil img {
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+}
+.card-footer .footer_profil {
+  width: 100%;
+}
+
 /*************** Footer  ***********************/
 #pageFooter {
   height: auto;
