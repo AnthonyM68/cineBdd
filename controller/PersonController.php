@@ -52,7 +52,7 @@ class PersonController
         // On bucle sur les résultats
         foreach ($result as $per) {
             // On crée un lien vers les détails du profils a partir de l'id_person
-            $per = "<a href='./index.php?action=showDetailsPerson&id="  . $per['id_person'] . "' >" . $per['lastName'] . $per['firstName'] . "</a>";
+            $per = "<a href='./index.php?action=showDetailsPerson&id="  . $per['id_person'] . "&table=actor' >" . $per['lastName'] . $per['firstName'] . "</a>";
             $fullName[] = $per;
         }
         // S'il y a plusieurs éléments au tableau
@@ -98,7 +98,7 @@ class PersonController
 
         return $job;
     }
-    public function showDetailsPerson(int $id_person, string $table = "actor"): void
+    public function showDetailsPerson(int $id_person, string $table): void
     {
         $pdo = Connect::getPDO();
         $person = $pdo->prepare("SELECT 

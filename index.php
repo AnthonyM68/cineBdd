@@ -23,6 +23,11 @@ if (isset($_GET["action"])) {
     // On filtre les input 
     $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
     $action = htmlspecialchars($_GET['action']);
+    $table = null; 
+    if(isset($_GET['table'])) {
+        $table = htmlspecialchars($_GET['table']);
+    }
+    
 
     if ($id === false) {
         // 'id' n'est pas présent ou n'est pas un entier valide.
@@ -48,7 +53,7 @@ if (isset($_GET["action"])) {
             $ctrlPerson->listDirectors();
             break;
         case "showDetailsPerson":
-            $ctrlPerson->showDetailsPerson($id);
+            $ctrlPerson->showDetailsPerson($id, $table);
             break;
         case "actorsOver50Years":
             $ctrlPerson->actorsOver50Years();

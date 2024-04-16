@@ -7,7 +7,6 @@ use Controller\CinemaController;
 
 $ctrlPerson = new PersonController();
 $ctrlCinema = new CinemaController();
-
 ?>
 <div class="container">
     <div class="row">
@@ -55,7 +54,6 @@ $ctrlCinema = new CinemaController();
                                 } else {
                                     echo $ctrlCinema->getMoviesByDirector($per['id_person']);
                                 }
-                                
                                 ?>
                             </div>
                         </div>
