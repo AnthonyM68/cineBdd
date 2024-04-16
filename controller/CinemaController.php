@@ -188,4 +188,8 @@ class CinemaController
 
         require "view/listMovies.php";
     }
+    public function insertMovie()
+    {
+        require "view/insertMovie.php";
+    }
 }

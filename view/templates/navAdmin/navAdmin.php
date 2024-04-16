@@ -1,9 +1,10 @@
 <?php ob_start(); ?>
 <nav id="navAdmin">
-    <ul class="d-flex justify-content-center">
+    <ul class="d-flex justify-content-center"> 
         <li><i class="fa fa-sign-in fa-2x" aria-hidden="true"></i></li>
         <li><i class="fa fa-user fa-2x" aria-hidden="true"></i></li>
         <li><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i></li>
+        <li id="time" class="pridi-regular">Time:</li>
     </ul>
 </nav>
 <?php

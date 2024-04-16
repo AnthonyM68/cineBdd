@@ -31,6 +31,19 @@ function toggleSideNav() {
 }
 document.addEventListener("DOMContentLoaded", function () {
 
+    function updateTime() {
+
+        fetch('./Controller/TimeController.php')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                document.getElementById('time').innerText = `${data.time} ${data.date}`;
+            });
+    }
+    // Mettre à jour au chargement de la page
+     updateTime();
+     setInterval(updateTime, 1000);
+
     document.addEventListener("mousemove", function (event) {
         const sidenav = document.getElementById("sideNav");
         if (isMouseAtLeftEdge(event)) {
@@ -46,11 +59,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const container = document.querySelector(".container");
     document.addEventListener("scroll", function () {
         const scrollPosition = container.scrollTop;
+        
         if (scrollPosition) {
-            toggleSideNav();
-        } else {
-            if (!sideNavVisible) {
-                toggleSideNav();
+            if (sidenav) sidenav.classList.add("show-sideNav");
+            sideNavVisible = false;
+        }
+        else {
+            if (sidenav) {
+                sidenav.classList.remove("show-sideNav");
+                sidenav.classList.add("hidden-sideNav");
+                sideNavVisible = true;
+                // Nouvelle instance de setTimout
+                timeoutID = setTimeout(() => {
+                    toggleSideNav();
+                    timeoutID = null;
+                }, 3000);
             }
         }
     });

@@ -59,7 +59,9 @@ if (isset($_GET["action"])) {
         case "listGenres":
             $ctrlCinema->listGenres();
             break;
-
+        case "insertMovie":
+            $ctrlCinema->insertMovie();
+            break;
         default:
 
             $ctrlNotfound->index();
