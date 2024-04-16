@@ -52,7 +52,11 @@ $ctrlCinema = new CinemaController();
                                 <?php
                                 if (isset($per['id_actor'])) {
                                     echo $ctrlCinema->getMoviesAndRoleByActor($per['id_actor']);
-                                }  ?>
+                                } else {
+                                    echo $ctrlCinema->getMoviesByDirector($per['id_person']);
+                                }
+                                
+                                ?>
                             </div>
                         </div>
                     </div>
