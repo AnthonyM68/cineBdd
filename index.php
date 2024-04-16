@@ -62,6 +62,12 @@ if (isset($_GET["action"])) {
         case "insertMovie":
             $ctrlCinema->insertMovie();
             break;
+        case "searchEngine":
+            $ctrlCinema->searchEngine();
+            break;
+        case "listMovieAdmin":
+            $ctrlCinema->listMoviesAdmin();
+            break;
         default:
 
             $ctrlNotfound->index();

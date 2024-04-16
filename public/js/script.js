@@ -7,11 +7,19 @@ function isMouseAtLeftEdge(event) {
 
     return mouseX <= triggerDistance;
 }
+function updateTime() {
 
+    fetch('./Controller/TimeController.php')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            document.getElementById('time').innerText = `${data.time} ${data.date}`;
+        });
+}
 function toggleSideNav() {
-    // Si une instance de setTimout est déjà en cours
+    // If an instance of setTimout is already in progress
     if (timeoutID !== null) {
-        // on l'annule
+        // we cancel it
         clearTimeout(timeoutID);
     }
     const sidenav = document.getElementById("sideNav");
@@ -21,7 +29,7 @@ function toggleSideNav() {
     } else {
         sidenav.classList.remove("hidden-sideNav");
         sideNavVisible = true;
-        // Nouvelle instance de setTimout
+        // New instance of setTimout
         timeoutID = setTimeout(() => {
             toggleSideNav();
             timeoutID = null;
@@ -30,19 +38,9 @@ function toggleSideNav() {
 
 }
 document.addEventListener("DOMContentLoaded", function () {
-
-    function updateTime() {
-
-        fetch('./Controller/TimeController.php')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                document.getElementById('time').innerText = `${data.time} ${data.date}`;
-            });
-    }
-    // Mettre à jour au chargement de la page
-     updateTime();
-     setInterval(updateTime, 1000);
+    // Update to load page
+    updateTime();
+    setInterval(updateTime, 1000);
 
     document.addEventListener("mousemove", function (event) {
         const sidenav = document.getElementById("sideNav");
@@ -59,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const container = document.querySelector(".container");
     document.addEventListener("scroll", function () {
         const scrollPosition = container.scrollTop;
-        
+
         if (scrollPosition) {
             if (sidenav) sidenav.classList.add("show-sideNav");
             sideNavVisible = false;
@@ -69,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 sidenav.classList.remove("show-sideNav");
                 sidenav.classList.add("hidden-sideNav");
                 sideNavVisible = true;
-                // Nouvelle instance de setTimout
+                // New instance of setTimout
                 timeoutID = setTimeout(() => {
                     toggleSideNav();
                     timeoutID = null;

@@ -23,6 +23,12 @@ class CinemaController
             case "moviesMoreThan2H15":
                 $title = "Films de plus de 2H15";
                 break;
+            case "listMovieAdmin":
+                $title = "Gestion des films";
+                break;
+            case "insertMovie":
+                $title = "Ajouter un film";
+                break;
             default:
                 $title = "";
         };
@@ -53,10 +59,7 @@ class CinemaController
 
         return $html;
     }
-    /**
-     * Lister les films
-     */
-    public function listMovies(): void
+    public function getListMovies()
     {
         $pdo = Connect::getPDO();
         $movies = $pdo->query("SELECT m.id_movie, m.title, 
@@ -72,11 +75,28 @@ class CinemaController
         FROM director d
         INNER JOIN movie m ON d.id_director = m.id_director
         INNER JOIN person p ON d.id_person = p.id_person");
-
+        return $movies;
+    }
+    /**
+     * display all movies
+     */
+    public function listMovies(): void
+    {
+        $movies = $this->getListMovies();
         require "view/listMovies.php";
     }
     /**
-     * lister les genres
+     * displays movie management
+     *
+     * @return void
+     */
+    public function listMoviesAdmin()
+    {
+        $movies = $this->getListMovies();
+        require "view/listMoviesAdmin.php";
+    }
+    /**
+     * list genre
      *
      * @return void
      */
@@ -89,7 +109,7 @@ class CinemaController
         require "view/listGenres.php";
     }
     /**
-     * détails d'un film
+     * details of a movie
      */
     public function showDetailsMovie(int $movie_id)
     {
@@ -188,8 +208,22 @@ class CinemaController
 
         require "view/listMovies.php";
     }
+    /**
+     * add movie in database
+     *
+     * @return void
+     */
     public function insertMovie()
     {
         require "view/insertMovie.php";
+    }
+    /**
+     * Search Engine
+     *
+     * @return void
+     */
+    public function searchEngine()
+    {
+        require "view/searchEngine.php";
     }
 }
