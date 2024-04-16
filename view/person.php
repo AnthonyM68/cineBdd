@@ -22,7 +22,7 @@ $ctrlCinema = new CinemaController();
                             <div class="card-image img_profil">
                                 <!-- img person -->
                                 <?php if ($per["image_url"] !== null) { ?>
-                                    <img src='<?= $per["image_url"] ?>' alt="">
+                                    <img src='<?= $per["image_url"] ?>' class="border rounded" alt="Image de profil">
                                 <?php } ?>
                             </div>
                         </div>
@@ -31,14 +31,13 @@ $ctrlCinema = new CinemaController();
                             <div class="card-body">
                                 <!-- card title -->
                                 <h5 class="card-title">
-                                <?php $job = $ctrlPerson->getJobById_person($per['id_person'])->fetch();
-                                $description = $job['description'];
-                                ?>
+                                    <!-- display job -->
+                                    <?php
+                                    $job = $ctrlPerson->getJobById_person($per['id_person'])->fetch();
+                                    $description = $job['description'];?>
                                     <a href="./index.php?action=showDetailsPerson&id=<?= $per['id_person'] ?>&table=<?= $description ?> "> <?= $fullName = $per["firstName"] . " " . $per["lastName"] . "</a>" ?>
                                 </h5>
-                                <!-- display job -->
-                                <?php
-                                ?>
+                                <?php $description === "actor" ? $description = "Acteur" : $description = "Réalisateur"?>
                                 <!-- display infos -->
                                 <p class="card-text"><?= $description ?></p>
                                 <p class="card-text">Date de naissance: <?= $per['birthday'] ?></p>

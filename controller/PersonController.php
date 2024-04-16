@@ -80,9 +80,9 @@ class PersonController
         $job = $pdo->prepare("SELECT 
         COALESCE(d.id_director, a.id_actor) AS id_job,
         CASE 
-            WHEN d.id_director IS NOT NULL AND a.id_actor IS NOT NULL THEN 'Réalisateur, Acteur'
-            WHEN d.id_director IS NOT NULL THEN 'Réalisateur' 
-            WHEN a.id_actor IS NOT NULL THEN 'Acteur' 
+            WHEN d.id_director IS NOT NULL AND a.id_actor IS NOT NULL THEN 'director, actor'
+            WHEN d.id_director IS NOT NULL THEN 'director' 
+            WHEN a.id_actor IS NOT NULL THEN 'actor' 
             ELSE 'undefined' 
         END AS description
         FROM 
@@ -98,10 +98,8 @@ class PersonController
 
         return $job;
     }
-    public function showDetailsPerson(int $id_person): void
+    public function showDetailsPerson(int $id_person, string $table = "actor"): void
     {
-        $table = htmlspecialchars($_GET['table']);
-        $_GET['table'] == "Acteur" ? $table = "actor" : $table = "director";
         $pdo = Connect::getPDO();
         $person = $pdo->prepare("SELECT 
         DATE_FORMAT(p.birthday, '%d/%m/%Y') AS birthday,
