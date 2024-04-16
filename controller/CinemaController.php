@@ -63,7 +63,7 @@ class CinemaController
     {
         $html = "";
         $listLinks = [];
-        foreach($movies->fetchAll() as $movie) {
+        foreach ($movies->fetchAll() as $movie) {
             $id_movie = $movie["id_movie"];
             $listLinks[] = "<a href='./index.php?action=showDetailsMovie&id=$id_movie'>" . $movie["title"] . "</a>";
         }
@@ -113,6 +113,33 @@ class CinemaController
         $movies = $this->getListMovies();
         require "view/listMoviesAdmin.php";
     }
+    public function getMoviesByDirector($id_person)
+    {
+        $movies = null;
+        $pdo = Connect::getPDO();
+        $movies = $pdo->prepare("SELECT
+        DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie,
+        DATE_FORMAT(m.releaseDate, '%d/%m/%Y') AS releaseDate,
+        m.id_movie,
+        m.title,
+        m.synopsis,
+        m.image_url
+    FROM movie m
+    INNER JOIN
+        director d ON m.id_director = d.id_director
+    INNER JOIN
+        person p ON p.id_person = d.id_person
+    WHERE
+        p.id_person = :person_id
+
+    ORDER BY m.releaseDate ASC");
+
+        $movies->execute(["person_id" => $id_person]);
+
+        $movies = $this->makeStringFromFetchWithLink($movies);
+
+        return $movies;
+    }
     public function getMoviesAndRoleByActor($id_actor)
     {
         $movies = null;
@@ -139,9 +166,9 @@ class CinemaController
     ORDER BY
         m.releaseDate ASC");
 
-    $movies->execute(["actor_id" => $id_actor]);
+        $movies->execute(["actor_id" => $id_actor]);
 
-    $movies = $this->makeStringFromFetchWithLink($movies);
+        $movies = $this->makeStringFromFetchWithLink($movies);
 
         return $movies;
     }
