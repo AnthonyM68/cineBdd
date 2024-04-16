@@ -61,19 +61,12 @@ class CinemaController
     }
     private function makeStringFromFetchWithLink(PDOStatement $movies): string
     {
-
         $html = "";
-        $result = $movies->fetchAll();
-       
         $listLinks = [];
-        foreach($result as $movie) {
+        foreach($movies->fetchAll() as $movie) {
             $id_movie = $movie["id_movie"];
-            $listLinks[] = "<a href='./index.php?action=showDetailsMovie&id= $id_movie'>" . $movie["title"] . "</a>";
-            
+            $listLinks[] = "<a href='./index.php?action=showDetailsMovie&id=$id_movie'>" . $movie["title"] . "</a>";
         }
-        /*$nameTitle = array_column($listLinks, 'title');*/
-    
-
         if (count($listLinks) > 1) {
             $lastLink = array_pop($listLinks);
             $titleString = implode(', ', $listLinks) . ' et ' . $lastLink;

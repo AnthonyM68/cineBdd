@@ -31,14 +31,13 @@ $ctrlCinema = new CinemaController();
                             <div class="card-body">
                                 <!-- card title -->
                                 <h5 class="card-title">
-                                    <a href="./index.php?action=showDetailsPerson&id=<?= $per['id_person'] ?>">
-                                        <?= $fullName = $per["firstName"] . " " . $per["lastName"]; ?>
-                                    </a>
+                                <?php $job = $ctrlPerson->getJobById_person($per['id_person'])->fetch();
+                                $description = $job['description'];
+                                ?>
+                                    <a href="./index.php?action=showDetailsPerson&id=<?= $per['id_person'] ?>&table=<?= $description ?> "> <?= $fullName = $per["firstName"] . " " . $per["lastName"] . "</a>" ?>
                                 </h5>
                                 <!-- display job -->
                                 <?php
-                                $job = $ctrlPerson->getJobById_person($per['id_person'])->fetch();
-                                $description = $job['description'];
                                 ?>
                                 <!-- display infos -->
                                 <p class="card-text"><?= $description ?></p>
@@ -50,7 +49,11 @@ $ctrlCinema = new CinemaController();
                         <!-- display movies played  -->
                         <div class="row">
                             <div class="footer_profil border text-align-left">
-                                films joués: <?= $ctrlCinema->getMoviesAndRoleByActor($per['id_actor']); ?> 
+                                Films joués:
+                                <?php
+                                if (isset($per['id_actor'])) {
+                                    echo $ctrlCinema->getMoviesAndRoleByActor($per['id_actor']);
+                                }  ?>
                             </div>
                         </div>
                     </div>

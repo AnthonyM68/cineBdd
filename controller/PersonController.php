@@ -100,6 +100,8 @@ class PersonController
     }
     public function showDetailsPerson(int $id_person): void
     {
+        $table = htmlspecialchars($_GET['table']);
+        $_GET['table'] == "Acteur" ? $table = "actor" : $table = "director";
         $pdo = Connect::getPDO();
         $person = $pdo->prepare("SELECT 
         DATE_FORMAT(p.birthday, '%d/%m/%Y') AS birthday,
@@ -107,14 +109,12 @@ class PersonController
         p.lastName,
         p.firstName,
         p.sex,
-        p.image_url,
-        a.id_actor
+        p.image_url
         FROM person p
-        INNER JOIN actor a ON a.id_person = p.id_person
+        INNER JOIN $table t ON t.id_person = p.id_person
         WHERE p.id_person = :person_id");
-        $person->execute(["person_id" => $id_person]);
 
-        $this->getJobById_person($id_person);
+        $person->execute(["person_id" => $id_person]);
 
         require "view/person.php";
     }
@@ -131,7 +131,7 @@ class PersonController
         a.id_actor
         FROM actor a
         INNER JOIN person p ON a.id_person = p.id_person 
-        ORDER BY p.lastName ASC");
+        ORDER BY p.firstName ASC");
 
         require "view/person.php";
     }
@@ -147,7 +147,7 @@ class PersonController
         p.image_url
         FROM director d
         INNER JOIN person p ON d.id_person = p.id_person
-        ORDER BY p.lastName ASC");
+        ORDER BY p.firstName ASC");
 
         require "view/person.php";
     }
