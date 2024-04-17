@@ -9,10 +9,12 @@ function isMouseAtLeftEdge(event) {
 }
 function updateTime() {
 
-    fetch('./Controller/TimeController.php')
+    // On effectue une requête fetch 
+    fetch('./Controller/ToolsController.php')
+        // On convertit la réponse JSON qui contient notre objet php
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // On inject au DOM la date et l'heure
             document.getElementById('time').innerText = `${data.time} ${data.date}`;
         });
 }
@@ -38,10 +40,12 @@ function toggleSideNav() {
 
 }
 document.addEventListener("DOMContentLoaded", function () {
+    // On souhaite afficher l'heure et la date 
+    // pour une meilleurs expérience utilisateur
     // Update to load page
-    updateTime();
-    setInterval(updateTime, 1000);
-
+    //updateTime();
+    // On répéte la requête toutes les secondes
+    //setInterval(updateTime, 1000);
     document.addEventListener("mousemove", function (event) {
         const sidenav = document.getElementById("sideNav");
         if (isMouseAtLeftEdge(event)) {

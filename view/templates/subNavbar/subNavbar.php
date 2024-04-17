@@ -1,5 +1,5 @@
 <?php ob_start(); ?>
-    <nav class="navbar">
+    <nav class="navbar subnavbar">
         <ul class="d-flex justify-content-center">
             <li><a href="./index.php?action=actorAndDirector" class="pridi-regular">ACTEUR ET REALISATEUR</a></li>
             <li><a href="./index.php?action=moviesUnder5Years" class="pridi-regular">FILMS MOINS DE 5 ANS</a></li>

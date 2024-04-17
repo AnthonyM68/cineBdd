@@ -22,7 +22,7 @@
 
 <body id="body">
     <!-- header -->
-    <header id="header" class="d-flex justify-content-center"><?= $navbar ?></header>
+    <header id="header" class="header d-flex justify-content-center"><?= $navbar ?></header>
     <!-- article -->
     <article id="mainArticle">
         <!-- subnavbar -->

@@ -64,10 +64,7 @@ $ctrlCinema = new CinemaController();
     </div>
 </div>
 <?php
-
-$switch = $ctrlPerson->switchTitlePage();
-// If we present a person we display lastName and firstName as a page title
-$switch === "" ? $title = $fullName : $title = $switch;
+$title = "Liste des Acteurs";
 $second_title = $title;
 $content = ob_get_clean();
 require "view/templates/header/navbar.php";

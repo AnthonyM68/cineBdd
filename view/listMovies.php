@@ -1,6 +1,9 @@
 <?php ob_start(); 
+
 use Controller\CinemaController;
 $ctrlCinema = new CinemaController();
+
+
 ?>
 <div class="container">
     <div class="row">
@@ -34,10 +37,7 @@ $ctrlCinema = new CinemaController();
     </div>
 </div>
 <?php
-
-// On format un titre de page selon ce qu'il y a, à afficher
-$title = $ctrlCinema->switchTitlePage();
-$title = $title;
+$title = "Liste des films";
 $second_title = $title;
 $content = ob_get_clean();
 require "view/templates/header/navbar.php";

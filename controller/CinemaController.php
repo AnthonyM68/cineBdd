@@ -3,79 +3,24 @@
 namespace Controller;
 
 use Model\Connect;
-use Controller\PersonController;
-use PDOStatement;
 
-class CinemaController
+use Controller\PersonController;
+use Controller\ToolsController;
+
+class CinemaController extends ToolsController
 {
     /**
-     *  On utilise l'action pour formater un titre de page
+     * list genre
      *
-     * @return string
+     * @return void
      */
-    public function switchTitlePage(): string
+    public function listGenres(): void
     {
-        $title = null;
-        switch ($_GET['action']) {
-            case "moviesUnder5Years":
-                $title = "Films de plus de 5 ans";
-                break;
-            case "moviesMoreThan2H15":
-                $title = "Films de plus de 2H15";
-                break;
-            case "listMovieAdmin":
-                $title = "Gestion des films";
-                break;
-            case "insertMovie":
-                $title = "Ajouter un film";
-                break;
-            default:
-                $title = "";
-        };
-        return $title;
-    }
-    /**
-     * On crée un tableau de tous les genres à partir de PDOStatement
-     * S'il y a plus d'un éléments,on convertir le tableau en chaine de caractère
-     * de tous les genres avec un séparateur "," sauf le dernier
-     *
-     * @param [PDOStatement] $pdoStat genres
-     * @return string HTML
-     */
-    private function makeStringFromFetch(PDOStatement $casting): string
-    {
+        $pdo = Connect::getPDO();
+        $genres = $pdo->query("SELECT g.id_genre, g.nameGenre
+        FROM genre g");
 
-        $result = $casting->fetchAll();
-        $nameGenre = array_column($result, 'nameGenre');
-
-        if (count($nameGenre) > 1) {
-            $lastGenre = array_pop($nameGenre);
-            $genresString = implode(', ', $nameGenre) . ' et ' . $lastGenre;
-        } else {
-            $genresString = implode(', ', $nameGenre);
-        }
-
-        $html = '<small>' . $genresString . '</small>';
-
-        return $html;
-    }
-    private function makeStringFromFetchWithLink(PDOStatement $movies): string
-    {
-        $html = "";
-        $listLinks = [];
-        foreach ($movies->fetchAll() as $movie) {
-            $id_movie = $movie["id_movie"];
-            $listLinks[] = "<a href='./index.php?action=showDetailsMovie&id=$id_movie'>" . $movie["title"] . "</a>";
-        }
-        if (count($listLinks) > 1) {
-            $lastLink = array_pop($listLinks);
-            $titleString = implode(', ', $listLinks) . ' et ' . $lastLink;
-        } else {
-            $titleString = implode(', ', $listLinks);
-        }
-        $html = '<small>' . $titleString . '</small>';
-
-        return $html;
+        require "view/listGenres.php";
     }
     public function getListMovies()
     {
@@ -94,24 +39,6 @@ class CinemaController
         INNER JOIN movie m ON d.id_director = m.id_director
         INNER JOIN person p ON d.id_person = p.id_person");
         return $movies;
-    }
-    /**
-     * display all movies
-     */
-    public function listMovies(): void
-    {
-        $movies = $this->getListMovies();
-        require "view/listMovies.php";
-    }
-    /**
-     * displays movie management
-     *
-     * @return void
-     */
-    public function listMoviesAdmin()
-    {
-        $movies = $this->getListMovies();
-        require "view/listMoviesAdmin.php";
     }
     public function getMoviesByDirector($id_person)
     {
@@ -172,18 +99,43 @@ class CinemaController
 
         return $movies;
     }
-    /**
-     * list genre
-     *
-     * @return void
-     */
-    public function listGenres(): void
+    public function moviesUnder5Years()
     {
         $pdo = Connect::getPDO();
-        $genres = $pdo->query("SELECT g.id_genre, g.nameGenre
-        FROM genre g");
+        $movies = $pdo->query("SELECT 
+        DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie, 
+        DATE_FORMAT(m.releaseDate, '%d/%m/%Y') AS releaseDate,        
+        m.id_movie,
+        m.title, 
+        m.synopsis,
+        m.id_director,
+        m.image_url
+        FROM director d
+        INNER JOIN movie m ON d.id_director = m.id_director
+        INNER JOIN person p ON d.id_person = p.id_person
+        WHERE DATEDIFF(CURDATE(), m.releaseDate) < 365 * 5
+        ORDER BY m.releaseDate ASC;");
 
-        require "view/listGenres.php";
+        require "view/listMovies.php";
+    }
+    public function moviesMoreThan2H15()
+    {
+        $pdo = Connect::getPDO();
+        $movies = $pdo->query("SELECT
+        DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie,
+        DATE_FORMAT(m.releaseDate, '%d/%m/%Y') AS releaseDate,        
+        m.id_movie,
+        m.title, 
+        m.synopsis,
+        m.id_director,
+        m.image_url
+        FROM director d
+        INNER JOIN movie m ON d.id_director = m.id_director
+        INNER JOIN person p ON d.id_person = p.id_person
+        WHERE timeMovie > 135
+        ORDER BY title ASC");
+
+        require "view/listMovies.php";
     }
     /**
      * details of a movie
@@ -226,7 +178,7 @@ class CinemaController
 
         $ctrlPerson = new PersonController();
         // Convert array person to string with separator
-        $casting = $ctrlPerson->makeStringFromFetch($casting);
+        $casting = $this->makeStringFromFetch($casting);
 
         $genres = $pdo->prepare("SELECT gm.id_genre,
         nameGenre
@@ -247,43 +199,23 @@ class CinemaController
 
         require "view/detailsMovie.php";
     }
-    public function moviesUnder5Years()
+    /**
+     * display all movies
+     */
+    public function listMovies(): void
     {
-        $pdo = Connect::getPDO();
-        $movies = $pdo->query("SELECT 
-        DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie, 
-        DATE_FORMAT(m.releaseDate, '%d/%m/%Y') AS releaseDate,        
-        m.id_movie,
-        m.title, 
-        m.synopsis,
-        m.id_director,
-        m.image_url
-        FROM director d
-        INNER JOIN movie m ON d.id_director = m.id_director
-        INNER JOIN person p ON d.id_person = p.id_person
-        WHERE DATEDIFF(CURDATE(), m.releaseDate) < 365 * 5
-        ORDER BY m.releaseDate ASC;");
-
+        $movies = $this->getListMovies();
         require "view/listMovies.php";
     }
-    public function moviesMoreThan2H15()
+    /**
+     * displays movie management
+     *
+     * @return void
+     */
+    public function listMoviesAdmin()
     {
-        $pdo = Connect::getPDO();
-        $movies = $pdo->query("SELECT
-        DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie,
-        DATE_FORMAT(m.releaseDate, '%d/%m/%Y') AS releaseDate,        
-        m.id_movie,
-        m.title, 
-        m.synopsis,
-        m.id_director,
-        m.image_url
-        FROM director d
-        INNER JOIN movie m ON d.id_director = m.id_director
-        INNER JOIN person p ON d.id_person = p.id_person
-        WHERE timeMovie > 135
-        ORDER BY title ASC");
-
-        require "view/listMovies.php";
+        $movies = $this->getListMovies();
+        require "view/listMoviesAdmin.php";
     }
     /**
      * add movie in database
@@ -295,12 +227,21 @@ class CinemaController
         require "view/insertMovie.php";
     }
     /**
-     * Search Engine
+     * Search Engine (not development)
      *
      * @return void
      */
     public function searchEngine()
     {
         require "view/searchEngine.php";
+    }
+    /**
+     * 404
+     *
+     * @return void
+     */
+    public function notFound()
+    {
+        require "view/notFound.php";
     }
 }

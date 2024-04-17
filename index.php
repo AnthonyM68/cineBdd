@@ -4,10 +4,9 @@ use Controller\CinemaController;
 use Controller\HomeController;
 use Controller\CastingController;
 use Controller\PersonController;
-use Controller\NotFoundController;
-
 
 spl_autoload_register(function ($class_name) {
+    var_dump($class_name);
     include $class_name . '.php';
 });
 
@@ -15,8 +14,6 @@ $ctrlCinema = new CinemaController();
 $ctrlHome = new HomeController();
 $ctrlCasting = new CastingController();
 $ctrlPerson = new PersonController();
-$ctrlNotfound = new NotFoundController();
-
 
 if (isset($_GET["action"])) {
 
@@ -27,8 +24,6 @@ if (isset($_GET["action"])) {
     if(isset($_GET['table'])) {
         $table = htmlspecialchars($_GET['table']);
     }
-    
-
     if ($id === false) {
         // 'id' n'est pas présent ou n'est pas un entier valide.
         $ctrlNotfound->index();
@@ -74,8 +69,7 @@ if (isset($_GET["action"])) {
             $ctrlCinema->listMoviesAdmin();
             break;
         default:
-
-            $ctrlNotfound->index();
+            $ctrlCinema->notFound();
     }
 } else {
     $ctrlHome->index();

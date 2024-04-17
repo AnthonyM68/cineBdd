@@ -4,7 +4,7 @@
         <li><i class="fa fa-sign-in fa-2x" aria-hidden="true"></i></li>
         <li><i class="fa fa-user fa-2x" aria-hidden="true"></i></li>
         <li><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i></li>
-        <li id="time" class="pridi-regular">Time:</li>
+        <!--<li id="time" class="pridi-regular">Time:Date</li>-->
     </ul>
 </nav>
 <?php
