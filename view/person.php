@@ -1,12 +1,12 @@
 <?php ob_start();
-
-$fullName = null;
-
 use Controller\PersonController;
 use Controller\CinemaController;
 
 $ctrlPerson = new PersonController();
 $ctrlCinema = new CinemaController();
+
+$fullName = null;
+
 ?>
 <div class="container">
     <div class="row">
@@ -32,13 +32,12 @@ $ctrlCinema = new CinemaController();
                                 <h5 class="card-title">
                                     <!-- display job -->
                                     <?php
-                                    $job = $ctrlPerson->getJobById_person($per['id_person'])->fetch();
-                                    $description = $job['description'];?>
-                                    <a href="./index.php?action=showDetailsPerson&id=<?= $per['id_person'] ?>&table=<?= $description ?> "> <?= $fullName = $per["firstName"] . " " . $per["lastName"] . "</a>" ?>
+                                    //$job = $ctrlPerson->getJobById_person($per['id_person'])->fetch();
+                                    $fullName = $per["fullname"];?><a href="./index.php?action=showDetailsPerson&id=<?= $per['id_person'] ?>">
+                                    <?= $fullName?></a>
                                 </h5>
-                                <?php $description === "actor" ? $description = "Acteur" : $description = "Réalisateur"?>
                                 <!-- display infos -->
-                                <p class="card-text"><?= $description ?></p>
+                                <p class="card-text"></p>
                                 <p class="card-text">Date de naissance: <?= $per['birthday'] ?></p>
                                 <?php $sexe = $per["sex"] === "F" ? "Femme" : "Homme"; ?>
                                 <p class="card-text"><?= $sexe ?></p>

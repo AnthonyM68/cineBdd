@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     const container = document.querySelector(".container");
+    //const sidenav = document.getElementById("sideNav");
     document.addEventListener("scroll", function () {
         const scrollPosition = container.scrollTop;
 

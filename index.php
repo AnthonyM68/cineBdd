@@ -2,17 +2,14 @@
 
 use Controller\CinemaController;
 use Controller\HomeController;
-use Controller\CastingController;
 use Controller\PersonController;
 
 spl_autoload_register(function ($class_name) {
-    var_dump($class_name);
     include $class_name . '.php';
 });
 
 $ctrlCinema = new CinemaController();
 $ctrlHome = new HomeController();
-$ctrlCasting = new CastingController();
 $ctrlPerson = new PersonController();
 
 if (isset($_GET["action"])) {
@@ -48,7 +45,7 @@ if (isset($_GET["action"])) {
             $ctrlPerson->listDirectors();
             break;
         case "showDetailsPerson":
-            $ctrlPerson->showDetailsPerson($id, $table);
+            $ctrlPerson->showDetailsPerson($id);
             break;
         case "actorsOver50Years":
             $ctrlPerson->actorsOver50Years();

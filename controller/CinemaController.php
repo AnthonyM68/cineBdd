@@ -19,7 +19,6 @@ class CinemaController extends ToolsController
         $pdo = Connect::getPDO();
         $genres = $pdo->query("SELECT g.id_genre, g.nameGenre
         FROM genre g");
-
         require "view/listGenres.php";
     }
     public function getListMovies()
