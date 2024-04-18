@@ -213,7 +213,7 @@ tfoot,
 th,
 thead,
 tr {
-  color: var(--highlight-color);
+  color: var(--color);
 }
 .card-body .text-muted {
   color: var(--highlight-color) !important;

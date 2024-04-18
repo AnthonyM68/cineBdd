@@ -63,7 +63,7 @@ $fullName = null;
     </div>
 </div>
 <?php
-$title = "Liste des Acteurs";
+$title = "Liste des Acteurs (" . $person->rowCount() .")";
 $second_title = $title;
 $content = ob_get_clean();
 require "view/templates/header/navbar.php";

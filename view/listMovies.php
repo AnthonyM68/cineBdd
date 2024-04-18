@@ -33,7 +33,7 @@
     </div>
 </div>
 <?php
-$title = "Liste des films";
+$title = "Liste des films (" . $movies->rowCount() .")";
 $second_title = $title;
 $content = ob_get_clean();
 require "view/templates/header/navbar.php";

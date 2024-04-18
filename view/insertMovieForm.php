@@ -4,27 +4,8 @@
     <div class="row">
 
         <form action="./index.php?action=addMovie" method="post">
-
-            <div class="row mb-4 ">
-                <div class="col">
-                    <div class="input-group">
-
-                        <label class="visually-hidden" for="newPerson">Personne</label>
-                        <select id="newPerson" data-mdb-select-init class="select form-outline">
-                            <?php foreach ($person->fetchAll() as $person) { ?>
-                                <option value="<?= $person['id_person'] ?>"><?= $person['fullname'] ?></option>
-                            <?php } ?>
-                        </select>
-                        <button id="addPerson" class="btn btn-outline-primary" type="button">+ Ajouter une nouvelle personne</button>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-4 containerPerson">
-
+            <div class="mb-4">
                 <h3 class="pridi-light">Réalisateur:</h3>
-
                 <div class="row person">
                     <div class="col">
                         <div class=" mb-4">

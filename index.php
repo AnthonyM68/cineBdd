@@ -26,26 +26,31 @@ if (isset($_GET["action"])) {
         $ctrlNotfound->index();
     }
     switch ($action) {
+        case "listGenres":
+            $ctrlCinema->listGenres();
+            break;
+
         case "listMovies":
             $ctrlCinema->listMovies();
             break;
         case "listMoviesAdmin":
             $ctrlCinema->listMoviesAdmin();
             break;
-        case "insertCastingForm":
-            $ctrlCinema->insertCastingForm($id);
-            break;
-        case "listGenres":
-            $ctrlCinema->listGenres();
-            break;
+
         case "insertMovieForm":
             $ctrlCinema->insertMovieForm();
             break;
         case "addMovie":
             $ctrlCinema->addMovie();
             break;
+        case "insertCastingForm":
+            $ctrlCinema->insertCastingForm($id);
+            break;
         case "showDetailsMovie":
             $ctrlCinema->showDetailsMovie($id);
+            break;
+        case "modifyMovie":
+            $ctrlCinema->modifyMovie($id);
             break;
         case "moviesUnder5Years":
             $ctrlCinema->moviesUnder5Years();
