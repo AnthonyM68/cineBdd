@@ -1,9 +1,5 @@
 <?php ob_start(); 
 
-use Controller\CinemaController;
-$ctrlCinema = new CinemaController();
-
-
 ?>
 <div class="container">
     <div class="row">

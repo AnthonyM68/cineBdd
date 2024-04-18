@@ -17,8 +17,8 @@ if (isset($_GET["action"])) {
     // On filtre les input 
     $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
     $action = htmlspecialchars($_GET['action']);
-    $table = null; 
-    if(isset($_GET['table'])) {
+    $table = null;
+    if (isset($_GET['table'])) {
         $table = htmlspecialchars($_GET['table']);
     }
     if ($id === false) {
@@ -28,6 +28,21 @@ if (isset($_GET["action"])) {
     switch ($action) {
         case "listMovies":
             $ctrlCinema->listMovies();
+            break;
+        case "listMoviesAdmin":
+            $ctrlCinema->listMoviesAdmin();
+            break;
+        case "insertCastingForm":
+            $ctrlCinema->insertCastingForm($id);
+            break;
+        case "listGenres":
+            $ctrlCinema->listGenres();
+            break;
+        case "insertMovieForm":
+            $ctrlCinema->insertMovieForm();
+            break;
+        case "addMovie":
+            $ctrlCinema->addMovie();
             break;
         case "showDetailsMovie":
             $ctrlCinema->showDetailsMovie($id);
@@ -53,18 +68,10 @@ if (isset($_GET["action"])) {
         case "actorAndDirector":
             $ctrlPerson->actorAndDirector();
             break;
-        case "listGenres":
-            $ctrlCinema->listGenres();
-            break;
-        case "insertMovie":
-            $ctrlCinema->insertMovie();
-            break;
         case "searchEngine":
             $ctrlCinema->searchEngine();
             break;
-        case "listMovieAdmin":
-            $ctrlCinema->listMoviesAdmin();
-            break;
+
         default:
             $ctrlCinema->notFound();
     }

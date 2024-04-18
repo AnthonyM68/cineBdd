@@ -16,7 +16,8 @@ header,
 footer,
 article,
 nav,
-div {
+#siteAds,
+#subNavbar {
   padding: 1.2em;
   background: #1d202f;
   color: #fff;
@@ -28,7 +29,6 @@ div {
   grid-area: footer;
   height: auto;
 }
-
 #mainArticle {
   grid-area: article;
 }

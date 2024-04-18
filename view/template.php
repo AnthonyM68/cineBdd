@@ -13,6 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pridi:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./public/css/font-pridi.css">
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" />
     <!-- Grid -->
     <link rel="stylesheet" href="./public/css/grid.css">
     <!-- My css -->
@@ -35,7 +37,7 @@
         <?= $content ?>
     </article>
     <!-- sidenav lateral -->
-    <nav id="sideNav" class="hidden-sideNav"><?= $sideNav ?></nav>
+    <nav id="sideNav" class=""><?= $sideNav ?></nav>
     <!-- navAdmin -->
     <div id="siteAds"> <?= $navAdmin ?></div>
     <footer id="pageFooter"><?= $footer ?></footer>
@@ -43,6 +45,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
     <!-- My script -->
     <script src="./public/js/script.js"></script>
 </body>

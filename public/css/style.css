@@ -4,14 +4,15 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}:root {
+}
+:root {
   --border-color: rgba(29, 32, 47, 1);
   --background-color: rgba(29, 32, 47, 1);
   --highlight-color: rgba(248, 248, 121, 0.6);
   --color: #fff;
 }
 a {
-  color:var(--highlight-color);
+  color: var(--highlight-color);
 }
 /******* Title article */
 .title-site {
@@ -50,7 +51,7 @@ a {
 }
 #subNavbar {
   display: flex;
-  
+
   justify-content: end;
 }
 .subnavbar {
@@ -59,14 +60,14 @@ a {
 
 /*************** navAdmin***********************/
 #navAdmin ul {
-  padding:0;
-  margin:0;
+  padding: 0;
+  margin: 0;
   list-style-type: none;
 }
 #navAdmin ul li {
-  padding-left:15px;
-  display:inline;
-  font-size:10px;
+  padding-left: 15px;
+  display: inline;
+  font-size: 10px;
 }
 /**************** sideNav ***********************/
 #sideNav ul {
@@ -87,15 +88,15 @@ a {
   color: #fff;
 }
 .hidden-sideNav {
-  position:absolute;
+  position: absolute;
   left: -80%;
-  top:90px;
+  top: 90px;
   transition: all 0.5s;
-  background-color:transparent;
+  background-color: transparent;
 }
 .show-sideNav {
   position: fixed;
-  top:90px;
+  top: 90px;
   left: 0;
   transition: all 0.5s;
 }
@@ -114,8 +115,8 @@ a {
   height: 300px;
   object-fit: cover;
   object-position: 0 -100px;
-  border:1px solid #fff;
-  border-radius:10px;
+  border: 1px solid #fff;
+  border-radius: 10px;
 }
 .card-body {
   height: 100%;
@@ -161,12 +162,12 @@ a {
 }
 .navigation {
   list-style-type: none;
-  padding:0;
-  margin:0;
+  padding: 0;
+  margin: 0;
 }
-.navigation li a{
+.navigation li a {
   text-decoration: none;
-  font-size:1.3rem;
+  font-size: 1.3rem;
 }
 /**************** Galery social */
 .social {
@@ -176,9 +177,8 @@ a {
   height: 100%;
   width: 100%;
 }
-.galery-social { 
+.galery-social {
   width: 100%;
-
 }
 .galery-social > figure {
   width: 50%;
@@ -207,9 +207,54 @@ a {
 .btn {
   width: 20%;
 }
-tbody, td, tfoot, th, thead, tr {
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  color: var(--highlight-color);
+}
+.card-body .text-muted {
+  color: var(--highlight-color) !important;
+}
+
+/**************** FORM ADD MOVIE MDBootstrap */
+.input-group button {
+  border: 0.125rem solid var(--highlight-color);
+  color: var(--highlight-color) !important;
+}
+.input-group button:hover  {
+  border: 0.125rem solid var(--highlight-color);
+  color: var(--highlight-color) !important;
+  background-color: transparent !important;
+}
+
+.form-outline .form-control:focus ~ .form-notch .form-notch-leading .btn .btn-outline-primary {
+  border-top: 0.125rem solid var(--highlight-color);
+  border-bottom: 0.125rem solid var(--highlight-color);
+  border-left: 0.125rem solid var(--highlight-color);
+}
+.form-outline .form-control:focus ~ .form-label {
+  color: var(--highlight-color) !important;
+}
+.form-outline .form-control:focus ~ .form-notch .form-notch-trailing .btn .btn-outline-primary {
+  border-top: 0.125rem solid var(--highlight-color);
+  border-right: 0.125rem solid var(--highlight-color);
+  border-bottom: 0.125rem solid var(--highlight-color);
+}
+.form-outline .form-control:focus ~ .form-notch .form-notch-middle .btn .btn-outline-primary {
+  border-top: 0;
+  border-bottom: 0.125rem solid var(--highlight-color);
+}
+.input-group-text {
   color:#fff;
 }
-.card-body .text-muted{
-  color:#fff !important;
+
+
+.hidden-form {
+  display:none
+}
+.show-form {
+  display:block;
 }

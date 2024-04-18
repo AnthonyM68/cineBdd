@@ -20,6 +20,7 @@ $ctrlCinema = new CinemaController();
                             </div>
                             <!-- card content -->
                             <div class="col-md-8">
+
                                 <div class="card-body h-100">
                                     <p class="card-title">
                                         <!-- title and timeMovie -->
@@ -32,10 +33,10 @@ $ctrlCinema = new CinemaController();
                                     <p class="card-text"><?= $movie["synopsis"] ?></p>
                                      <!-- card footer -->
                                     <div class="card-footer h-100">
-                                        <div class="row d-flex justify-content-between align-items-center h-100">
-                                            <button class="btn btn-success">Modifier</button>
-                                            <button class="btn btn-danger">Supprimer</button>
-                                            <button class="btn btn-warning">+ Casting</button>
+                                        <div class="row d-flex justify-content-between align-items-center">
+                                            <a class="btn btn-success"><i class="fa fa-edit fa-2x" aria-hidden="true"></i> Modifier</a>
+                                            <a class="btn btn-danger"><i class="fa fa-minus-circle fa-2x" aria-hidden="true"></i> Supprimer</a>
+                                            <a href="./index.php?action=insertCastingForm&id=<?= $movie['id_movie']?>" class="btn btn-warning"><i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i> Casting</a>
                                         </div>
                                     </div>
                                 </div>
@@ -49,9 +50,7 @@ $ctrlCinema = new CinemaController();
 </div>
 <?php
 
-// We format a page title according to what is there to display
-$title = $ctrlCinema->switchTitlePage();
-$title = $title;
+$title = "Liste des films";
 $second_title = $title;
 $content = ob_get_clean();
 require "view/templates/header/navbar.php";

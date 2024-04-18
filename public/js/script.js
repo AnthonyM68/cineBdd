@@ -7,17 +7,7 @@ function isMouseAtLeftEdge(event) {
 
     return mouseX <= triggerDistance;
 }
-function updateTime() {
 
-    // On effectue une requête fetch 
-    fetch('./Controller/ToolsController.php')
-        // On convertit la réponse JSON qui contient notre objet php
-        .then(response => response.json())
-        .then(data => {
-            // On inject au DOM la date et l'heure
-            document.getElementById('time').innerText = `${data.time} ${data.date}`;
-        });
-}
 function toggleSideNav() {
     // If an instance of setTimout is already in progress
     if (timeoutID !== null) {
@@ -39,14 +29,11 @@ function toggleSideNav() {
     }
 
 }
+
+
 document.addEventListener("DOMContentLoaded", function () {
-    // On souhaite afficher l'heure et la date 
-    // pour une meilleurs expérience utilisateur
-    // Update to load page
-    //updateTime();
-    // On répéte la requête toutes les secondes
-    //setInterval(updateTime, 1000);
-    document.addEventListener("mousemove", function (event) {
+
+   /* document.addEventListener("mousemove", function (event) {
         const sidenav = document.getElementById("sideNav");
         if (isMouseAtLeftEdge(event)) {
             if (sidenav) sidenav.classList.add("show-sideNav");
@@ -59,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     const container = document.querySelector(".container");
-    //const sidenav = document.getElementById("sideNav");
+    const sidenav = document.getElementById("sideNav");*/
     document.addEventListener("scroll", function () {
         const scrollPosition = container.scrollTop;
 
