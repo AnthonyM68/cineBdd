@@ -2,34 +2,23 @@
 namespace Controller;
 
 use PDOStatement;
+use DateTime;
 
 abstract class ToolsController
 {    
-    /**
-     * On crée un tableau de tous les genres à partir de PDOStatement
-     * S'il y a plus d'un éléments,on convertir le tableau en chaine de caractère
-     * de tous les genres avec un séparateur "," sauf le dernier
-     *
-     * @param [PDOStatement] $pdoStat genres
-     * @return string HTML
-     */
-    /*private function makeStringFromFetch(PDOStatement $casting): string
-    {
-
-        $result = $casting->fetchAll();
-        $nameGenre = array_column($result, 'nameGenre');
-
-        if (count($nameGenre) > 1) {
-            $lastGenre = array_pop($nameGenre);
-            $genresString = implode(', ', $nameGenre) . ' et ' . $lastGenre;
-        } else {
-            $genresString = implode(', ', $nameGenre);
+    protected function convertToMinutes($timeString) {
+        $parts = explode('H', $timeString);
+        $hours = intval($parts[0]);
+        $minutes = 0;
+    
+        if (isset($parts[1])) {
+            $minutesPart = explode('m', $parts[1]);
+            $minutes = intval($minutesPart[0]);
         }
-
-        $html = '<small>' . $genresString . '</small>';
-
-        return $html;
-    }*/
+    
+        $totalMinutes = $hours * 60 + $minutes;
+        return $totalMinutes;
+    }
     protected function makeStringFromFetchWithLink(PDOStatement $movies): string
     {
         $html = "";

@@ -36,21 +36,17 @@ if (isset($_GET["action"])) {
         case "listMoviesAdmin":
             $ctrlCinema->listMoviesAdmin();
             break;
-
         case "insertMovieForm":
-            $ctrlCinema->insertMovieForm();
+            $ctrlCinema->insertMovieForm($id);
             break;
         case "addMovie":
-            $ctrlCinema->addMovie();
+            $ctrlCinema->addMovie($id);
             break;
         case "insertCastingForm":
             $ctrlCinema->insertCastingForm($id);
             break;
         case "showDetailsMovie":
             $ctrlCinema->showDetailsMovie($id);
-            break;
-        case "modifyMovie":
-            $ctrlCinema->modifyMovie($id);
             break;
         case "moviesUnder5Years":
             $ctrlCinema->moviesUnder5Years();

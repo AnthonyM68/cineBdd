@@ -34,7 +34,7 @@ $ctrlCinema = new CinemaController();
                                      <!-- card footer -->
                                     <div class="card-footer h-100">
                                         <div class="row d-flex justify-content-between align-items-center">
-                                            <a class="btn btn-success"><i class="fa fa-edit fa-2x" aria-hidden="true"></i> Modifier</a>
+                                            <a href="./index.php?action=insertMovieForm&id=<?= $movie['id_movie']?>" class="btn btn-success"><i class="fa fa-edit fa-2x" aria-hidden="true"></i> Modifier</a>
                                             <a class="btn btn-danger"><i class="fa fa-minus-circle fa-2x" aria-hidden="true"></i> Supprimer</a>
                                             <a href="./index.php?action=insertCastingForm&id=<?= $movie['id_movie']?>" class="btn btn-warning"><i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i> Casting</a>
                                         </div>
