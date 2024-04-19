@@ -2,9 +2,6 @@
 
 isset($details)  ? $movie = $details->fetch() : $movie = null;
 isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
-
-var_dump($movie);
-
 ?>
 <div class="container">
     <div class="row">
