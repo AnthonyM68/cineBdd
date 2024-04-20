@@ -23,18 +23,25 @@
 </head>
 
 <body id="body">
-    <!-- header -->
+    <!-- header first navigation-->
     <header id="header" class="header d-flex justify-content-center"><?= $navbar ?></header>
     <!-- article -->
     <article id="mainArticle">
-        <!-- subnavbar -->
+        <!-- second navigation / subnavbar -->
         <div id="subNavbar"><?= $subNavbar ?></div>
         <!-- title-site -->
         <h1 class="title-site pridi-semibold">CinéBdd</h1>
         <!-- title article -->
         <h2 class="title-article pridi-semibold"><?= $second_title ?></h2>
-        <!-- content request -->
-        <?= $content ?>
+
+        <div class="container">
+            
+            <div class="row">
+                <!-- content request -->
+                <?= $content ?>
+            </div>
+        </div>
+
     </article>
     <!-- sidenav lateral -->
     <nav id="sideNav" class=""><?= $sideNav ?></nav>

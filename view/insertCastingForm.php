@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <form action="./index.php?action=insertCastingForm&id=<?= $id ?>" method="post">
-            <div class="row">
+            <div class="row mb-4">
 
                 <div class="col">
                     <select name="id_actor" class="form-select">

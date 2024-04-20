@@ -158,10 +158,8 @@ class CinemaController extends ToolsController
         LEFT JOIN person p ON a.id_person = p.id_person
         WHERE m.id_movie = :movie_id");
         $casting->execute(["movie_id" => $movie_id]);
-
-        $ctrlPerson = new PersonController();
         // Convert array person to string with separator
-        $casting = $this->makeStringFromFetch($casting);
+        $casting = $this->convertToString($casting, "person");
 
         $genres = $pdo->prepare("SELECT gm.id_genre,
         nameGenre
@@ -169,9 +167,8 @@ class CinemaController extends ToolsController
         INNER JOIN genre g ON gm.id_genre = g.id_genre
         WHERE	gm.id_movie = :movie_id");
         $genres->execute(["movie_id" => $movie_id]);
-
         // Convert array genres to string with separator
-        $genres = $this->makeStringFromFetch($genres);
+        $genres = $this->convertToString($genres, "genres");
 
         $director = $pdo->prepare("SELECT p.firstName, lastName
         FROM person p
@@ -288,7 +285,6 @@ class CinemaController extends ToolsController
     public function addMovie($id)
     {
         $pdo = Connect::getPDO();
-        var_dump($_POST);
         // si nous modifions un film existant nous avons alors un $_GET['id']
         if (isset($_GET["id"])) {
             // nous mettons a jour le film et son réalisateur
@@ -347,6 +343,7 @@ class CinemaController extends ToolsController
             foreach ($id_genreChecked as $genre_id) {
                 $genres->execute(["genre_id" => $genre_id, "movie_id" => $id]);
             }
+            // on filtre les INPUT
             $firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_SPECIAL_CHARS);
             $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_SPECIAL_CHARS);
             $birthday = filter_input(INPUT_POST, 'birthday', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -400,36 +397,43 @@ class CinemaController extends ToolsController
                 // on vérifie si la clé director existe
                 $directorChecked = isset($_POST['director']);
                 $id_director = null;
-                // si ça valeur est vide dans ce cas nous créons un nouveau director
-                if ($directorChecked === "") {
-                    $person = $pdo->prepare(
-                        "INSERT INTO 
-                director (id_person) 
-                VALUES (:id_person)"
-                    );
-                    $person->execute(["id_person" => $personId]);
+                // si la checkbox est cochée
+                if ($directorChecked) {
+                    // si ça valeur est vide dans ce cas nous créons un nouveau director
+                    if ($_POST['director'] === "") {
+                        $person = $pdo->prepare(
+                            "INSERT INTO 
+                            director (id_person) 
+                            VALUES (:id_person)"
+                        );
+                        $person->execute(["id_person" => $personId]);
 
-                    $id_director = $pdo->lastInsertId();
-                } else if ($directorChecked) {
-                    // update director
+                        $id_director = $pdo->lastInsertId();
+                    } else if ($directorChecked) {
+                        // update director
+                    }
                 }
-
                 $actorChecked = isset($_POST['actor']);
+                // si la checkbox est cochée
+                if ($actorChecked) {
+                    // si ça valeur est vide dans ce cas nous créons un nouveau actor
+                    if ($_POST['actor'] === "") {
+                        $person = $pdo->prepare(
+                            "INSERT INTO 
+                            actor (id_person) 
+                            VALUES (:id_person)"
+                        );
+                        $person->execute(["id_person" => $personId]);
 
-                if ($actorChecked === "") {
-                    $person = $pdo->prepare(
-                        "INSERT INTO 
-                actor (id_person) 
-                VALUES (:id_person)"
-                    );
-                    $person->execute(["id_person" => $personId]);
-                } else if ($actorChecked) {
-                    // update director
+                        $id_director = $pdo->lastInsertId();
+                    } else if ($directorChecked) {
+                        // update actor
+                    }
                 }
             }
+            var_dump($_POST);
             // si title existe et qu'il est renseigné, nous vérifions les infos saisie
             if (isset($_POST["title"]) && !empty($_POST["title"])) {
-
                 // filtrage des input
                 $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
                 $releaseDate = filter_input(INPUT_POST, 'releaseDate', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -447,42 +451,44 @@ class CinemaController extends ToolsController
                 VALUE(:title, :releaseDate, :timeMovie, :synopsis, :id_director, :image_url)
                 ");
 
-                $movie->execute([
-                    "title" => $title,
-                    "releaseDate" => $releaseDate,
-                    "timeMovie" => $timeMovie,
-                    "synopsis" => $synopsis,
-                    "id_director" => $id_director,
-                    "image_url" => $image_url_movie
-                ]);
+                // ajouter verification if(!$id_director) notifier a l'utilisateur avec feedback 
+                // le checkbox Réalisateur obligatoire pour insérer un nouveau film
+                if ($id_director) {
+                    $movie->execute([
+                        "title" => $title,
+                        "releaseDate" => $releaseDate,
+                        "timeMovie" => $timeMovie,
+                        "synopsis" => $synopsis,
+                        "id_director" => $id_director,
+                        "image_url" => $image_url_movie
+                    ]);
+                    $id_movie = $pdo->lastInsertId();
 
-                $id_movie = $pdo->lastInsertId();
-                // on traite tous les genres sélectionnés
-                if (isset($_POST['genres'])) {
-                    // Traitement des genres du film
-                    $id_genreChecked = [];
-                    foreach ($_POST['genres'] as $key => $id_genre) {
-                        // On valider chaque id_genre 
-                        $id_genre = filter_var($id_genre, FILTER_VALIDATE_INT);
-                        if ($id_genre) {
-                            $id_genreChecked[] = $id_genre;
+                    // on traite tous les genres sélectionnés
+                    if (isset($_POST['genres'])) {
+                        // Traitement des genres du film
+                        $id_genreChecked = [];
+                        foreach ($_POST['genres'] as $key => $id_genre) {
+                            // On valider chaque id_genre 
+                            $id_genre = filter_var($id_genre, FILTER_VALIDATE_INT);
+                            if ($id_genre) {
+                                $id_genreChecked[] = $id_genre;
+                            }
                         }
-                    }
-                    $genres = $pdo->prepare("INSERT INTO genre_movie (id_genre, id_movie) VALUES (:genre_id, :movie_id)");
-                    // On insère les nouveaux genres a partir de id_genreChecked[]
-                    foreach ($id_genreChecked as $genre_id) {
-                        $genres->execute(["genre_id" => $genre_id, "movie_id" => $id_movie]);
+                        $genres = $pdo->prepare("INSERT INTO genre_movie (id_genre, id_movie) VALUES (:genre_id, :movie_id)");
+                        // On insère les nouveaux genres a partir de id_genreChecked[]
+                        foreach ($id_genreChecked as $genre_id) {
+                            $genres->execute(["genre_id" => $genre_id, "movie_id" => $id_movie]);
+                        }
                     }
                 }
             }
         }
-
         // nous affichons un formulaire nouveau
         // avec pour seule recherche tous les genres disponibles
         $genres = $pdo->query("SELECT 
         nameGenre, id_genre
         FROM genre");
-
         require "view/insertMovieForm.php";
     }
     public function insertCastingForm($id)
@@ -505,7 +511,6 @@ class CinemaController extends ToolsController
                 "id_actor" => $id_actor,
                 "id_role" => $id_role
             ]);
-            header("Location: ./index.php?insertCastingForm.php");
         }
 
         $actors = $pdo->query("SELECT 

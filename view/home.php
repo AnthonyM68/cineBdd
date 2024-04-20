@@ -9,14 +9,19 @@
                     <div class="card">
                         <!-- card image -->
                         <div class="card-image">
-                           <!-- img movie --> 
+                            <!-- img movie -->
                             <img src='<?= $movie["image_url"] ?>' class="img_card" alt="">
                         </div>
                         <!-- card content -->
-                        <div class="card-body">
+                        <div class="card-body border">
                             <p class="card-title">
                                 <!-- title and timeMovie -->
-                                <span class="left-span"><?= $movie["title"] ?></span>
+                                <span class="left-span">
+                                    <!-- link show details movie -->
+                                    <a href="./index.php?action=showDetailsMovie&id=<?= $movie["id_movie"] ?>">
+                                        <?= $movie["title"] ?>
+                                    </a>
+                                </span>
                                 <span class="right-span"><?= $movie["timeMovie"] ?></span>
                             </p>
                             <p class="card-text"><?= $movie["synopsis"] ?></p>
