@@ -1,70 +1,59 @@
 let sideNavVisible = false;
 let timeoutID = null;
 
-function isMouseAtLeftEdge(event) {
-    const mouseX = event.clientX;
-    const triggerDistance = 100;
-
-    return mouseX <= triggerDistance;
-}
-
-function toggleSideNav() {
-    // If an instance of setTimout is already in progress
-    if (timeoutID !== null) {
-        // we cancel it
-        clearTimeout(timeoutID);
-    }
+function toggleSideNav(show) {
     const sidenav = document.getElementById("sideNav");
-    if (sideNavVisible) {
-        sidenav.classList.add("hidden-sideNav");
-        sideNavVisible = false;
-    } else {
+
+    if (show) {
         sidenav.classList.remove("hidden-sideNav");
+        sidenav.classList.add("show-sideNav");
         sideNavVisible = true;
-        // New instance of setTimout
-        timeoutID = setTimeout(() => {
-            toggleSideNav();
-            timeoutID = null;
-        }, 3000);
     }
-
-}
-
-
-document.addEventListener("DOMContentLoaded", function () {
-
-   /* document.addEventListener("mousemove", function (event) {
-        const sidenav = document.getElementById("sideNav");
-        if (isMouseAtLeftEdge(event)) {
-            if (sidenav) sidenav.classList.add("show-sideNav");
-        }
-        else {
-            if (sidenav) {
-                sidenav.classList.remove("show-sideNav");
-                sidenav.classList.add("hidden-sideNav");
-            }
-        }
-    });
-    const container = document.querySelector(".container");
-    const sidenav = document.getElementById("sideNav");*/
-    document.addEventListener("scroll", function () {
-        const scrollPosition = container.scrollTop;
-
-        if (scrollPosition) {
-            if (sidenav) sidenav.classList.add("show-sideNav");
+    clearTimeout(timeoutID);
+    timeoutID = setTimeout(() => {
+        if (sidenav) {
+            sidenav.classList.remove("show-sideNav");
+            sidenav.classList.add("hidden-sideNav");
             sideNavVisible = false;
         }
-        else {
-            if (sidenav) {
-                sidenav.classList.remove("show-sideNav");
-                sidenav.classList.add("hidden-sideNav");
-                sideNavVisible = true;
-                // New instance of setTimout
-                timeoutID = setTimeout(() => {
-                    toggleSideNav();
-                    timeoutID = null;
-                }, 3000);
+    }, 3000);
+
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const sidenav = document.getElementById("sideNav");
+    // detection du passage de la souris au bords de l'écran gauche
+    document.addEventListener("mouseenter", function (event) {
+        if (event.clientX <= 100) {
+            toggleSideNav(true);
+        }
+    });
+
+    document.addEventListener("mouseleave", function (event) {
+        // si la sidenav n'est pas visible on ne fais rien
+        if (!sideNavVisible) return;
+        // retourne taille et position de la sidenav
+        const sidenavRect = sidenav.getBoundingClientRect();
+        if (event.clientY <= sidenavRect.top || event.clientX > sidenavRect.right) {
+            toggleSideNav(false);
+        }
+    });
+
+    document.addEventListener("scroll", function () {
+
+        // retourne taille et position de la sidenav
+        const sidenavRect = sidenav.getBoundingClientRect();
+        if (window.scrollY + window.innerHeight >= sidenavRect.bottom) {
+            toggleSideNav(true);
+        } else {
+            // Vérifie si la souris est toujours dans la zone de déclenchement
+            const mouseX = event.clientX;
+            if (mouseX <= 100) {
+                toggleSideNav(true);
+            } else {
+                toggleSideNav(false);
             }
         }
     });
 });
+

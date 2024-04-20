@@ -89,16 +89,16 @@ a {
 }
 .hidden-sideNav {
   position: absolute;
-  left: -80%;
   top: 90px;
-  transition: all 0.5s;
+  left: -80%;
+  transition: left 0.5s ease-out;
   background-color: transparent;
 }
 .show-sideNav {
   position: fixed;
   top: 90px;
   left: 0;
-  transition: all 0.5s;
+  transition: left 0.5s ease-in;
 }
 /*************** Card movie **********************/
 .card-wrapper {

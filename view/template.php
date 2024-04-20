@@ -44,7 +44,7 @@
 
     </article>
     <!-- sidenav lateral -->
-    <nav id="sideNav" class=""><?= $sideNav ?></nav>
+    <nav id="sideNav" class="hidden-sideNav"><?= $sideNav ?></nav>
     <!-- navAdmin -->
     <div id="siteAds"> <?= $navAdmin ?></div>
     <footer id="pageFooter"><?= $footer ?></footer>
