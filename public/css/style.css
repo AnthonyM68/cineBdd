@@ -125,6 +125,7 @@ a {
 .card-title {
   position: relative;
   height: 30px;
+  font-size:1.5rem;
 }
 .left-span {
   position: absolute;
@@ -134,9 +135,28 @@ a {
   position: absolute;
   right: 0;
 }
+.right-span small {
+  font-size:1.1rem;
+}
 .card-text {
   text-align: justify;
 }
+.btn-custom-success,
+.btn-custom-danger,
+.btn-custom-warning {
+    color: #fff; /* Texte blanc */
+    background-color: transparent; /* Fond transparent */
+    border: 1px solid #fff; /* Bordure blanche */
+    border-radius: 5px; /* Arrondi des coins */
+}
+
+.btn-custom-success:hover,
+.btn-custom-danger:hover,
+.btn-custom-warning:hover {
+    color: #000; /* Changement de couleur du texte au survol */
+    background-color: #fff; /* Fond blanc au survol */
+}
+
 /************ Card Profil ***********/
 .img_profil {
   height: 250px;

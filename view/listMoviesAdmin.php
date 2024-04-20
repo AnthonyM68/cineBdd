@@ -1,5 +1,5 @@
-<?php ob_start();
-?>
+<?php ob_start(); ?>
+
 <?php foreach ($movies as $movie) { ?>
     <div class="col-lg-12 mb-4">
         <!-- card wrapper -->
@@ -11,7 +11,7 @@
                     <div class="col-md-4">
                         <div class="card-image">
                             <!-- img movie -->
-                            <img src='<?= isset($movie["image_url"]) && $movie["image_url"] ? $movie["image_url"] : ''?>' class="img_card" alt="">
+                            <img src='<?= isset($movie["image_url"]) && $movie["image_url"] ? $movie["image_url"] : '' ?>' class="img_card" alt="">
                         </div>
                     </div>
                     <!-- card content -->
@@ -20,20 +20,39 @@
                             <p class="card-title">
                                 <!-- title and timeMovie -->
                                 <span class="left-span">
+
                                     <!-- link show details movie -->
-                                    <a href="./index.php?action=showDetailsMovie&id=<?= $movie["id_movie"] ?>"><?= $movie["title"] ?></a>
+                                    <a href="./index.php?action=showDetailsMovie&id=
+                                        <?= isset($movie["id_movie"]) && $movie['id_movie'] ? $movie['id_movie'] : "" ?>" class="pridi-light">
+
+                                        <?= isset($movie["title"]) && $movie["title"] ? $movie["title"] : "" ?>
+                                    </a>
                                 </span>
                                 <!-- timeMovie -->
-                                <span class="right-span"><?= $movie["timeMovie"] ?></span>
+                                <span class="right-span"><small class="pridi-light"><?= isset($movie["timeMovie"]) && $movie["timeMovie"] ? $movie["timeMovie"] : "" ?></small></span>
                             </p>
-                            <p class="card-text"><?= $movie["synopsis"] ?></p>
+                            <p class="card-text pridi-extralight "><?= isset($movie["synopsis"]) && $movie["synopsis"] ? $movie["synopsis"] : "" ?></p>
                         </div>
                         <!-- card footer -->
                         <div class="card-footer" style="margin-top: -60px;">
+
                             <div class="d-flex justify-content-between w-100">
-                                <a href="./index.php?action=insertMovieForm&id=<?= $movie['id_movie'] ?>" class="btn btn-success btn-sm mr-2"><i class="fa fa-edit fa-2x" aria-hidden="true"></i> Modifier</a>
-                                <a class="btn btn-danger btn-sm mr-2"><i class="fa fa-minus-circle fa-2x" aria-hidden="true"></i> Supprimer</a>
-                                <a href="./index.php?action=insertCastingForm&id=<?= $movie['id_movie'] ?>" class="btn btn-warning btn-sm "><i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i> Casting</a>
+                                <a href="./index.php?action=insertMovieForm&id=<?= isset($movie['id_movie']) && $movie['id_movie'] ? $movie['id_movie'] : "" ?>" 
+                                
+                                class="btn btn-custom-success btn-sm mr-2">
+                                    <i class="fa fa-edit fa-lg mr-1" aria-hidden="true"></i> Modifier
+                                </a>
+
+                                <a class="btn btn-custom-danger btn-sm mr-2">
+                                    <i class="fa fa-minus-circle fa-lg mr-1" aria-hidden="true"></i> Supprimer
+                                </a>
+
+                                <a href="./index.php?action=insertCastingForm&id=<?= isset($movie['id_movie']) && $movie['id_movie'] ? $movie['id_movie'] : "" ?>" 
+                                
+                                class="btn btn-custom-warning btn-sm ">
+                                    <i class="fa fa-plus-circle fa-lg mr-1" aria-hidden="true"></i> Casting
+                                </a>
+
                             </div>
                         </div>
                     </div>
