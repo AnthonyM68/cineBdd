@@ -46,7 +46,7 @@ class CinemaController extends ToolsController
 
         $movies->execute(["person_id" => $id_person]);
 
-        $movies = $this->makeStringFromFetchWithLink($movies);
+        $movies = $this->convertToString($movies, "detailsMovie");
 
         return $movies;
     }
@@ -78,7 +78,7 @@ class CinemaController extends ToolsController
 
         $movies->execute(["actor_id" => $id_actor]);
 
-        $movies = $this->makeStringFromFetchWithLink($movies);
+        $movies = $this->convertToString($movies, "detailsMovie");
 
         return $movies;
     }
