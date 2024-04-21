@@ -6,21 +6,32 @@
   padding: 0;
 }
 :root {
-  --border-color: rgba(29, 32, 47, 1);
+  /*--primary-color:;
+  --secondary-color:;*/
+  --border-color: #ccc;
   --background-color: rgba(29, 32, 47, 1);
   --highlight-color: rgba(248, 248, 121, 0.6);
-  --color: #fff;
+  /*--color: #fff;*/
+  --text-color: grey;
+  /*--accent-color:;*/
+  --link-color: rgba(248, 248, 121, 0.6);
+  /*--error-color:;
+  --warning-color:;
+  --success-color:;
+  --hover-color:;
+  --background-color-light:;*/
 }
 a {
-  color: var(--highlight-color);
+  color: var(--link-color);
 }
 /******* Title article */
 .title-site {
   font-size: 3rem;
-  padding: 1.3rem 9rem;
+  padding: 0rem 0rem;
 }
 .title-article {
-  padding: 1.3rem 15rem;
+  font-size: 1.5rem;
+  padding: 0rem 0rem;
 }
 /************* Header */
 .header {
@@ -43,11 +54,11 @@ a {
 .navbar ul li {
   width: 250px;
   text-decoration: none;
-  color: #fff;
+  color: var(--border-color);
 }
 .navbar ul li a {
   text-decoration: none;
-  color: #fff;
+  color: var(--border-color);
 }
 #subNavbar {
   display: flex;
@@ -85,7 +96,7 @@ a {
   align-items: center;
 }
 #sideNav ul li a {
-  color: #fff;
+  color: var(--border-color);
 }
 .hidden-sideNav {
   position: absolute;
@@ -125,7 +136,7 @@ a {
 .card-title {
   position: relative;
   height: 30px;
-  font-size:1.5rem;
+  font-size: 1.5rem;
 }
 .left-span {
   position: absolute;
@@ -136,25 +147,20 @@ a {
   right: 0;
 }
 .right-span small {
-  font-size:1.1rem;
+  font-size: 1.1rem;
 }
 .card-text {
   text-align: justify;
 }
-.btn-custom-success,
-.btn-custom-danger,
-.btn-custom-warning {
-    color: #fff; /* Texte blanc */
-    background-color: transparent; /* Fond transparent */
-    border: 1px solid #fff; /* Bordure blanche */
-    border-radius: 5px; /* Arrondi des coins */
+.btn-custom {
+  color: var(--highlight-color);
+  background-color: transparent;
+  border: 1px solid var(--highlight-color);
+  border-radius: 5px;
 }
-
-.btn-custom-success:hover,
-.btn-custom-danger:hover,
-.btn-custom-warning:hover {
-    color: #000; /* Changement de couleur du texte au survol */
-    background-color: #fff; /* Fond blanc au survol */
+.btn-custom:hover {
+  color: #000;
+  background-color: var(--highlight-color);
 }
 
 /************ Card Profil ***********/
@@ -240,41 +246,78 @@ tr {
 }
 
 /**************** FORM ADD MOVIE MDBootstrap */
-.input-group button {
-  border: 0.125rem solid var(--highlight-color);
-  color: var(--highlight-color) !important;
+.disclamer {
+  color: var(--border-color);
 }
-.input-group button:hover  {
-  border: 0.125rem solid var(--highlight-color);
-  color: var(--highlight-color) !important;
-  background-color: transparent !important;
-}
-
-.form-outline .form-control:focus ~ .form-notch .form-notch-leading .btn .btn-outline-primary {
-  border-top: 0.125rem solid var(--highlight-color);
-  border-bottom: 0.125rem solid var(--highlight-color);
-  border-left: 0.125rem solid var(--highlight-color);
+legend small {
+  font-size: 1rem;
+  color: var(--text-color);
 }
 .form-outline .form-control:focus ~ .form-label {
-  color: var(--highlight-color) !important;
+  color: var(--highlight-color);
 }
-.form-outline .form-control:focus ~ .form-notch .form-notch-trailing .btn .btn-outline-primary {
-  border-top: 0.125rem solid var(--highlight-color);
-  border-right: 0.125rem solid var(--highlight-color);
-  border-bottom: 0.125rem solid var(--highlight-color);
+.form-outline .form-control:focus ~ .form-notch .form-notch-leading,
+.form-outline .form-control:focus ~ .form-notch .form-notch-middle,
+.form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
+  border: none;
+  box-shadow: none;
 }
-.form-outline .form-control:focus ~ .form-notch .form-notch-middle .btn .btn-outline-primary {
-  border-top: 0;
-  border-bottom: 0.125rem solid var(--highlight-color);
+.form-outline .form-control:focus ~ .form-notch .form-notch-leading {
+  border-top: 2px solid var(--highlight-color);
+  border-left: 2px solid var(--highlight-color);
+  border-bottom: 2px solid var(--highlight-color);
 }
-.input-group-text {
-  color:#fff;
+.form-outline .form-control:focus ~ .form-notch .form-notch-middle {
+  border-bottom: 2px solid var(--highlight-color);
+}
+.form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
+  border-top: 2px solid var(--highlight-color);
+  border-right: 2px solid var(--highlight-color);
+  border-bottom: 2px solid var(--highlight-color);
 }
 
-
-.hidden-form {
-  display:none
+.custom-file-upload input[type="file"] {
+  display: none;
 }
-.show-form {
-  display:block;
+/****************** Card */
+.card {
+  border: 0.125rem solid grey;
+  background-color: rgba(34, 38, 58, 0.7);
+  border-radius: 10px !important;
+  -webkit-border-radius: 10px !important;
+  -moz-border-radius: 10px !important;
+  -ms-border-radius: 10px !important;
+  -o-border-radius: 10px !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.card-img-container img {
+  width: 100%;
+  object-fit: cover;
+}
+.custom-file-upload {
+  color: var(--highlight-color);
+  background-color: transparent;
+  border: 1px solid var(--highlight-color);
+  border-radius: 5px;
+  width: 250px;
+  text-align: center;
+}
+.custom-file-upload:hover {
+  color: #000;
+  background-color: var(--highlight-color);
+}
+.hiddenInput {
+  display: none;
+}
+.imgPreview {
+  display: none;
 }

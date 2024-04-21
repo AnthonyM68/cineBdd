@@ -23,6 +23,42 @@ class CinemaController extends ToolsController
         FROM genre g");
         require "view/listGenres.php";
     }
+    public function deleteMovie($id)
+    {
+        $pdo = Connect::getPDO();
+        $casting = $pdo->prepare("DELETE FROM
+        casting c
+        WHERE c.id_movie = :id");
+
+        echo $casting->execute(["id"=> $id]);
+
+        $genres = $pdo->prepare("DELETE FROM
+        genre_movie gm
+        WHERE gm.id_movie = :id");
+
+        echo $genres->execute(["id"=> $id]);
+
+        $movie = $pdo->prepare("DELETE FROM
+        movie m
+        WHERE m.id_movie = :id");
+
+        echo $movie->execute(["id"=> $id]);
+
+        $movies = $pdo->query("SELECT m.id_movie, m.title, 
+        DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie, 
+        DATE_FORMAT(m.releaseDate, '%d/%m/%Y') AS releaseDate, 
+        m.synopsis, 
+        m.image_url,
+        d.id_director,
+        p.firstName,
+        p.lastName, 
+        p.birthday, 
+        p.sex
+        FROM director d
+        INNER JOIN movie m ON d.id_director = m.id_director
+        INNER JOIN person p ON d.id_person = p.id_person");
+        require "view/listMoviesAdmin.php";
+    }
     public function getMoviesByDirector($id_person)
     {
         $movies = null;
@@ -231,12 +267,14 @@ class CinemaController extends ToolsController
      *
      * @return void
      */
-    public function insertMovieForm($id_movie)
+    public function insertMovieForm()
     {
+
         $pdo = Connect::getPDO();
         // S'il y a un id dans l'url GET nous recherchons et affichons 
         // les informations du film à modifier
         if (isset($_GET['id'])) {
+            $id = $_GET['id'];
             $details = $pdo->prepare("SELECT m.title, 
                 DATE_FORMAT(m.releaseDate, '%Y-%m-%d') AS releaseDate, 
                 DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn')  AS timeMovie, 
@@ -253,7 +291,7 @@ class CinemaController extends ToolsController
                 INNER JOIN movie m ON d.id_director = m.id_director
                 INNER JOIN person p ON d.id_person = p.id_person
                 WHERE id_movie = :movie_id");
-            $details->execute(["movie_id" => $id_movie]);
+            $details->execute(["movie_id" => $id]);
             // tous les genres du film par $id_movie, colonne selected en +.
             // pour les select HTML
             $genres = $pdo->prepare("SELECT g.nameGenre, g.id_genre,
@@ -265,7 +303,7 @@ class CinemaController extends ToolsController
                 WHERE id_movie = :movie_id
             ) gm ON g.id_genre = gm.id_genre");
 
-            $genres->execute(["movie_id" => $id_movie]);
+            $genres->execute(["movie_id" => $id]);
 
             require "view/insertMovieForm.php";
         } else {
@@ -284,7 +322,9 @@ class CinemaController extends ToolsController
      */
     public function addMovie($id)
     {
-        $pdo = Connect::getPDO();
+        var_dump($_POST);
+        
+        /*$pdo = Connect::getPDO();
         // si nous modifions un film existant nous avons alors un $_GET['id']
         if (isset($_GET["id"])) {
             // nous mettons a jour le film et son réalisateur
@@ -431,7 +471,6 @@ class CinemaController extends ToolsController
                     }
                 }
             }
-            var_dump($_POST);
             // si title existe et qu'il est renseigné, nous vérifions les infos saisie
             if (isset($_POST["title"]) && !empty($_POST["title"])) {
                 // filtrage des input
@@ -489,7 +528,7 @@ class CinemaController extends ToolsController
         $genres = $pdo->query("SELECT 
         nameGenre, id_genre
         FROM genre");
-        require "view/insertMovieForm.php";
+        require "view/insertMovieForm.php";*/
     }
     public function insertCastingForm($id)
     {
@@ -526,7 +565,8 @@ class CinemaController extends ToolsController
 
         $roles = $pdo->query("SELECT 
         id_role, nameRole
-        FROM role");
+        FROM role
+        ORDER BY nameRole ASC");
 
         require "view/insertCastingForm.php";
     }

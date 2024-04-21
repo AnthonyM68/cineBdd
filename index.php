@@ -4,46 +4,37 @@ use Controller\CinemaController;
 use Controller\HomeController;
 use Controller\PersonController;
 
+// autoload class files by name Class
 spl_autoload_register(function ($class_name) {
     include $class_name . '.php';
 });
-
+// instances Class
 $ctrlCinema = new CinemaController();
 $ctrlHome = new HomeController();
 $ctrlPerson = new PersonController();
 
 if (isset($_GET["action"])) {
-
-    // On filtre les input 
-    $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-    $action = htmlspecialchars($_GET['action']);
-    $table = null;
-    if (isset($_GET['table'])) {
-        $table = htmlspecialchars($_GET['table']);
+    $id = null;
+    // filtres input
+    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_SPECIAL_CHARS);
+    if (isset($_GET["id"])) {
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        if ($id === false || $id === "") {
+            // 'id' n'est pas présent ou n'est pas un entier valide.
+            return $ctrlCinema->notFound();;
+        }
     }
-    if ($id === false) {
-        // 'id' n'est pas présent ou n'est pas un entier valide.
-        $ctrlNotfound->index();
-    }
+    // switch of action
     switch ($action) {
+        // MOVIE
         case "listGenres":
             $ctrlCinema->listGenres();
             break;
-
         case "listMovies":
             $ctrlCinema->listMovies();
             break;
         case "listMoviesAdmin":
             $ctrlCinema->listMoviesAdmin();
-            break;
-        case "insertMovieForm":
-            $ctrlCinema->insertMovieForm($id);
-            break;
-        case "addMovie":
-            $ctrlCinema->addMovie($id);
-            break;
-        case "insertCastingForm":
-            $ctrlCinema->insertCastingForm($id);
             break;
         case "showDetailsMovie":
             $ctrlCinema->showDetailsMovie($id);
@@ -54,6 +45,19 @@ if (isset($_GET["action"])) {
         case "moviesMoreThan2H15":
             $ctrlCinema->moviesMoreThan2H15();
             break;
+        case "insertMovieForm":
+            $ctrlCinema->insertMovieForm($id);
+            break;
+        case "addMovie":
+            $ctrlCinema->addMovie($id);
+            break;
+        case "deleteMovie":
+            $ctrlCinema->deleteMovie($id);
+            break;
+        case "insertCastingForm":
+            $ctrlCinema->insertCastingForm($id);
+            break;
+        // PERSON ACTORS/DIRECTORS
         case "listActors":
             $ctrlPerson->listActors();
             break;
@@ -69,13 +73,15 @@ if (isset($_GET["action"])) {
         case "actorAndDirector":
             $ctrlPerson->actorAndDirector();
             break;
+        // Search Engine (next step)
         case "searchEngine":
             $ctrlCinema->searchEngine();
             break;
-
+            // si aucune action n'est trouvée
         default:
             $ctrlCinema->notFound();
     }
 } else {
+    // on rends la vue du HOME
     $ctrlHome->index();
 }
