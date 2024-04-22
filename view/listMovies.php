@@ -6,7 +6,7 @@
         <?php foreach ($movies->fetchAll() as $movie) {
         ?>
             <div class="col-md-6 ">
-                <div class="card-wrapper">
+                <div class="card-wrapper card_movie">
                     <div class="card">
                         <!-- card image -->
                         <div class="card-image">

@@ -31,25 +31,26 @@
                                 <!-- timeMovie -->
                                 <span class="right-span"><small class="pridi-light"><?= isset($movie["timeMovie"]) && $movie["timeMovie"] ? $movie["timeMovie"] : "" ?></small></span>
                             </p>
+                            
                             <p class="card-text pridi-extralight "><?= isset($movie["synopsis"]) && $movie["synopsis"] ? $movie["synopsis"] : "" ?></p>
                         </div>
                         <!-- card footer -->
-                        <div class="card-footer" style="margin-top: -60px;">
+                        <div class="footer_custom" style="margin-top: -60px;">
 
                             <div class="d-flex justify-content-between w-100">
                                 <!-- Url modify détails movie -->
-                                <a href="./index.php?action=insertMovieForm&id=<?= isset($movie['id_movie']) && $movie['id_movie'] ? $movie['id_movie'] : "" ?>" 
-                                    class="btn btn-custom-success btn-sm mr-2">
+                                <a href="./index.php?action=insertMovieForm&id=<?= $movie['id_movie'] ? $movie['id_movie'] : "" ?>" 
+                                    class="btn btn-custom btn-sm mr-2">
                                     <i class="fa fa-edit fa-lg mr-1" aria-hidden="true"></i> Modifier
                                 </a>
                                 <!-- Url delete movie -->
                                 <a href="./index.php?action=deleteMovie&id=<?= isset($movie['id_movie']) && $movie['id_movie'] ? $movie['id_movie'] : "" ?>" 
-                                    class="btn btn-custom-danger btn-sm mr-2">
+                                    class="btn btn-custom btn-sm mr-2">
                                     <i class="fa fa-minus-circle fa-lg mr-1" aria-hidden="true"></i> Supprimer
                                 </a>
                                 <!-- url add casting to movie -->
                                 <a href="./index.php?action=insertCastingForm&id=<?= isset($movie['id_movie']) && $movie['id_movie'] ? $movie['id_movie'] : "" ?>" 
-                                    class="btn btn-custom-warning btn-sm ">
+                                    class="btn btn-custom btn-sm ">
                                     <i class="fa fa-plus-circle fa-lg mr-1" aria-hidden="true"></i> Casting
                                 </a>
 

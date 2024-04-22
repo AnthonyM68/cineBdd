@@ -4,9 +4,6 @@ namespace Controller;
 
 use Model\Connect;
 
-use Controller\PersonController;
-use Controller\ToolsController;
-
 use DateTime;
 
 class CinemaController extends ToolsController
@@ -25,24 +22,26 @@ class CinemaController extends ToolsController
     }
     public function deleteMovie($id)
     {
+
+
         $pdo = Connect::getPDO();
         $casting = $pdo->prepare("DELETE FROM
         casting c
         WHERE c.id_movie = :id");
 
-        echo $casting->execute(["id" => $id]);
+        $casting->execute(["id" => $id]);
 
         $genres = $pdo->prepare("DELETE FROM
         genre_movie gm
         WHERE gm.id_movie = :id");
 
-        echo $genres->execute(["id" => $id]);
+        $genres->execute(["id" => $id]);
 
         $movie = $pdo->prepare("DELETE FROM
         movie m
         WHERE m.id_movie = :id");
 
-        echo $movie->execute(["id" => $id]);
+        $movie->execute(["id" => $id]);
 
         $movies = $pdo->query("SELECT m.id_movie, m.title, 
         DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie, 
@@ -59,65 +58,7 @@ class CinemaController extends ToolsController
         INNER JOIN person p ON d.id_person = p.id_person");
         require "view/listMoviesAdmin.php";
     }
-    public function getMoviesByDirector($id_person)
-    {
-        $movies = null;
-        $pdo = Connect::getPDO();
-        $movies = $pdo->prepare("SELECT
-        DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie,
-        DATE_FORMAT(m.releaseDate, '%d/%m/%Y') AS releaseDate,
-        m.id_movie,
-        m.title,
-        m.synopsis,
-        m.image_url
-    FROM movie m
-    INNER JOIN
-        director d ON m.id_director = d.id_director
-    INNER JOIN
-        person p ON p.id_person = d.id_person
-    WHERE
-        p.id_person = :person_id
 
-    ORDER BY m.releaseDate ASC");
-
-        $movies->execute(["person_id" => $id_person]);
-
-        $movies = $this->convertToString($movies, "detailsMovie");
-
-        return $movies;
-    }
-    public function getMoviesAndRoleByActor($id_actor)
-    {
-        $movies = null;
-        $pdo = Connect::getPDO();
-        $movies = $pdo->prepare("SELECT
-        DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie,
-        DATE_FORMAT(m.releaseDate, '%d/%m/%Y') AS releaseDate,
-        m.id_movie,
-        m.title,
-        m.synopsis,
-        m.id_director,
-        m.image_url,
-        r.nameRole
-    FROM
-        casting c
-    INNER JOIN
-        role r ON c.id_role = r.id_role
-    INNER JOIN
-        movie m ON c.id_movie = m.id_movie
-    INNER JOIN
-        person p ON c.id_actor = p.id_person
-    WHERE
-        p.id_person = :actor_id
-    ORDER BY
-        m.releaseDate ASC");
-
-        $movies->execute(["actor_id" => $id_actor]);
-
-        $movies = $this->convertToString($movies, "detailsMovie");
-
-        return $movies;
-    }
     public function moviesUnder5Years()
     {
         $pdo = Connect::getPDO();
@@ -297,6 +238,7 @@ class CinemaController extends ToolsController
             $genres = $pdo->prepare("SELECT g.nameGenre, g.id_genre,
             CASE WHEN gm.id_genre IS NOT NULL THEN 1 ELSE 0 END AS selected
             FROM genre g
+            
             LEFT JOIN (
                 SELECT DISTINCT id_genre
                 FROM genre_movie
@@ -315,18 +257,14 @@ class CinemaController extends ToolsController
             require "view/insertMovieForm.php";
         }
     }
-    /**
-     * Insert movie in database
-     *
-     * @return void
-     */
-    public function addMovie($id)
+    public function editMovie()
     {
-        var_dump($_POST);
-
         $pdo = Connect::getPDO();
-        // si nous modifions un film existant nous avons alors un $_GET['id']
-        if (isset($_GET["id"])) {
+        if (isset($_GET["id"]) && !empty($_GET["id"])) {
+
+            $id = $_GET['id'];
+            $id_director = filter_input(INPUT_POST, 'director', FILTER_VALIDATE_INT);
+
             // nous mettons a jour le film et son réalisateur
             // filtrage des input
             $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -337,13 +275,15 @@ class CinemaController extends ToolsController
             if ($image_url_movie) {
                 $image_url_movie = "./index.html/public/img/films/$image_url_movie";
             }
-            $id_director = filter_input(INPUT_POST, 'director', FILTER_VALIDATE_INT);
-
+            
+            $timeMovie = null;
             // convertion du format HTML vers datetime
             if (isset($_POST['timeMovie'])) {
                 $timeMovie = filter_input(INPUT_POST, 'timeMovie', FILTER_SANITIZE_SPECIAL_CHARS);
                 $timeMovie = $this->convertToMinutes($_POST['timeMovie']);
+                
             }
+
             // on prépare la requête
             $movie = $pdo->prepare("UPDATE
             movie
@@ -386,6 +326,7 @@ class CinemaController extends ToolsController
             foreach ($id_genreChecked as $genre_id) {
                 $genres->execute(["genre_id" => $genre_id, "movie_id" => $id]);
             }
+
             // on filtre les INPUT
             $firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_SPECIAL_CHARS);
             $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -412,145 +353,163 @@ class CinemaController extends ToolsController
                 "image_url" => $image_url_profil,
                 "director_id" => $id_director
             ]);
-        } else {
-            $id_director = null;
-            // si firstName existe et qu'il est renseigné, nous vérifions les infos saisie
-            if (
-                isset($_POST["firstName"]) && !empty($_POST["firstName"])
-                && isset($_POST["lastName"]) && !empty($_POST["lastName"])
-                && isset($_POST["birthday"]) && !empty($_POST["birthday"])
-                && isset($_POST["sex"]) && !empty($_POST["sex"])
-                && isset($_POST["image_url_profil"]) && !empty($_POST["image_url_profil"])
-            ) {
-
-                $firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_SPECIAL_CHARS);
-                $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_SPECIAL_CHARS);
-                $birthday = filter_input(INPUT_POST, 'birthday', FILTER_SANITIZE_SPECIAL_CHARS);
-                $sex = filter_input(INPUT_POST, 'sex', FILTER_SANITIZE_SPECIAL_CHARS);
-                $image_url_profil = filter_input(INPUT_POST, 'image_url_profil', FILTER_SANITIZE_SPECIAL_CHARS);
-
-                if ($image_url_profil) {
-                    $image_url_profil = "./index.html/public/img/persons/$image_url_profil";
-                }
-
-                // on prépare la requête pour la table person
-                $person = $pdo->prepare("INSERT INTO 
-                person (firstName, lastName, birthday, sex, image_url) 
-                VALUES (:firstName, :lastName, :birthday, :sex, :image_url)");
-                // on lui passe les infos du form 
-                $person->execute([
-                    "firstName" => $firstName,
-                    "lastName" => $lastName,
-                    "birthday" => $birthday,
-                    "sex" => $sex,
-                    "image_url" => $image_url_profil
-                ]);
-                // on récupère l'ID de la ligne insérer
-                $personId = $pdo->lastInsertId();
-
-                // on vérifie si la clé director existe
-                $directorChecked = isset($_POST['director']);
-
-                // si la checkbox est cochée
-                if ($directorChecked) {
-                    // si ça valeur est vide dans ce cas nous créons un nouveau director
-                    if ($_POST['director'] === "") {
-                        $person = $pdo->prepare(
-                            "INSERT INTO 
-                            director (id_person) 
-                            VALUES (:id_person)"
-                        );
-                        $person->execute(["id_person" => $personId]);
-
-                        $id_director = $pdo->lastInsertId();
-                    } else if ($directorChecked) {
-                        // update director
-                    }
-                }
-                $actorChecked = isset($_POST['actor']);
-                // si la checkbox est cochée
-                if ($actorChecked) {
-                    // si ça valeur est vide dans ce cas nous créons un nouveau actor
-                    if ($_POST['actor'] === "") {
-                        $person = $pdo->prepare(
-                            "INSERT INTO 
-                            actor (id_person) 
-                            VALUES (:id_person)"
-                        );
-                        $person->execute(["id_person" => $personId]);
-
-                        $id_director = $pdo->lastInsertId();
-                    } else if ($directorChecked) {
-                        // update actor
-                    }
-                }
-            }
-            // si title existe et qu'il est renseigné, nous vérifions les infos saisie
-            if (
-                isset($_POST["title"]) && !empty($_POST["title"])
-                && isset($_POST["releaseDate"]) && !empty($_POST["releaseDate"])
-                && isset($_POST["timeMovie"]) && !empty($_POST["timeMovie"])
-                && isset($_POST["synopsis"]) && !empty($_POST["birthday"])
-                && isset($_POST["timeMovie"]) && !empty($_POST["timeMovie"])
-                && isset($_POST["id_director"]) && !empty($_POST["id_director"])
-                && isset($_POST["image_url_movie"]) && !empty($_POST["image_url_movie"])
-            ) {
-                // filtrage des input
-                $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
-                $releaseDate = filter_input(INPUT_POST, 'releaseDate', FILTER_SANITIZE_SPECIAL_CHARS);
-                $image_url_movie = filter_input(INPUT_POST, 'image_url_movie', FILTER_SANITIZE_SPECIAL_CHARS);
-                $synopsis = filter_input(INPUT_POST, 'synopsis', FILTER_SANITIZE_SPECIAL_CHARS);
-
-                // convertion du format HTML vers datetime
-                if (isset($_POST['timeMovie'])) {
-                    $timeMovie = filter_input(INPUT_POST, 'timeMovie', FILTER_SANITIZE_SPECIAL_CHARS);
-                    $timeMovie = $this->convertToMinutes($_POST['timeMovie']);
-                }
-                // on prépare la requête
-                $movie = $pdo->prepare("INSERT INTO 
-                movie (title, releaseDate, timeMovie, synopsis, id_director, image_url)
-                VALUE(:title, :releaseDate, :timeMovie, :synopsis, :id_director, :image_url)
-                ");
-
-                // ajouter verification if(!$id_director) notifier a l'utilisateur avec feedback 
-                // le checkbox Réalisateur obligatoire pour insérer un nouveau film
-                if ($id_director) {
-                    $movie->execute([
-                        "title" => $title,
-                        "releaseDate" => $releaseDate,
-                        "timeMovie" => $timeMovie,
-                        "synopsis" => $synopsis,
-                        "id_director" => $id_director,
-                        "image_url" => $image_url_movie
-                    ]);
-                    $id_movie = $pdo->lastInsertId();
-
-                    // on traite tous les genres sélectionnés
-                    if (isset($_POST['genres'])) {
-                        // Traitement des genres du film
-                        $id_genreChecked = [];
-                        foreach ($_POST['genres'] as $key => $id_genre) {
-                            // On valider chaque id_genre 
-                            $id_genre = filter_var($id_genre, FILTER_VALIDATE_INT);
-                            if ($id_genre) {
-                                $id_genreChecked[] = $id_genre;
-                            }
-                        }
-                        $genres = $pdo->prepare("INSERT INTO genre_movie (id_genre, id_movie) VALUES (:genre_id, :movie_id)");
-                        // On insère les nouveaux genres a partir de id_genreChecked[]
-                        foreach ($id_genreChecked as $genre_id) {
-                            $genres->execute(["genre_id" => $genre_id, "movie_id" => $id_movie]);
-                        }
-                    }
-                }
-            }
         }
         // nous affichons un formulaire nouveau
         // avec pour seule recherche tous les genres disponibles
         $genres = $pdo->query("SELECT 
         nameGenre, id_genre
         FROM genre");
-        //require "view/insertMovieForm.php";
+
+        require "view/insertMovieForm.php";
+    }
+    /**
+     * Insert movie in database
+     *
+     * @return void
+     */
+    public function addMovie($id)
+    {
+        $pdo = Connect::getPDO();
+
+        $id_director = null;
+        // si firstName existe et qu'il est renseigné, nous vérifions les infos saisie
+        if (
+            isset($_POST["firstName"]) && !empty($_POST["firstName"])
+            && isset($_POST["lastName"]) && !empty($_POST["lastName"])
+            && isset($_POST["birthday"]) && !empty($_POST["birthday"])
+            && isset($_POST["sex"]) && !empty($_POST["sex"])
+            && isset($_POST["image_url_profil"]) && !empty($_POST["image_url_profil"])
+        ) {
+
+            $firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_SPECIAL_CHARS);
+            $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_SPECIAL_CHARS);
+            $birthday = filter_input(INPUT_POST, 'birthday', FILTER_SANITIZE_SPECIAL_CHARS);
+            $sex = filter_input(INPUT_POST, 'sex', FILTER_SANITIZE_SPECIAL_CHARS);
+            $image_url_profil = filter_input(INPUT_POST, 'image_url_profil', FILTER_SANITIZE_SPECIAL_CHARS);
+
+            if ($image_url_profil) {
+                $image_url_profil = "./index.html/public/img/persons/$image_url_profil";
+            }
+
+            // on prépare la requête pour la table person
+            $person = $pdo->prepare("INSERT INTO 
+                person (firstName, lastName, birthday, sex, image_url) 
+                VALUES (:firstName, :lastName, :birthday, :sex, :image_url)");
+            // on lui passe les infos du form 
+            $person->execute([
+                "firstName" => $firstName,
+                "lastName" => $lastName,
+                "birthday" => $birthday,
+                "sex" => $sex,
+                "image_url" => $image_url_profil
+            ]);
+            // on récupère l'ID de la ligne insérer
+            $personId = $pdo->lastInsertId();
+
+            // on vérifie si la clé director existe
+            $directorChecked = isset($_POST['director']);
+
+            // si la checkbox est cochée
+            if ($directorChecked) {
+                // si ça valeur est vide dans ce cas nous créons un nouveau director
+                if ($_POST['director'] === "") {
+                    $person = $pdo->prepare(
+                        "INSERT INTO 
+                            director (id_person) 
+                            VALUES (:id_person)"
+                    );
+                    $person->execute(["id_person" => $personId]);
+
+                    $id_director = $pdo->lastInsertId();
+                } else if ($directorChecked) {
+                    // update director
+                }
+            }
+            $actorChecked = isset($_POST['actor']);
+            // si la checkbox est cochée
+            if ($actorChecked) {
+                // si ça valeur est vide dans ce cas nous créons un nouveau actor
+                if ($_POST['actor'] === "") {
+                    $person = $pdo->prepare(
+                        "INSERT INTO 
+                            actor (id_person) 
+                            VALUES (:id_person)"
+                    );
+                    $person->execute(["id_person" => $personId]);
+
+                    $id_director = $pdo->lastInsertId();
+                } else if ($directorChecked) {
+                    // update actor
+                }
+            }
+        }
+        // si title existe et qu'il est renseigné, nous vérifions les infos saisie
+        if (
+            isset($_POST["title"]) && !empty($_POST["title"])
+            && isset($_POST["releaseDate"]) && !empty($_POST["releaseDate"])
+            && isset($_POST["timeMovie"]) && !empty($_POST["timeMovie"])
+            && isset($_POST["synopsis"]) && !empty($_POST["birthday"])
+            && isset($_POST["timeMovie"]) && !empty($_POST["timeMovie"])
+            && isset($_POST["id_director"]) && !empty($_POST["id_director"])
+            && isset($_POST["image_url_movie"]) && !empty($_POST["image_url_movie"])
+        ) {
+            // filtrage des input
+            $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
+            $releaseDate = filter_input(INPUT_POST, 'releaseDate', FILTER_SANITIZE_SPECIAL_CHARS);
+            $image_url_movie = filter_input(INPUT_POST, 'image_url_movie', FILTER_SANITIZE_SPECIAL_CHARS);
+            $synopsis = filter_input(INPUT_POST, 'synopsis', FILTER_SANITIZE_SPECIAL_CHARS);
+
+            // convertion du format HTML vers datetime
+            if (isset($_POST['timeMovie'])) {
+                $timeMovie = filter_input(INPUT_POST, 'timeMovie', FILTER_SANITIZE_SPECIAL_CHARS);
+                $timeMovie = $this->convertToMinutes($_POST['timeMovie']);
+            }
+            // on prépare la requête
+            $movie = $pdo->prepare("INSERT INTO 
+                movie (title, releaseDate, timeMovie, synopsis, id_director, image_url)
+                VALUE(:title, :releaseDate, :timeMovie, :synopsis, :id_director, :image_url)
+                ");
+
+            // ajouter verification if(!$id_director) notifier a l'utilisateur avec feedback 
+            // le checkbox Réalisateur obligatoire pour insérer un nouveau film
+            if ($id_director) {
+                $movie->execute([
+                    "title" => $title,
+                    "releaseDate" => $releaseDate,
+                    "timeMovie" => $timeMovie,
+                    "synopsis" => $synopsis,
+                    "id_director" => $id_director,
+                    "image_url" => $image_url_movie
+                ]);
+                $id_movie = $pdo->lastInsertId();
+
+                // on traite tous les genres sélectionnés
+                if (isset($_POST['genres'])) {
+                    // Traitement des genres du film
+                    $id_genreChecked = [];
+                    foreach ($_POST['genres'] as $key => $id_genre) {
+                        // On valider chaque id_genre 
+                        $id_genre = filter_var($id_genre, FILTER_VALIDATE_INT);
+                        if ($id_genre) {
+                            $id_genreChecked[] = $id_genre;
+                        }
+                    }
+                    $genres = $pdo->prepare("INSERT INTO genre_movie (id_genre, id_movie) VALUES (:genre_id, :movie_id)");
+                    // On insère les nouveaux genres a partir de id_genreChecked[]
+                    foreach ($id_genreChecked as $genre_id) {
+                        $genres->execute(["genre_id" => $genre_id, "movie_id" => $id_movie]);
+                    }
+                }
+            }
+        }
+
+        // nous affichons un formulaire nouveau
+        // avec pour seule recherche tous les genres disponibles
+        $genres = $pdo->query("SELECT 
+        nameGenre, id_genre
+        FROM genre");
+
+        require "view/insertMovieForm.php";
     }
     public function insertCastingForm($id)
     {

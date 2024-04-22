@@ -17,11 +17,13 @@ if (isset($_GET["action"])) {
     $id = null;
     // filtres input
     $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_SPECIAL_CHARS);
+    $id = null;
     if (isset($_GET["id"])) {
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
         if ($id === false || $id === "") {
             // 'id' n'est pas présent ou n'est pas un entier valide.
-            return $ctrlCinema->notFound();;
+            return $ctrlCinema->notFound();
+            ;
         }
     }
     // switch of action
@@ -54,6 +56,9 @@ if (isset($_GET["action"])) {
         case "deleteMovie":
             $ctrlCinema->deleteMovie($id);
             break;
+        case "editMovie":
+            $ctrlCinema->editMovie();
+            break;
         case "insertCastingForm":
             $ctrlCinema->insertCastingForm($id);
             break;
@@ -63,6 +68,9 @@ if (isset($_GET["action"])) {
             break;
         case "listDirectors":
             $ctrlPerson->listDirectors();
+            break;
+        case "deletePerson":
+            $ctrlPerson->deletePerson();
             break;
         case "showDetailsPerson":
             $ctrlPerson->showDetailsPerson($id);
@@ -77,7 +85,7 @@ if (isset($_GET["action"])) {
         case "searchEngine":
             $ctrlCinema->searchEngine();
             break;
-            // si aucune action n'est trouvée
+        // si aucune action n'est trouvée
         default:
             $ctrlCinema->notFound();
     }

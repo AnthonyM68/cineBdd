@@ -126,12 +126,12 @@ article h3 {
   height: 100%;
   display: flex;
 }
-.card {
+.card_movie .card {
   flex: 1;
   margin-right: 10px;
   background-color: transparent;
 }
-.card .img_card {
+.card_movie .card .img_card {
   width: 100%;
   height: 300px;
   object-fit: cover;
@@ -139,63 +139,62 @@ article h3 {
   border: 1px solid var(--border-color);
   border-radius: 10px;
 }
-.card-body {
+.card_movie .card-body {
   height: 100%;
   color: var(--border-color);
 }
-.card-title {
+.card_movie .card-title {
   position: relative;
   height: 30px;
   font-size: 1.5rem;
 }
-.left-span {
+
+
+.card_movie .left-span {
   position: absolute;
   left: 0;
 }
-.right-span {
+.card_movie .right-span {
   position: absolute;
   right: 0;
 }
-.right-span small {
+
+
+.card_movie .right-span small {
   font-size: 1.1rem;
 }
-.card-text {
+.card_movie .card-text {
   text-align: justify;
-}
-.btn-custom {
-  color: var(--highlight-color);
-  background-color: transparent;
-  border: 1px solid var(--highlight-color);
-  border-radius: 5px;
-}
-.btn-custom:hover {
-  color: #000;
-  background-color: var(--highlight-color);
 }
 
 /************ Card Profil ***********/
-.img_profil {
+.card_profil .img_profil {
   height: 250px;
   padding: 15px;
   transition: transform 0.3s ease;
 }
-
-.img_profil img {
+.card_profil .img_profil img {
   height: 100%;
   width: auto;
   object-fit: cover;
-
 }
-.img_profil:hover {
+.card_profil .img_profil:hover {
   transform: scale(1.05);
 }
-.footer_profil {
+.card_profil .footer_profil {
   padding: 15px;
   color: var(--border-color);
 }
-
-.card:hover {
+.card_profil .card:hover {
   transform: scale(1.05);
+}
+.card_profil .btn-custom {
+  color: var(--highlight-color);
+  background-color: transparent;
+  border: 1px solid var(--highlight-color);
+  border-radius: 5px;
+  width:150px;
+
 }
 /*************** Footer  ***********************/
 #pageFooter {
@@ -313,27 +312,24 @@ legend small {
 /****************** Card */
 .card {
   /*border: 0.125rem solid grey;*/
-  
-  border-radius: 10px !important;
+  background-color:transparent;
+ /* border-radius: 10px !important;
   -webkit-border-radius: 10px !important;
   -moz-border-radius: 10px !important;
   -ms-border-radius: 10px !important;
   -o-border-radius: 10px !important;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
   transition: transform 0.3s ease;
   margin: 1.3rem; 
 }
-
 .card:hover {
   transform: scale(1.05);
 }
 .card-body {
-  background-color: rgba(34, 38, 58, 0.7);
+  /*background-color: rgba(34, 38, 58, 0.7);*/
   padding:15px;
   margin-top:15px;
 }
-
-
 .card-img-container {
   width: 100%;
   height: 100%;
@@ -371,4 +367,22 @@ legend small {
 }
 .imgPreview {
   display: none;
+}
+.btn-custom {
+  color: var(--highlight-color);
+  background-color: transparent;
+  border: 1px solid var(--highlight-color);
+  border-radius: 5px;
+
+}
+.btn-custom:hover {
+  color: #000;
+  background-color: var(--highlight-color);
+}
+
+
+/*************** listPerson */
+.footer_card_custom {
+  padding: 15px;
+  color: var(--border-color);
 }

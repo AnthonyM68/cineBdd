@@ -1,21 +1,20 @@
-<?php ob_start();
+<?php 
+ob_start();
 
 use Controller\PersonController;
 use Controller\CinemaController;
 
-$ctrlPerson = new PersonController();
-$ctrlCinema = new CinemaController();
-
 $fullName = null;
+$admin = true;
 
 ?>
 <div class="container">
     <div class="row">
         <!-- loop from results -->
-        <?php foreach ($person->fetchAll() as $per) {
-        ?>
+        <?php foreach ($persons as $per) {
+            ?>
             <div class="col-md-6 mb-4">
-                <div class="card">
+                <div class="card card_profil">
                     <div class="row no-gutters">
                         <!-- card image -->
                         <div class="col-md-4">
@@ -34,7 +33,8 @@ $fullName = null;
                                     <!-- display job -->
                                     <?php
                                     //$job = $ctrlPerson->getJobById_person($per['id_person'])->fetch();
-                                    $fullName = $per["fullname"]; ?><a href="./index.php?action=showDetailsPerson&id=<?= $per['id_person'] ?>">
+                                    $fullName = $per["fullname"]; ?><a
+                                        href="./index.php?action=showDetailsPerson&id=<?= $per['id_person'] ?>">
                                         <?= $fullName ?></a>
                                 </h5>
                                 <!-- display infos -->
@@ -42,6 +42,19 @@ $fullName = null;
                                 <p class="card-text">Date de naissance: <?= $per['birthday'] ?></p>
                                 <?php $sexe = $per["sex"] === "F" ? "Femme" : "Homme"; ?>
                                 <p class="card-text"><?= $sexe ?></p>
+                            
+                                    <div class="footer_custom">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <a href="./index.php?action=deletePerson&id=<?= isset($per['id_person']) && $per['id_person'] ? $per['id_person'] : "" ?>"
+                                                    class="btn btn-custom btn-sm mr-2">
+                                                    <i class="fa fa-minus-circle fa-lg mr-1" aria-hidden="true"></i>SUPPRIMER
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                             
+
                             </div>
                         </div>
 
@@ -52,11 +65,11 @@ $fullName = null;
                             <div class="footer_profil pridi-light text-align-left">
                                 Films joués:
                                 <?php
-                                if (isset($per['id_actor'])) {
-                                    echo $ctrlCinema->getMoviesAndRoleByActor($per['id_actor']);
+                                /*if (isset($per['id_actor'])) {
+                                    echo $this->getMoviesAndRoleByActor($per['id_actor']);
                                 } else {
-                                    echo $ctrlCinema->getMoviesByDirector($per['id_person']);
-                                }
+                                    echo $this->getMoviesByDirector($per['id_person']);
+                                }*/
                                 ?>
                             </div>
                         </div>
@@ -67,7 +80,7 @@ $fullName = null;
     </div>
 </div>
 <?php
-$title = "Liste des Acteurs (" . $person->rowCount() . ")";
+$title = "Liste des Acteurs (" . count($persons) . ")";
 $second_title = $title;
 $content = ob_get_clean();
 require "view/templates/header/navbar.php";

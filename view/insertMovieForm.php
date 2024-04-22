@@ -4,7 +4,7 @@ isset($details)  ? $movie = $details->fetch() : $movie = null;
 isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
 ?>
 
-<form id="newFormMovie" action="./index.php?action=addMovie<?= isset($id) ? "&id=$id" : "" ?>" method="post" class="row gx-3 needs-validation" novalidate>
+<form id="newFormMovie" action="./index.php?action=editMovie<?= isset($id) ? "&id=$id" : "" ?>" method="post" class="row gx-3 needs-validation" novalidate>
     <fieldset>
         <legend class="pridi-regular">
             <h3>Détails du Réalisateur</h3>
@@ -27,14 +27,14 @@ isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
                             <div class="mb-1 mt-1 row gx-5">
                                 <div class="col-md-6">
                                     <div class="form-outline" data-mdb-input-init>
-                                        <input type="text" class="form-control" id="firstName" name="firstName" value="<?= isset($movie) ? $movie['firstName'] : '' ?>" autocomplete="off" required />
+                                        <input type="text" class="form-control" id="firstName" name="firstName" value="<?= isset($movie) ? $movie['firstName'] : '' ?>" autocomplete="off"  />
                                         <label for="firstName" class="form-label pridi-regular">First Name</label>
                                         <div class="invalid-feedback">First name is required.</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-outline" data-mdb-input-init>
-                                        <input type="text" class="form-control" id="lastName" name="lastName" value="<?= isset($movie) ? $movie['lastName'] : '' ?>" autocomplete="off" required />
+                                        <input type="text" class="form-control" id="lastName" name="lastName" value="<?= isset($movie) ? $movie['lastName'] : '' ?>" autocomplete="off"  />
                                         <label for="lastName" class="form-label pridi-regular">Last Name</label>
                                         <div class="invalid-feedback">Last name is required.</div>
                                     </div>
@@ -45,7 +45,7 @@ isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
 
                                 <div class="col-md-6">
                                     <div class="form-outline" data-mdb-input-init>
-                                        <input id="birthday" name="birthday" class="datepicker form-control pridi-light" type="date" value="<?= isset($movie) ? $movie['birthday'] : "" ?>" required />
+                                        <input id="birthday" name="birthday" class="datepicker form-control pridi-light" type="date" value="<?= isset($movie) ? $movie['birthday'] : "" ?>"  />
                                         <label class="form-label pridi-light" for="birthday">Date Anniverssaire</label>
                                         <div class="invalid-feedback">Birthday date is required.</div>
                                     </div>
@@ -63,7 +63,7 @@ isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
                                 <div class="col-md-6 text-center ">
 
                                     <label for="image_url_profil" class="custom-file-upload">
-                                        <input class="inputImg" id="image_url_profil" name="image_url_profil" accept="image/webp,image/jpeg" type='file' required />
+                                        <input class="inputImg" id="image_url_profil" name="image_url_profil" accept="image/webp,image/jpeg" type='file'  />
                                         <span class="pridi-regular">CHOOSE IMAGE PROFIL</span>
                                     </label>
 
