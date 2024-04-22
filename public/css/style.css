@@ -18,29 +18,39 @@
   /*--error-color:;
   --warning-color:;
   --success-color:;
-  --hover-color:;
-  --background-color-light:;*/
+  --hover-color:;*/
+  --background-color-light: rgba(34, 38, 58, 0.7);
 }
 a {
   color: var(--link-color);
 }
 /******* Title article */
+/*H1*/
 .title-site {
   font-size: 3rem;
   padding: 0rem 0rem;
+  color: var(--border-color);
 }
+/*H2*/
 .title-article {
   font-size: 1.5rem;
   padding: 0rem 0rem;
+  color: var(--border-color);
 }
+/*H3*/
+article h3 {
+  color: var(--border-color);
+}
+/*H4*/
+/*H5*/
 /************* Header */
 .header {
-  position: relative;
+  /* position: relative;
   border-top: 2px solid var(--border-color);
   border-left: 2px solid transparent;
   border-bottom: none;
   border-right: none;
-  border-radius: 10px;
+  border-radius: 10px;*/
 }
 .navbar {
   position: relative;
@@ -126,12 +136,12 @@ a {
   height: 300px;
   object-fit: cover;
   object-position: 0 -100px;
-  border: 1px solid #fff;
+  border: 1px solid var(--border-color);
   border-radius: 10px;
 }
 .card-body {
   height: 100%;
-  color: #fff;
+  color: var(--border-color);
 }
 .card-title {
   position: relative;
@@ -166,24 +176,37 @@ a {
 /************ Card Profil ***********/
 .img_profil {
   height: 250px;
+  padding: 15px;
+  transition: transform 0.3s ease;
 }
 
 .img_profil img {
   height: 100%;
   width: auto;
   object-fit: cover;
+
 }
-.card-footer .footer_profil {
-  width: 100%;
+.img_profil:hover {
+  transform: scale(1.05);
+}
+.footer_profil {
+  padding: 15px;
+  color: var(--border-color);
 }
 
+.card:hover {
+  transform: scale(1.05);
+}
 /*************** Footer  ***********************/
 #pageFooter {
   height: auto;
 }
+#pageFooter h4 {
+  color: var(--border-color);
+}
 /**************** Navigation */
 #navigation {
-  border: 1px solid #fff;
+  border: 1px solid var(--border-color);
   height: 100%;
 }
 .navigation {
@@ -199,7 +222,7 @@ a {
 .social {
   padding-left: 30px;
   padding-right: 30px;
-  border: 1px solid #fff;
+  border: 1px solid var(--border-color);
   height: 100%;
   width: 100%;
 }
@@ -221,7 +244,7 @@ a {
   height: 100%;
   padding-left: 30px;
   padding-right: 30px;
-  border: 1px solid #fff;
+  border: 1px solid var(--border-color);
 }
 .content-form {
   text-align: center;
@@ -279,17 +302,37 @@ legend small {
 .custom-file-upload input[type="file"] {
   display: none;
 }
+
+/*.form-control:focus ~ .form-notch div {
+  box-shadow: none;
+  border-color: none !important;
+}
+.form-control:focus ~ .form-label {
+  color: red !important;
+}*/
 /****************** Card */
 .card {
-  border: 0.125rem solid grey;
-  background-color: rgba(34, 38, 58, 0.7);
+  /*border: 0.125rem solid grey;*/
+  
   border-radius: 10px !important;
   -webkit-border-radius: 10px !important;
   -moz-border-radius: 10px !important;
   -ms-border-radius: 10px !important;
   -o-border-radius: 10px !important;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  margin: 1.3rem; 
 }
+
+.card:hover {
+  transform: scale(1.05);
+}
+.card-body {
+  background-color: rgba(34, 38, 58, 0.7);
+  padding:15px;
+  margin-top:15px;
+}
+
 
 .card-img-container {
   width: 100%;
@@ -314,6 +357,14 @@ legend small {
 .custom-file-upload:hover {
   color: #000;
   background-color: var(--highlight-color);
+}
+#synopsis {
+  background-color: transparent;
+}
+
+.padding-top {
+  position: relative;
+  margin-top: 50px;
 }
 .hiddenInput {
   display: none;

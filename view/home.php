@@ -13,7 +13,7 @@
                             <img src='<?= $movie["image_url"] ?>' class="img_card" alt="">
                         </div>
                         <!-- card content -->
-                        <div class="card-body border">
+                        <div class="card-body">
                             <p class="card-title">
                                 <!-- title and timeMovie -->
                                 <span class="left-span">

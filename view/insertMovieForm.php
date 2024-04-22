@@ -4,7 +4,7 @@ isset($details)  ? $movie = $details->fetch() : $movie = null;
 isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
 ?>
 
-<form id="newFormMovie" action="./index.php?action=addMovie<?= isset($id) ? "&id=$id" : "" ?>" method="post" class="row g-3 needs-validation" novalidate>
+<form id="newFormMovie" action="./index.php?action=addMovie<?= isset($id) ? "&id=$id" : "" ?>" method="post" class="row gx-3 needs-validation" novalidate>
     <fieldset>
         <legend class="pridi-regular">
             <h3>Détails du Réalisateur</h3>
@@ -27,14 +27,14 @@ isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
                             <div class="mb-1 mt-1 row gx-5">
                                 <div class="col-md-6">
                                     <div class="form-outline" data-mdb-input-init>
-                                        <input type="text" class="form-control" id="firstName" name="firstName" value="<?= isset($movie) ? $movie['firstName'] : '' ?>" autocomplete="off" />
+                                        <input type="text" class="form-control" id="firstName" name="firstName" value="<?= isset($movie) ? $movie['firstName'] : '' ?>" autocomplete="off" required />
                                         <label for="firstName" class="form-label pridi-regular">First Name</label>
                                         <div class="invalid-feedback">First name is required.</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-outline" data-mdb-input-init>
-                                        <input type="text" class="form-control" id="lastName" name="lastName" value="<?= isset($movie) ? $movie['lastName'] : '' ?>" autocomplete="off" />
+                                        <input type="text" class="form-control" id="lastName" name="lastName" value="<?= isset($movie) ? $movie['lastName'] : '' ?>" autocomplete="off" required />
                                         <label for="lastName" class="form-label pridi-regular">Last Name</label>
                                         <div class="invalid-feedback">Last name is required.</div>
                                     </div>
@@ -42,9 +42,10 @@ isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
                             </div>
 
                             <div class="row mt-4 gx-5">
+
                                 <div class="col-md-6">
                                     <div class="form-outline" data-mdb-input-init>
-                                        <input id="birthday" name="birthday" class="datepicker form-control pridi-light" type="date" value="<?= isset($movie) ? $movie['birthday'] : "" ?>" />
+                                        <input id="birthday" name="birthday" class="datepicker form-control pridi-light" type="date" value="<?= isset($movie) ? $movie['birthday'] : "" ?>" required />
                                         <label class="form-label pridi-light" for="birthday">Date Anniverssaire</label>
                                         <div class="invalid-feedback">Birthday date is required.</div>
                                     </div>
@@ -56,29 +57,33 @@ isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
                                         <option value="F" <?= (isset($movie) && $movie['sex'] == 'F') ? 'selected' : '' ?>>Femme</option>
                                     </select>
                                 </div>
-                                <div class="row mt-4 gx-5">
-                                    <div class="col-md-4">
-                                        <label for="image_url_profil" class="custom-file-upload">
-                                            <input class="inputImg" id="image_url_profil" name="image_url_profil" accept="image/webp,image/jpeg" type='file' />
-                                            <span class="pridi-regular">CHOOSE IMAGE PROFIL</span>
+                            </div>
+                            <div class="row mt-4 gx-5">
+
+                                <div class="col-md-6 text-center ">
+
+                                    <label for="image_url_profil" class="custom-file-upload">
+                                        <input class="inputImg" id="image_url_profil" name="image_url_profil" accept="image/webp,image/jpeg" type='file' required />
+                                        <span class="pridi-regular">CHOOSE IMAGE PROFIL</span>
+                                    </label>
+
+                                </div>
+
+                                <div class="col-md-6 text-center ">
+
+                                    <div class="form-check form-check-inline">
+                                        <input name="director" class="form-check-input" type="checkbox" value="<?= (isset($movie) && $movie['id_director'] ? $movie['id_director'] : '') ?>" <?= (isset($movie) && $movie['id_director']) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="director">
+                                            Réalisateur
                                         </label>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-check form-check-inline">
-                                            <input name="director" class="form-check-input" type="checkbox" value="<?= (isset($movie) && $movie['id_director'] ? $movie['id_director'] : '') ?>" <?= (isset($movie) && $movie['id_director']) ? 'checked' : '' ?>>
-                                            <label class="form-check-label" for="director">
-                                                Réalisateur
-                                            </label>
-                                        </div>
+                                    <div class="form-check form-check-inline">
+                                        <input name="actor" class="form-check-input" type="checkbox" value="">
+                                        <label class="form-check-label" for="actor">
+                                            Acteur
+                                        </label>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-check form-check-inline">
-                                            <input name="actor" class="form-check-input" type="checkbox" value="">
-                                            <label class="form-check-label" for="actor">
-                                                Acteur
-                                            </label>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -86,6 +91,7 @@ isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
                 </div>
             </div>
         </div>
+
         <div class="col-12">
             <div class="card mb-3">
                 <div class="row g-0">
@@ -96,7 +102,9 @@ isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
                     </div>
                     <div class="col-md-10">
                         <div class="card-body">
-                            <h5 class="card-title pridi-light">Film</h5>
+
+                            <h5 class="card-title pridi-light">Informations du Film</h5>
+
                             <div class="row mt-4 gx-5">
                                 <div class="col-md-6">
                                     <div class="form-outline" data-mdb-input-init>
@@ -115,14 +123,16 @@ isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
                             </div>
                             <div class="row mt-4 gx-5">
                                 <div class="col-md-6">
-                                    <div class="form-outline" data-mdb-input-init>
+                                    <div class=" form-outline" data-mdb-input-init>
                                         <input type="text" name="timeMovie" class="form-control" value="<?= isset($movie) ? $movie['timeMovie'] : "" ?>" placeholder="00H00">
                                         <label class="form-label pridi-light" for="timeMovie">Durée</label>
                                     </div>
-                                    <label for="image_url_movie" class="form-label custom-file-upload mt-4">
-                                        <input class="inputImg" id="image_url_movie" name="image_url_movie" accept="image/webp,image/jpeg" type='file' />
-                                        <span class="pridi-regular">CHOOSE IMAGE MOVIE</span>
-                                    </label>
+                                    <div class="d-flex justify-content-center">
+                                        <label for="image_url_movie" class="form-label custom-file-upload mt-4">
+                                            <input class="inputImg" id="image_url_movie" name="image_url_movie" accept="image/webp,image/jpeg" type='file' />
+                                            <span class="pridi-regular">CHOOSE IMAGE MOVIE</span>
+                                        </label>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <select name="genres[]" class="form-control" multiple>
@@ -133,15 +143,26 @@ isset($_GET['id']) ? $id = $_GET['id'] : $movie = null;
                                     </select>
                                 </div>
                             </div>
+                            <div class="mb-4 mt-4">
+                                <div class=" form-outline" data-mdb-input-init>
+                                    
+                                    <textarea class="form-control" id="synopsis" name="synopsis" rows="5"><?= isset($movie) ? $movie['synopsis'] : "" ?></textarea>
+                                    <label for="synopsis" class="form-label pridi-light">Synopsis</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
+
     </fieldset>
-    <div class="col-12">
-        <button class="btn btn-custom pridi-regular" type="submit" data-mdb-ripple-init>Submit </button>
+
+    <div class="row mt-4 text-center">
+        <div class="col-md-12 ">
+            <button class="btn btn-custom pridi-regular" type="submit" data-mdb-ripple-init>Submit </button>
+        </div>
+
     </div>
 </form>
 <?php

@@ -26,9 +26,9 @@ CREATE TABLE IF NOT EXISTS `actor` (
   PRIMARY KEY (`id_actor`),
   UNIQUE KEY `id_person` (`id_person`),
   CONSTRAINT `actor_ibfk_1` FOREIGN KEY (`id_person`) REFERENCES `person` (`id_person`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Listage des données de la table cinebdd.actor : ~34 rows (environ)
+-- Listage des données de la table cinebdd.actor : ~37 rows (environ)
 INSERT INTO `actor` (`id_actor`, `id_person`) VALUES
 	(1, 2),
 	(2, 3),
@@ -81,11 +81,9 @@ CREATE TABLE IF NOT EXISTS `casting` (
   CONSTRAINT `casting_ibfk_3` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Listage des données de la table cinebdd.casting : ~38 rows (environ)
+-- Listage des données de la table cinebdd.casting : ~35 rows (environ)
 INSERT INTO `casting` (`id_movie`, `id_actor`, `id_role`) VALUES
 	(1, 1, 3),
-	(1, 2, 2),
-	(1, 3, 1),
 	(2, 4, 5),
 	(2, 5, 6),
 	(2, 6, 4),
@@ -129,9 +127,9 @@ CREATE TABLE IF NOT EXISTS `director` (
   PRIMARY KEY (`id_director`) USING BTREE,
   UNIQUE KEY `id_person` (`id_person`),
   CONSTRAINT `director_ibfk_1` FOREIGN KEY (`id_person`) REFERENCES `person` (`id_person`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Listage des données de la table cinebdd.director : ~8 rows (environ)
+-- Listage des données de la table cinebdd.director : ~9 rows (environ)
 INSERT INTO `director` (`id_director`, `id_person`) VALUES
 	(2, 1),
 	(3, 5),
@@ -148,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `genre` (
   `id_genre` int NOT NULL AUTO_INCREMENT,
   `nameGenre` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_genre`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Listage des données de la table cinebdd.genre : ~8 rows (environ)
 INSERT INTO `genre` (`id_genre`, `nameGenre`) VALUES
@@ -160,7 +158,8 @@ INSERT INTO `genre` (`id_genre`, `nameGenre`) VALUES
 	(6, 'Thriller'),
 	(7, 'Aventure'),
 	(8, 'Romance'),
-	(9, 'Epouvante-horreur');
+	(9, 'Epouvante-horreur'),
+	(10, 'Science Fiction');
 
 -- Listage de la structure de table cinebdd. genre_movie
 CREATE TABLE IF NOT EXISTS `genre_movie` (
@@ -187,15 +186,21 @@ INSERT INTO `genre_movie` (`id_movie`, `id_genre`) VALUES
 	(3, 3),
 	(4, 3),
 	(7, 3),
+	(1, 4),
 	(2, 4),
-	(10, 4),
+	(1, 5),
 	(3, 5),
 	(9, 5),
+	(1, 6),
 	(5, 6),
 	(9, 6),
+	(1, 7),
 	(7, 7),
+	(1, 8),
 	(8, 8),
-	(9, 9);
+	(1, 9),
+	(9, 9),
+	(1, 10);
 
 -- Listage de la structure de table cinebdd. movie
 CREATE TABLE IF NOT EXISTS `movie` (
@@ -209,11 +214,11 @@ CREATE TABLE IF NOT EXISTS `movie` (
   PRIMARY KEY (`id_movie`),
   KEY `id_realisator` (`id_director`) USING BTREE,
   CONSTRAINT `movie_ibfk_1` FOREIGN KEY (`id_director`) REFERENCES `director` (`id_director`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Listage des données de la table cinebdd.movie : ~10 rows (environ)
 INSERT INTO `movie` (`id_movie`, `title`, `releaseDate`, `timeMovie`, `synopsis`, `id_director`, `image_url`) VALUES
-	(1, 'Godzilla x Kong : Le Nouvel Empire', '2024-04-03 17:44:00', 115, 'Le tout-puissant Kong et le redoutable Godzilla unissent leurs forces contre une terrible menace encore secrète qui risque de les anéantir et qui met en danger la survie même de l’espèce humaine. GODZILLA X KONG : LE NOUVEL EMPIRE remonte à l’origine des deux titans et aux mystères de Skull Island, tout en révélant le combat mythique qui a contribué à façonner ces deux créatures hors du commun et lié leur sort à celui de l’homme pour toujours…', 2, './public/img/films/godzillaxkong/godzilla_x_kong.jpg'),
+	(1, 'Godzilla x Kong : Le Nouvel Empire', '2024-04-03 00:00:00', 60, 'Le tout-puissant Kong et le redoutable Godzilla unissent leurs forces contre une terrible menace encore secrète qui risque de les anéantir et qui met en danger la survie même de l’espèce humaine. GODZILLA X KONG : LE NOUVEL EMPIRE remonte à l’origine des deux titans et aux mystères de Skull Island, tout en révélant le combat mythique qui a contribué à façonner ces deux créatures hors du commun et lié leur sort à celui de l’homme pour toujours…', 2, './public/img/films/godzillaxkong/godzilla_x_kong.jpg'),
 	(2, 'Ducobu passe au vert', '2024-04-03 18:07:20', 80, 'Nouvelle rentrée à Saint-Potache. Cette année Ducobu a une idée de génie : prendre une année sabbatique pour sauver la planète mais surtout pour sécher l’école ! Mais Latouche ne compte pas le laisser faire si facilement… Tricheur et écolo, c’est pas du gâteau !', 3, './public/img/films/ducobu/ducobu.webp'),
 	(3, 'Dune : Deuxième Partie', '2024-02-28 19:29:52', 166, 'Dans DUNE : DEUXIÈME PARTIE, Paul Atreides s’unit à Chani et aux Fremen pour mener la révolte contre ceux qui ont anéanti sa famille. Hanté par de sombres prémonitions, il se trouve confronté au plus grand des dilemmes : choisir entre l’amour de sa vie et le destin de l’univers.', 4, './public/img/films/dune2/dune2.webp'),
 	(4, 'Captain Marvel', '2019-03-06 19:41:23', 124, 'Captain Marvel raconte l’histoire de Carol Danvers qui va devenir l’une des super-héroïnes les plus puissantes de l’univers lorsque la Terre se révèle l’enjeu d’une guerre galactique entre deux races extraterrestres.', 5, './public/img/films/captain/captain.jpg'),
@@ -233,11 +238,11 @@ CREATE TABLE IF NOT EXISTS `person` (
   `sex` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `image_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_person`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Listage des données de la table cinebdd.person : ~45 rows (environ)
 INSERT INTO `person` (`id_person`, `firstName`, `lastName`, `birthday`, `sex`, `image_url`) VALUES
-	(1, 'Adam', 'Wingard', '1982-12-03 17:09:44', 'M', './public/img/persons/AdamWingard.webp'),
+	(1, 'Adam', 'Wingard', '1982-12-03 00:00:00', 'M', '010'),
 	(2, 'Rebecca', 'Hall', '1982-05-03 17:34:51', 'F', './public/img/persons/RebeccaHall.webp'),
 	(3, 'Brian', 'Tyree Henry', '1982-03-31 17:35:39', 'M', './public/img/persons/BrianTyreeHenry.jpg'),
 	(4, 'Dan', 'Stevens', '1982-10-10 17:39:19', 'M', './public/img/persons/DanStevens.webp'),

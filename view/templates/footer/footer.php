@@ -3,7 +3,7 @@
     <div class="row">
         <!-- Navigation -->
         <div class="col-md-4">
-            <h4>Navigation</h4>
+            <h4 class="pridi-regular">Navigation</h4>
             <div id="navigation">
                 <ul class="navigation">
                     <li><a href="#"><s>Conditions générales d'utilisatation</s></a></li>
@@ -14,7 +14,7 @@
         </div>
         <!-- Galery social -->
         <div class="col-md-4">
-            <h4>Rejoignez-nous</h4>
+            <h4 class="pridi-regular">Rejoignez-nous</h4>
             <div class="d-flex flex-column justify-content-center social ">
                 <div class="d-flex flex-row justify-content-center galery-social">
                     <figure>
@@ -36,7 +36,7 @@
         </div>
         <!-- Newsletter -->
         <div class="col-md-4">
-            <h4>Newsletter</h4>
+            <h4 class="pridi-regular">Newsletter</h4>
             <div id="newsletter">
                 <form class="content-form">
                     <div class="form-group">
