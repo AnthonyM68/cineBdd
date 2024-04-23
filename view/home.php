@@ -5,12 +5,12 @@
         <?php foreach ($movies->fetchAll() as $movie) {
         ?>
             <div class="col-md-6 ">
-                <div class="card-wrapper">
+                <div class="card-wrapper card_movie">
                     <div class="card">
                         <!-- card image -->
                         <div class="card-image">
                             <!-- img movie -->
-                            <img src='<?= $movie["image_url"] ?>' class="img_card" alt="">
+                            <img src='<?= isset($movie["image_url"]) && $movie["image_url"] ? $movie["image_url"] : '' ?>'class="img_card" alt="">
                         </div>
                         <!-- card content -->
                         <div class="card-body">
@@ -18,13 +18,13 @@
                                 <!-- title and timeMovie -->
                                 <span class="left-span">
                                     <!-- link show details movie -->
-                                    <a href="./index.php?action=showDetailsMovie&id=<?= $movie["id_movie"] ?>">
-                                        <?= $movie["title"] ?>
+                                    <a href="./index.php?action=showDetailsMovie&id=<?= isset($movie["id_movie"]) && $movie['id_movie'] ? $movie['id_movie'] : "" ?>">
+                                    <?= isset($movie["title"]) && $movie["title"] ? $movie["title"] : "" ?>
                                     </a>
                                 </span>
-                                <span class="right-span"><?= $movie["timeMovie"] ?></span>
+                                <span class="right-span"><?= isset($movie["timeMovie"]) && $movie["timeMovie"] ? $movie["timeMovie"] : "" ?></span>
                             </p>
-                            <p class="card-text"><?= $movie["synopsis"] ?></p>
+                            <p class="card-text"><?= isset($movie["synopsis"]) && $movie["synopsis"] ? $movie["synopsis"] : "" ?></p>
                         </div>
                     </div>
                 </div>

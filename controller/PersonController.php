@@ -4,8 +4,9 @@ namespace Controller;
 
 use Model\Connect;
 use PDOStatement;
+use Controller\ToolsController;
 
-class PersonController
+class PersonController extends ToolsController
 {
     public function showDetailsPerson(int $id_person): void
     {
@@ -50,50 +51,58 @@ class PersonController
 
         require "view/person.php";
     }
-    public function listActors(): void
-    {
-        $pdo = Connect::getPDO();
-        // Sélectionnez toutes les personnes
-        $persons = $pdo->query("SELECT 
-        DATE_FORMAT(p.birthday, '%d/%m/%Y') AS birthday,
-        CONCAT(p.firstName,' ', p.lastName) AS fullname,
-        p.id_person,
-        p.sex,
-        p.image_url,
-        a.id_actor
-        FROM actor a
-        INNER JOIN person p ON a.id_person = p.id_person 
-        ORDER BY p.firstName ASC");
+    
 
-        $persons = $persons->fetchAll();
-        /*if (isset($per['id_actor'])) {
-            echo $this->getMoviesAndRoleByActor($per['id_actor']);
-        } else {
-            echo $this->getMoviesByDirector($per['id_person']);
-        }*/
-
-        require "view/person.php";
-    }
     public function listDirectors(): void
     {
-
         $pdo = Connect::getPDO();
-        $persons = $pdo->query("SELECT 
+
+        $personsRequest = $pdo->query("SELECT 
+        p.id_person,
         DATE_FORMAT(p.birthday, '%d/%m/%Y') AS birthday,
         CONCAT(p.firstName,' ', p.lastName) AS fullname,
-        p.id_person,
         p.sex,
-        p.image_url
+        p.image_url,
+        d.id_director,
+        m.id_movie,
+        m.title AS title
         FROM director d
-        INNER JOIN person p ON d.id_person = p.id_person
+        INNER JOIN person p ON d.id_person = p.id_person 
+        LEFT JOIN casting c ON d.id_director = c.id_actor
+        LEFT JOIN movie m ON c.id_movie = m.id_movie
         ORDER BY p.firstName ASC");
 
+        $persons = $personsRequest->fetchAll();
+        // on crée un tableau vide pour chacun de nos acteurs
+        $infosActor = [];
+        foreach ($persons as $person) {
+            // Si l'acteur n'existe pas, on le pousse dans notre nouveau tableau
+            if (!isset($infosActor[$person['id_person']])) {
+                $infosActor[$person['id_person']] = [
+                    'id_person' => $person['id_person'],
+                    'birthday' => $person['birthday'],
+                    'fullname' => $person['fullname'],
+                    'sex' => $person['sex'],
+                    'image_url' => $person['image_url'],
+                    'movies' => [] // Initialisez une chaîne vide pour les films joués
+                ];
+            }
+            $infosActor[$person['id_person']]['movies'][] = [
+                'id_movie' => $person['id_movie'],
+                'title' => $person['title']
+            ];
+        }
+        foreach ($infosActor as &$actor) {
+            // on convertis le tableau de movies en une chaine de caractère 
+            // avec les liens detailsMovie et ponctuation
+            $actor['movies'] = $this->convertToString($actor['movies'], "detailsMovieLink");
+        }
         require "view/person.php";
     }
     public function actorsOver50Years(): void
     {
         $pdo = Connect::getPDO();
-        $person = $pdo->query("SELECT 
+        $persons = $pdo->query("SELECT 
         DATE_FORMAT(p.birthday, '%d/%m/%Y') AS birthday, 
         CONCAT(p.firstName,' ', p.lastName) AS fullname,
         p.id_person,

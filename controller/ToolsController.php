@@ -22,40 +22,38 @@ abstract class ToolsController
         $totalMinutes = $hours * 60 + $minutes;
         return $totalMinutes;
     }
-    protected function convertToString(PDOStatement $requestFetch, string $typeLink): string
+    protected function convertToString(array $infos, string $typeLink): string
     {
         $html = '';
         $listElements = [];
         switch ($typeLink) {
-            case 'person':
-                foreach ($requestFetch->fetchAll() as $person) {
-                    $listElements[] = "<a href='./index.php?action=showDetailsPerson&id="
-                        . $person['id_person'] . "&table=actor' >"
-                        . $person['lastName'] . $person['firstName'] . "</a>";
+            case 'detailsMovieLink':
+                foreach ($infos as $movie) {
+                    $listElements[] = "<a href='./index.php?action=showDetailsMovie&id=" . $movie['id_movie'] . "'>" . $movie['title'] . "</a>";
                 }
                 break;
-            case 'detailsMovie':
-                foreach ($requestFetch->fetchAll() as $movie) {
-                    $id_movie = $movie["id_movie"];
-                    $listElements[] = "<a href='./index.php?action=showDetailsMovie&id=$id_movie'>"
-                        . $movie["title"] . "</a>";
+            case 'casting':
+                foreach ($infos as $casting) {
+                  
+                    $listElements[] = "<a href='./index.php?action=showDetailsPerson&id=" . $casting['id_person'] ."'>" . $casting['firstName'] . $casting['lastName'] ."</a>";
                 }
                 break;
             case 'genres':
-                foreach ($requestFetch->fetchAll() as $genre) {
+                foreach ($infos as $genre) {
                     $listElements[] = "<span>" . $genre['nameGenre'] . "</span>";
                 }
                 break;
-            default:
-                return $html = '';
         }
+
         if (count($listElements) > 1) {
             $lastLink = array_pop($listElements);
             $titleString = implode(', ', $listElements) . ' et ' . $lastLink;
         } else {
             $titleString = implode(', ', $listElements);
         }
+
         $html = '<small>' . $titleString . '</small>';
+
         return $html;
     }
     protected function getMoviesAndRoleByActor($id_actor)
@@ -90,7 +88,7 @@ abstract class ToolsController
 
         return $movies;
     }
-    
+
     protected function getMoviesByDirector($id_person)
     {
         $movies = null;

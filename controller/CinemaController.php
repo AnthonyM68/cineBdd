@@ -103,57 +103,59 @@ class CinemaController extends ToolsController
     public function showDetailsMovie(int $movie_id)
     {
         $pdo = Connect::getPDO();
-        $details = $pdo->prepare("SELECT m.title, 
-        DATE_FORMAT(m.releaseDate, '%d %m %Y') AS releaseDate, 
-        DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn')  AS timeMovie, 
-        m.synopsis,
-        m.image_url, 
-        d.id_director, 
-        p.firstName, 
-        p.id_person,
-        p.lastName, 
-        p.birthday, 
-        p.sex
-        FROM director d
-        INNER JOIN movie m ON d.id_director = m.id_director
-        INNER JOIN person p ON d.id_person = p.id_person
-        WHERE id_movie = :movie_id");
-        $details->execute(["movie_id" => $movie_id]);
+            // Récupérer les détails du film
+            $movie = $pdo->prepare("SELECT 
+                    m.title, 
+                    DATE_FORMAT(m.releaseDate, '%d %m %Y') AS releaseDate, 
+                    DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie, 
+                    m.synopsis,
+                    m.image_url
+                FROM movie m
+                WHERE m.id_movie = :movie_id
+            ");
+            $movie->execute(["movie_id" => $movie_id]);
+            $movie = $movie->fetch();
 
-        $casting = $pdo->prepare("SELECT
-        p.id_person,
-        p.lastName, 
-        p.firstName, 
-        p.sex, 
-        p.image_url,
-        r.nameRole, 
-        DATE_FORMAT(p.birthday, '%d %m %Y') AS birthday
-        FROM casting c
-        INNER JOIN movie m ON c.id_movie = m.id_movie
-        INNER JOIN role r  ON r.id_role = c.id_role
-        LEFT JOIN actor a  ON a.id_actor = c.id_actor
-        LEFT JOIN person p ON a.id_person = p.id_person
-        WHERE m.id_movie = :movie_id");
-        $casting->execute(["movie_id" => $movie_id]);
-        // Convert array person to string with separator
-        $casting = $this->convertToString($casting, "person");
+        
+            // Récupérer les détails du casting
+            $casting = $pdo->prepare("SELECT
+                     p.id_person,
+                    p.firstName, 
+                    p.lastName, 
+                    r.nameRole
+                FROM casting c
+                INNER JOIN role r ON c.id_role = r.id_role
+                LEFT JOIN actor a ON c.id_actor = a.id_actor
+                LEFT JOIN person p ON a.id_person = p.id_person
+                WHERE c.id_movie = :movie_id
+            ");
+            $casting->execute(["movie_id" => $movie_id]);
+            $castingDetails = $casting->fetchAll();
+            $casting = $this->convertToString($castingDetails, "casting");
+        
+            // Récupérer les genres du film
+            $genres = $pdo->prepare("SELECT g.nameGenre
+                FROM genre_movie gm
+                INNER JOIN genre g ON gm.id_genre = g.id_genre
+                WHERE gm.id_movie = :movie_id
+             
+            ");
+            $genres->execute(["movie_id" => $movie_id]);
 
-        $genres = $pdo->prepare("SELECT gm.id_genre,
-        nameGenre
-        FROM genre_movie gm
-        INNER JOIN genre g ON gm.id_genre = g.id_genre
-        WHERE	gm.id_movie = :movie_id");
-        $genres->execute(["movie_id" => $movie_id]);
-        // Convert array genres to string with separator
-        $genres = $this->convertToString($genres, "genres");
+            $genres = $genres->fetchAll();
 
-        $director = $pdo->prepare("SELECT p.firstName, lastName
-        FROM person p
-        INNER	JOIN director d ON d.id_person = p.id_person
-        INNER JOIN movie m ON m.id_director = d.id_director
-        WHERE m.id_movie = :movie_id");
-        $director->execute(["movie_id" => $movie_id]);
-
+            $genres = $this->convertToString($genres, "genres");
+          
+            // Récupérer les informations sur le réalisateur
+            $director = $pdo->prepare("SELECT p.firstName, p.lastName
+                FROM person p
+                INNER JOIN director d ON d.id_person = p.id_person
+                WHERE d.id_director IN (
+                    SELECT id_director FROM movie WHERE id_movie = :movie_id
+                )
+            ");
+            $director->execute(["movie_id" => $movie_id]);
+            $director = $director->fetch();
         require "view/detailsMovie.php";
     }
     /**
