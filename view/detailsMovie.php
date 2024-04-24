@@ -31,26 +31,31 @@
                                     <?= isset($movie["synopsis"]) && $movie["synopsis"] ? $movie["synopsis"] : "" ?>
                                 </small>
                             </p>
-
                             <div class="row">
                                 <p class="card-text">Réalisateur:
-                                    <small>
-                                        <a href="./index.php?action=showDetailsPerson&id=<?= isset($movie["id_person"]) && $movie["id_person"] ? $movie["id_person"] : "" ?>">
-                                            <span>
-                                                <?= isset($director["firstName"]) && $director["firstName"] ? $director["firstName"] : "" ?>
-                                            </span>
-                                            <span>
-                                                <?= isset($director["lastName"]) && $director["lastName"] ? $director["lastName"] : "" ?>
-                                            </span>
-                                        </a>
-                                    </small>
+                                    <?= $director ?>
                                 </p>
                                 <p class="card-text">Genre:
-                                    <small><?= $genres ?></small>
+                                    <small><?= $genres ? $genres : "" ?></small>
                                 </p>
-                                <p class="card-text">Acteurs:
-                                    <small><? $casting ?></small>
-                                </p>
+                                <p class="card-text">Casting:</p>
+
+                                <div class="card-group">
+                                    <?php
+                                    if (isset($casting) && !empty($casting)) {
+                                        foreach ($casting as $actor) { ?>
+                                            <div class="card casting-card-image h-90 d-flex align-items-center">
+                                                <img class="card-img " src="<?= $actor['image_url'] ?>" alt="Card image casting">
+                                                <div class="card-body w-100">
+                                                    <h5 class="card-title"><a href="./index.php?action=showDetailsPerson&id=<?= $actor['id_person'] ?>"><?= $actor['firstName'] ." " . $actor['lastName'] ?></a></h5>
+                                                    <p class="card-text">Genre: <?= $actor['sex'] ?></p>
+                                                    <p class="card-text">Role: <small class="text-muted"><?= $actor['nameRole'] ?></small></p>
+                                                </div>
+                                            </div>
+                                    <?php }
+                                    }
+                                    ?>
+                                </div>
                             </div>
                         </div>
                     </div>

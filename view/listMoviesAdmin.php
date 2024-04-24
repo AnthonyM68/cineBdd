@@ -4,7 +4,7 @@
     <div class="col-lg-12 mb-4">
         <!-- card wrapper -->
         <div class="card-wrapper">
-            <div class="card">
+            <div class="card card-list-admin">
                 <!-- no marge -->
                 <div class="row no-gutters">
                     <!-- card image -->

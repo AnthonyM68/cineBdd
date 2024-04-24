@@ -34,13 +34,17 @@ abstract class ToolsController
                 break;
             case 'casting':
                 foreach ($infos as $casting) {
-                  
-                    $listElements[] = "<a href='./index.php?action=showDetailsPerson&id=" . $casting['id_person'] ."'>" . $casting['firstName'] . $casting['lastName'] ."</a>";
+                    $listElements[] = "<a href='./index.php?action=showDetailsPerson&id=" . $casting['id_person'] . "'>" . $casting['firstName'] . " " . $casting['lastName'] . "</a>";
                 }
                 break;
             case 'genres':
                 foreach ($infos as $genre) {
                     $listElements[] = "<span>" . $genre['nameGenre'] . "</span>";
+                }
+                break;
+            case 'director':
+                foreach ($infos as $director) {
+                    $listElements[] = "<a href='./index.php?action=showDetailsPerson&id=" . $director['id_director'] . "'>" . $director['firstName'] . " " . $director['lastName'] . "</a>";
                 }
                 break;
         }

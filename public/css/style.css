@@ -135,114 +135,37 @@ article h3 {
   transition: transform 0.3s ease;
   margin: 1.3rem; 
 }
-.card:hover {
-  transform: scale(1.05);
+.card-image {
+  /*width: 100px; 
+  height: auto;*/
+  overflow: hidden;
+}
+.card-image img {
+  /*width: 100%; 
+  height: 100%; 
+  object-fit: cover;*/
+}
+.card-title {
+  background-color: rgba(34, 38, 58, 0.7);
+  font-size:.8rem;
 }
 .card-body {
   background-color: rgba(34, 38, 58, 0.7);
-  padding:15px;
-  margin-top:15px;
+  font-size:.8rem;
 }
-/**********details movie */
-.card-img-container-details {
-  width: 80%;
-  height: 80%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-.card-img-container-details .card-img {
-  width: 200px; /* Définissez la largeur souhaitée */
-  height: 300px; /* Définissez la hauteur souhaitée */
-  object-fit: cover;
-}
-
-
-/************movie*/
-.card-img-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-.card-img-container img {
-  width: 100%;
-  object-fit: cover;
-}
-
 .card-wrapper {
   height: 100%;
   display: flex;
 }
-.card_movie .card {
-  flex: 1;
-  margin-right: 10px;
+.card {
+  flex: 1;/*flex 1 fait en sorte que chaque carte 
+  prenne autant d'espace disponible que possible 
+  dans le conteneur
+  margin-right: 10px; */
   background-color: transparent;
 }
-.card_movie .card .img_card {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  object-position: 0 -100px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-}
-.card_movie .card-body {
-  height: 100%;
-  color: var(--border-color);
-}
-.card_movie .card-title {
-  position: relative;
-  height: 30px;
-  font-size: 1.5rem;
-}
-.card_movie .left-span {
-  position: absolute;
-  left: 0;
-}
-.card_movie .right-span {
-  position: absolute;
-  right: 0;
-}
-.card_movie .right-span small {
-  font-size: 1.1rem;
-}
-.card_movie .card-text {
-  text-align: justify;
-}
-
-/************ Card Profil ***********/
-.card_profil .img_profil {
-  height: 250px;
-  padding: 15px;
-  transition: transform 0.3s ease;
-}
-.card_profil .img_profil img {
-  height: 100%;
-  width: auto;
-  object-fit: cover;
-}
-.card_profil .img_profil:hover {
+.card:hover {
   transform: scale(1.05);
-}
-.card_profil .footer_profil {
-  padding: 15px;
-  color: var(--border-color);
-}
-.card_profil .card:hover {
-  transform: scale(1.05);
-}
-.card_profil .btn-custom {
-  color: var(--highlight-color);
-  background-color: transparent;
-  border: 1px solid var(--highlight-color);
-  border-radius: 5px;
-  width:150px;
-
 }
 /*************** Footer  ***********************/
 #pageFooter {
@@ -398,7 +321,7 @@ legend small {
 
 
 /*************** listPerson */
-.footer_card_custom {
+/*.footer_card_custom {
   padding: 15px;
   color: var(--border-color);
-}
+}*/

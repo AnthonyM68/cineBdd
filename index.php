@@ -73,7 +73,7 @@ if (isset($_GET["action"])) {
             $ctrlPerson->deletePerson();
             break;
         case "showDetailsPerson":
-            $ctrlPerson->showDetailsPerson($id);
+            $ctrlPerson->showDetailsPerson();
             break;
         case "actorsOver50Years":
             $ctrlPerson->actorsOver50Years();

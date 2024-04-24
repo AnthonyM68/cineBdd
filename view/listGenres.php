@@ -1,26 +1,11 @@
 <?php ob_start(); ?>
 
-<div class="container">
-    <div class="row">
-        <table>
-            <thead>
-                <tr>
-                    <th>Genres</th>
-
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                foreach ($genres->fetchAll() as $genre) {
-                ?>
-                    <tr>
-                        <td><?= $genre["nameGenre"] ?></td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-    </div>
+<div class="list-group">
+    <?php foreach ($genres as $genre) : ?>
+        <a href="#" class="list-group-item list-group-item-action"><?= $genre["nameGenre"] ?></a>
+    <?php endforeach; ?>
 </div>
+
 <?php
 
 $title = "Liste des genres";

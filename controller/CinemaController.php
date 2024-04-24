@@ -103,60 +103,65 @@ class CinemaController extends ToolsController
     public function showDetailsMovie(int $movie_id)
     {
         $pdo = Connect::getPDO();
-            // Récupérer les détails du film
-            $movie = $pdo->prepare("SELECT 
-                    m.title, 
-                    DATE_FORMAT(m.releaseDate, '%d %m %Y') AS releaseDate, 
-                    DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie, 
-                    m.synopsis,
-                    m.image_url
+        // Récupérer les détails du film
+        $movie = $pdo->prepare("SELECT         
+                DATE_FORMAT(m.releaseDate, '%d %m %Y') AS releaseDate, 
+                DATE_FORMAT(SEC_TO_TIME(m.timeMovie * 60), '%HH%imn') AS timeMovie, 
+                m.title, 
+                m.synopsis,
+                m.image_url
                 FROM movie m
                 WHERE m.id_movie = :movie_id
             ");
-            $movie->execute(["movie_id" => $movie_id]);
-            $movie = $movie->fetch();
+        $movie->execute(["movie_id" => $movie_id]);
+        $movie = $movie->fetch();
+        // Récupérer les détails du casting
 
-        
-            // Récupérer les détails du casting
-            $casting = $pdo->prepare("SELECT
-                     p.id_person,
-                    p.firstName, 
-                    p.lastName, 
-                    r.nameRole
+        $castingDetails = $pdo->prepare("SELECT
+                p.id_person,
+                p.firstName, 
+                p.lastName, 
+                p.image_url,
+                p.sex,
+                r.nameRole
                 FROM casting c
                 INNER JOIN role r ON c.id_role = r.id_role
                 LEFT JOIN actor a ON c.id_actor = a.id_actor
                 LEFT JOIN person p ON a.id_person = p.id_person
                 WHERE c.id_movie = :movie_id
             ");
-            $casting->execute(["movie_id" => $movie_id]);
-            $castingDetails = $casting->fetchAll();
-            $casting = $this->convertToString($castingDetails, "casting");
-        
-            // Récupérer les genres du film
-            $genres = $pdo->prepare("SELECT g.nameGenre
+        $castingDetails->execute(["movie_id" => $movie_id]);
+
+        $casting= $castingDetails->fetchAll();
+
+        // Récupérer les genres du film
+        $listGenres = $pdo->prepare("SELECT g.nameGenre
                 FROM genre_movie gm
                 INNER JOIN genre g ON gm.id_genre = g.id_genre
                 WHERE gm.id_movie = :movie_id
              
             ");
-            $genres->execute(["movie_id" => $movie_id]);
-
-            $genres = $genres->fetchAll();
-
-            $genres = $this->convertToString($genres, "genres");
-          
-            // Récupérer les informations sur le réalisateur
-            $director = $pdo->prepare("SELECT p.firstName, p.lastName
-                FROM person p
-                INNER JOIN director d ON d.id_person = p.id_person
-                WHERE d.id_director IN (
-                    SELECT id_director FROM movie WHERE id_movie = :movie_id
-                )
-            ");
-            $director->execute(["movie_id" => $movie_id]);
-            $director = $director->fetch();
-        require "view/detailsMovie.php";
+        $listGenres->execute(["movie_id" => $movie_id]);
+        // on convertit en string 
+        $genres = $listGenres->fetchAll();
+        $genres = $this->convertToString($genres, "genres");
+        
+        // Récupérer les informations sur le réalisateur
+        $director = $pdo->prepare("SELECT 
+        d.id_director,
+        p.firstName, 
+        p.lastName
+        FROM person p
+        INNER JOIN director d ON d.id_person = p.id_person
+        WHERE d.id_director IN (
+            SELECT m.id_director FROM movie m WHERE id_movie = :movie_id
+            )
+        ");
+        $director->execute(["movie_id" => $movie_id]);
+        $linkDirector = $director->fetchAll();
+        $director = $this->convertToString($linkDirector, "director");
+       //var_dump($casting);
+      require "view/detailsMovie.php";
     }
     /**
      * display all movies
@@ -277,13 +282,12 @@ class CinemaController extends ToolsController
             if ($image_url_movie) {
                 $image_url_movie = "./index.html/public/img/films/$image_url_movie";
             }
-            
+
             $timeMovie = null;
             // convertion du format HTML vers datetime
             if (isset($_POST['timeMovie'])) {
                 $timeMovie = filter_input(INPUT_POST, 'timeMovie', FILTER_SANITIZE_SPECIAL_CHARS);
                 $timeMovie = $this->convertToMinutes($_POST['timeMovie']);
-                
             }
 
             // on prépare la requête

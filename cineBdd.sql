@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `casting` (
   CONSTRAINT `casting_ibfk_3` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Listage des données de la table cinebdd.casting : ~35 rows (environ)
+-- Listage des données de la table cinebdd.casting : ~36 rows (environ)
 INSERT INTO `casting` (`id_movie`, `id_actor`, `id_role`) VALUES
 	(1, 1, 3),
 	(2, 4, 5),
@@ -144,11 +144,11 @@ INSERT INTO `director` (`id_director`, `id_person`) VALUES
 -- Listage de la structure de table cinebdd. genre
 CREATE TABLE IF NOT EXISTS `genre` (
   `id_genre` int NOT NULL AUTO_INCREMENT,
-  `nameGenre` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nameGenre` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_genre`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Listage des données de la table cinebdd.genre : ~8 rows (environ)
+-- Listage des données de la table cinebdd.genre : ~10 rows (environ)
 INSERT INTO `genre` (`id_genre`, `nameGenre`) VALUES
 	(1, 'Action'),
 	(2, 'Fantastique'),
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `genre_movie` (
   CONSTRAINT `genre_movie_ibfk_2` FOREIGN KEY (`id_genre`) REFERENCES `genre` (`id_genre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Listage des données de la table cinebdd.genre_movie : ~21 rows (environ)
+-- Listage des données de la table cinebdd.genre_movie : ~28 rows (environ)
 INSERT INTO `genre_movie` (`id_movie`, `id_genre`) VALUES
 	(1, 1),
 	(4, 1),
@@ -205,12 +205,12 @@ INSERT INTO `genre_movie` (`id_movie`, `id_genre`) VALUES
 -- Listage de la structure de table cinebdd. movie
 CREATE TABLE IF NOT EXISTS `movie` (
   `id_movie` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `releaseDate` datetime NOT NULL,
   `timeMovie` int DEFAULT NULL,
   `synopsis` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `id_director` int NOT NULL,
-  `image_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `image_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_movie`),
   KEY `id_realisator` (`id_director`) USING BTREE,
   CONSTRAINT `movie_ibfk_1` FOREIGN KEY (`id_director`) REFERENCES `director` (`id_director`)
@@ -232,17 +232,17 @@ INSERT INTO `movie` (`id_movie`, `title`, `releaseDate`, `timeMovie`, `synopsis`
 -- Listage de la structure de table cinebdd. person
 CREATE TABLE IF NOT EXISTS `person` (
   `id_person` int NOT NULL AUTO_INCREMENT,
-  `firstName` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `lastName` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `firstName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `lastName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `birthday` datetime NOT NULL,
-  `sex` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `image_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `sex` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `image_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_person`)
 ) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Listage des données de la table cinebdd.person : ~45 rows (environ)
 INSERT INTO `person` (`id_person`, `firstName`, `lastName`, `birthday`, `sex`, `image_url`) VALUES
-	(1, 'Adam', 'Wingard', '1982-12-03 00:00:00', 'M', '010'),
+	(1, 'Adam', 'Wingard', '1982-12-03 00:00:00', 'M', './public/img/persons/AdamWingard.webp'),
 	(2, 'Rebecca', 'Hall', '1982-05-03 17:34:51', 'F', './public/img/persons/RebeccaHall.webp'),
 	(3, 'Brian', 'Tyree Henry', '1982-03-31 17:35:39', 'M', './public/img/persons/BrianTyreeHenry.jpg'),
 	(4, 'Dan', 'Stevens', '1982-10-10 17:39:19', 'M', './public/img/persons/DanStevens.webp'),
@@ -291,7 +291,7 @@ INSERT INTO `person` (`id_person`, `firstName`, `lastName`, `birthday`, `sex`, `
 -- Listage de la structure de table cinebdd. role
 CREATE TABLE IF NOT EXISTS `role` (
   `id_role` int NOT NULL AUTO_INCREMENT,
-  `nameRole` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nameRole` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_role`)
 ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
