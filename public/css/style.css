@@ -131,42 +131,53 @@ article h3 {
   -moz-border-radius: 10px !important;
   -ms-border-radius: 10px !important;
   -o-border-radius: 10px !important;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
   transition: transform 0.3s ease;
   margin: 1.3rem; 
+  flex:1;
+
 }
-.card-image {
-  /*width: 100px; 
-  height: auto;*/
-  overflow: hidden;
-}
-.card-image img {
-  /*width: 100%; 
-  height: 100%; 
-  object-fit: cover;*/
-}
-.card-title {
-  background-color: rgba(34, 38, 58, 0.7);
-  font-size:.8rem;
-}
-.card-body {
-  background-color: rgba(34, 38, 58, 0.7);
-  font-size:.8rem;
+.card:hover {
+  transform: scale(1.05);
 }
 .card-wrapper {
   height: 100%;
   display: flex;
 }
-.card {
-  flex: 1;/*flex 1 fait en sorte que chaque carte 
-  prenne autant d'espace disponible que possible 
-  dans le conteneur
-  margin-right: 10px; */
-  background-color: transparent;
+.card-image {
+  transition: transform 0.3s ease;
+  overflow: hidden;
+  box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
 }
-.card:hover {
-  transform: scale(1.05);
+.card-image:hover {
+  transform: scale(1.15) perspective(900px) translateY(10%) translateZ(0);
+  -webkit-transform: scale(1.15) perspective(900px) translateY(10%) translateZ(0);
+  -moz-transform: scale(1.15) perspective(900px) translateY(10%) translateZ(0);
+  -ms-transform: scale(1.15) perspective(900px) translateY(10%) translateZ(0);
+  -o-transform: scale(1.15) perspective(900px) translateY(10%) translateZ(0);
 }
+.card-body {
+  box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
+  font-size:.8rem;
+  transition: transform 0.3s ease;
+}
+.card-title {
+  background-color: rgba(34, 38, 58, 0.7);
+  font-size:.9rem;
+}
+
+
+.card-body:hover {
+  transform: scale(1.15) perspective(900px) translateY(15%) rotateX(-10deg) translateZ(0);
+  -webkit-transform: scale(1.15) perspective(900px) translateY(15%) rotateX(-10deg) translateZ(0);
+  -moz-transform: scale(1.15) perspective(900px) translateY(15%) rotateX(-10deg) translateZ(0);
+  -ms-transform: scale(1.15) perspective(900px) translateY(15%) rotateX(-10deg) translateZ(0);
+  -o-transform: scale(1.15) perspective(900px) translateY(15%) rotateX(-10deg) translateZ(0);
+}
+
+
 /*************** Footer  ***********************/
 #pageFooter {
   height: auto;

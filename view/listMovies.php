@@ -8,15 +8,15 @@
                 <div class="row no-gutters">
                     <div class="col-md-4">
                         <!-- card image -->
-                        <div class="card-image">
+                        <div class="card-image p-2">
                             <!-- img movie -->
                             <img src='<?= $movie["image_url"] ?>' class="border rounded img-fluid" alt="">
                         </div>
                     </div>
                     <div class="col-md-8">
                         <!-- card content -->
-                        <div class="card-body">
-                            <p class="card-title d-flex justify-content-between">
+                        <div class="card-body p-2">
+                            <p class="card-title d-flex justify-content-between w-100 border">
                                 <!-- title and timeMovie -->
                                 <span class="left-span">
                                     <!-- link show details movie -->
