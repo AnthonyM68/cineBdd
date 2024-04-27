@@ -29,9 +29,10 @@ Le site comportera une partie administration (par la suite) qui permettra de gé
 # Schémas :
 
 > Réalisation des schémas conceptuels de données :
-> ![MCD](https://github.com/AnthonyM68/cineBdd/blob/main/MCD.jpg)
-> ![UML](https://github.com/AnthonyM68/cineBdd/blob/main/UML.jpg)
-> ![MLD](https://github.com/AnthonyM68/cineBdd/blob/main/MLD.jpg)
+> 
+![MCD](https://github.com/AnthonyM68/cineBdd/blob/main/MCD.jpg)
+![UML](https://github.com/AnthonyM68/cineBdd/blob/main/UML.jpg)
+![MLD](https://github.com/AnthonyM68/cineBdd/blob/main/MLD.jpg)
 
 # NOTE :
 
