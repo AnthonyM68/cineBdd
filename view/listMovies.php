@@ -16,7 +16,7 @@
                     <div class="col-md-8">
                         <!-- card content -->
                         <div class="card-body p-2">
-                            <p class="card-title d-flex justify-content-between w-100 border">
+                            <p class="card-title d-flex justify-content-between w-100">
                                 <!-- title and timeMovie -->
                                 <span class="left-span">
                                     <!-- link show details movie -->

@@ -170,11 +170,11 @@ article h3 {
 
 
 .card-body:hover {
-  transform: scale(1.15) perspective(900px) translateY(15%) rotateX(-10deg) translateZ(0);
-  -webkit-transform: scale(1.15) perspective(900px) translateY(15%) rotateX(-10deg) translateZ(0);
-  -moz-transform: scale(1.15) perspective(900px) translateY(15%) rotateX(-10deg) translateZ(0);
-  -ms-transform: scale(1.15) perspective(900px) translateY(15%) rotateX(-10deg) translateZ(0);
-  -o-transform: scale(1.15) perspective(900px) translateY(15%) rotateX(-10deg) translateZ(0);
+  transform: scale(1.0) perspective(900px) translateY(10%) rotateX(-10deg) translateZ(0);
+  -webkit-transform: scale(1.0) perspective(900px) translateY(10%) rotateX(-10deg) translateZ(0);
+  -moz-transform: scale(1.0) perspective(900px) translateY(10%) rotateX(-10deg) translateZ(0);
+  -ms-transform: scale(1.0) perspective(900px) translateY(10%) rotateX(-10deg) translateZ(0);
+  -o-transform: scale(1.0) perspective(900px) translateY(10%) rotateX(-10deg) translateZ(0);
 }
 
 
